@@ -1,0 +1,32 @@
+{
+  "name": "Trip Companion NYC",
+  "short_name": "TripCompanion",
+  "description": "A calm five-day New York City guide for first-time visitors.",
+  "lang": "sv",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#efe7d8",
+  "theme_color": "#122126",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

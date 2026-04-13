@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Companion NYC</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero__glow hero__glow--left"></div>
+        <div class="hero__glow hero__glow--right"></div>
+        <div class="hero__content">
+          <p class="eyebrow">Weekend Guide Prototype</p>
+          <h1>Trip Companion NYC</h1>
+          <p class="hero__lead">
+            En läsbar femdagarsguide för förstagångsbesökare som vill känna sig
+            trygga, nyfikna och mindre överväldigade redan innan planet landar.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--solid" href="#trip">Öppna resan</a>
+            <a class="button button--ghost" href="#basics">Know Before You Go</a>
+          </div>
+        </div>
+        <div class="hero__card">
+          <p class="hero__card-label">Resekänsla</p>
+          <h2>Fem dagar. Noll panik.</h2>
+          <p>
+            Fokus på rätt ordning, rätt tempo och små beslutshjälpmedel när
+            energin dippar.
+          </p>
+          <ul class="hero__highlights">
+            <li>Dag för dag</li>
+            <li>Checka av stopp</li>
+            <li>Spara favoriter</li>
+            <li>Skriv små anteckningar</li>
+          </ul>
+        </div>
+      </header>
+
+      <nav class="top-nav">
+        <a href="#story">På planet</a>
+        <a href="#trip">Din 5-dagarsresa</a>
+        <a href="#saved">Sparat</a>
+        <a href="#basics">Trygghetsguide</a>
+      </nav>
+
+      <main class="content">
+        <section class="story-panel panel" id="story">
+          <div class="panel__header">
+            <p class="eyebrow">Plane Mode</p>
+            <h2>Det här är staden du är på väg till</h2>
+          </div>
+          <div class="story-grid">
+            <article class="story-card story-card--wide">
+              <h3>New York är inte ett test du måste klara</h3>
+              <p>
+                Första gången här gör nästan alla samma misstag: de försöker
+                se för mycket, för snabbt, innan de hunnit förstå hur staden
+                känns. Den här guiden börjar i rätt ände. Först rytmen. Sedan
+                riktningen. Sedan klassikerna.
+              </p>
+              <p>
+                Målet är inte att bocka av flest sevärdheter. Målet är att du
+                redan dag två ska känna: “jag fattar hur jag rör mig här nu”.
+              </p>
+            </article>
+            <article class="story-card">
+              <h3>Vad du kommer märka direkt</h3>
+              <p>
+                Manhattan känns bekant från film, men det är tempot som slår
+                först. Gatorna är inte där för att imponera på dig, de drar
+                dig framåt.
+              </p>
+            </article>
+            <article class="story-card">
+              <h3>Vad som hjälper mest</h3>
+              <p>
+                Gå mycket. Ta tunnelbanan när avstånden blir långa. Välj några
+                starka ankare per dag. Lämna luft mellan dem.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="trip-layout" id="trip">
+          <aside class="trip-sidebar panel">
+            <div class="panel__header">
+              <p class="eyebrow">Din Resa</p>
+              <h2>Fem kapitel</h2>
+            </div>
+            <div id="day-list" class="day-list"></div>
+            <div class="progress-card">
+              <p class="progress-card__label">Framsteg</p>
+              <p id="progress-summary" class="progress-card__value">0 av 0 stopp klara</p>
+              <p class="progress-card__hint">
+                Allt du checkar av och skriver sparas lokalt i webbläsaren.
+              </p>
+            </div>
+          </aside>
+
+          <section class="trip-main">
+            <article class="panel day-panel">
+              <div id="day-header" class="day-panel__header"></div>
+              <div id="day-story" class="day-panel__story"></div>
+              <div id="day-plan" class="timeline"></div>
+              <div id="day-options" class="option-grid"></div>
+              <div class="notes-panel">
+                <label for="day-notes">Dina anteckningar för dagen</label>
+                <textarea
+                  id="day-notes"
+                  rows="6"
+                  placeholder="Skriv sådant du vill komma ihåg: ett ställe att återvända till, en tunnelbanelinje som kändes enkel, eller ett kvarter du gillade."
+                ></textarea>
+                <div class="notes-panel__footer">
+                  <span id="notes-status">Inte sparat än</span>
+                  <button id="save-notes" class="button button--solid" type="button">
+                    Spara anteckning
+                  </button>
+                </div>
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <section class="panel saved-panel" id="saved">
+          <div class="panel__header">
+            <p class="eyebrow">Saved</p>
+            <h2>Favoriter och minnen</h2>
+          </div>
+          <div class="saved-grid">
+            <div>
+              <h3>Favoritstopp</h3>
+              <div id="favorite-list" class="saved-list"></div>
+            </div>
+            <div>
+              <h3>Sparade anteckningar</h3>
+              <div id="note-list" class="saved-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel basics-panel" id="basics">
+          <div class="panel__header">
+            <p class="eyebrow">Know Before You Go</p>
+            <h2>Det viktigaste innan du ger dig ut</h2>
+          </div>
+          <div class="basics-grid" id="basics-grid"></div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>
+          Prototypen bygger på en mix av officiella transport- och
+          besökskällor samt reseguide-sammanställningar.
+        </p>
+        <ul class="source-list">
+          <li><a href="https://www.nyctourism.com/first-time-visitors-to-nyc" target="_blank" rel="noreferrer">NYC Tourism: First Timer's Guide</a></li>
+          <li><a href="https://www.nyctourism.com/transportation/" target="_blank" rel="noreferrer">NYC Tourism: Transportation</a></li>
+          <li><a href="https://omny.info/fares" target="_blank" rel="noreferrer">OMNY: Weekly fare cap</a></li>
+          <li><a href="https://en.wikivoyage.org/wiki/New_York_City" target="_blank" rel="noreferrer">Wikivoyage: New York City</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
