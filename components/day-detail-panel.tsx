@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { StopMiniCard } from "@/components/stop-mini-card";
 import { StopInsightPanel } from "@/components/stop-insight-panel";
 import { findTripDayById } from "@/lib/guide-config";
@@ -28,6 +28,7 @@ export function DayDetailPanel({
   const [noteDraft, setNoteDraft] = useState("");
   const [saveMessage, setSaveMessage] = useState("Inte sparat än");
   const [expandedInsightId, setExpandedInsightId] = useState<string | null>(null);
+  const insightRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     if (!day) return;
@@ -35,6 +36,14 @@ export function DayDetailPanel({
     setSaveMessage("Inte sparat än");
     setExpandedInsightId(null);
   }, [day, notes]);
+
+  useEffect(() => {
+    if (!expandedInsightId) return;
+    insightRefs.current[expandedInsightId]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [expandedInsightId]);
 
   if (!day) {
     return null;
@@ -95,23 +104,6 @@ export function DayDetailPanel({
                     <div className="ios-stop-row__copy">
                       <div className="ios-stop-row__headline">
                         <strong>{stop.name}</strong>
-                        {insight ? (
-                          <button
-                            className={`ios-info-button ios-info-button--inline ${
-                              insightOpen ? "is-active" : ""
-                            }`}
-                            type="button"
-                            aria-expanded={insightOpen}
-                            aria-label={`Visa mer info om ${stop.name}`}
-                            onClick={() =>
-                              setExpandedInsightId((current) =>
-                                current === stop.id ? null : stop.id
-                              )
-                            }
-                          >
-                            i
-                          </button>
-                        ) : null}
                       </div>
                       <span>{stop.duration}</span>
                       <p>{stop.tip}</p>
@@ -137,13 +129,19 @@ export function DayDetailPanel({
                   </article>
 
                   {insight ? (
-                    <StopMiniCard
-                      stopId={stop.id}
-                      expanded={insightOpen}
-                      onToggle={() =>
-                        setExpandedInsightId((current) => (current === stop.id ? null : stop.id))
-                      }
-                    />
+                    <div
+                      ref={(node) => {
+                        insightRefs.current[stop.id] = node;
+                      }}
+                    >
+                      <StopMiniCard
+                        stopId={stop.id}
+                        expanded={insightOpen}
+                        onToggle={() =>
+                          setExpandedInsightId((current) => (current === stop.id ? null : stop.id))
+                        }
+                      />
+                    </div>
                   ) : null}
 
                   {insightOpen ? <StopInsightPanel stopId={stop.id} /> : null}

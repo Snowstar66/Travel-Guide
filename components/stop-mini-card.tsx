@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { getStopInsight, getStopInsightPreview } from "@/lib/stop-insights";
 
 export function StopMiniCard({
@@ -11,8 +12,13 @@ export function StopMiniCard({
   expanded: boolean;
   onToggle: () => void;
 }) {
+  const [imageFailed, setImageFailed] = useState(false);
   const preview = getStopInsightPreview(stopId);
   const insight = getStopInsight(stopId);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [stopId]);
 
   if (!preview || !insight) {
     return null;
@@ -24,10 +30,16 @@ export function StopMiniCard({
       type="button"
       onClick={onToggle}
       aria-expanded={expanded}
+      aria-label={`${expanded ? "Dölj" : "Visa"} mer om ${preview.title}`}
     >
-      {preview.imageUrl ? (
-        <span className="stop-mini-card__media" aria-hidden="true">
-          <img className="stop-mini-card__image" src={preview.imageUrl} alt={preview.imageAlt ?? ""} />
+      {preview.imageUrl && !imageFailed ? (
+        <span className="stop-mini-card__media">
+          <img
+            className="stop-mini-card__image"
+            src={preview.imageUrl}
+            alt={preview.imageAlt ?? ""}
+            onError={() => setImageFailed(true)}
+          />
         </span>
       ) : null}
       <span className="stop-mini-card__eyebrow">{preview.eyebrow}</span>

@@ -40,10 +40,7 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Använd samma kort eller mobil hela veckan för enklare betalflöde.",
     ],
     links: [
-      {
-        label: "MTA fares och OMNY",
-        url: "https://www.mta.info/fares-tolls/subway-bus",
-      },
+      { label: "MTA fares och OMNY", url: "https://www.mta.info/fares-tolls/subway-bus" },
     ],
   },
   "nyc-village-walk": {
@@ -56,19 +53,13 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Ta en kort paus nära fontänen i stället för att försöka täcka för många kvarter.",
     ],
     links: [
-      {
-        label: "Washington Square Park",
-        url: "https://www2.nycgovparks.org/parks/washington-square-park",
-      },
-      {
-        label: "Washington Square Arch",
-        url: "https://www2.nycgovparks.org/parks/washingtonsquarepark/monuments/1657",
-      },
+      { label: "Washington Square Park", url: "https://www2.nycgovparks.org/parks/washington-square-park" },
+      { label: "Washington Square Arch", url: "https://www2.nycgovparks.org/parks/washingtonsquarepark/monuments/1657" },
     ],
   },
   "nyc-park-pause": {
     facts: [
-      "Washington Square Park har officiellt listade eateries, offentliga toaletter och Wi-Fi-hotspots.",
+      "Washington Square Park har officiellt listade eateries, offentliga toaletter och Wi‑Fi-hotspots.",
       "NYC Parks listar bland annat matvagn nära fontänen och NY Dosas på parkens norra sida.",
     ],
     ideas: [
@@ -76,14 +67,8 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Sitt hellre tio minuter i lugn än att försöka trycka in ännu ett kvarter.",
     ],
     links: [
-      {
-        label: "Parkfakta och faciliteter",
-        url: "https://www2.nycgovparks.org/parks/washington-square-park",
-      },
-      {
-        label: "Mat i parken",
-        url: "https://www2.nycgovparks.org/parks/washington-square-park/facilities/restaurants",
-      },
+      { label: "Parkfakta och faciliteter", url: "https://www2.nycgovparks.org/parks/washington-square-park" },
+      { label: "Mat i parken", url: "https://www2.nycgovparks.org/parks/washington-square-park/facilities/restaurants" },
     ],
   },
   "nyc-bryant-park": {
@@ -96,18 +81,9 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Om tempot är lugnt: kolla om Reading Room eller spelområdet är igång just den dagen.",
     ],
     links: [
-      {
-        label: "Bryant Park aktiviteter",
-        url: "https://bryantpark.org/activities",
-      },
-      {
-        label: "Reading Room",
-        url: "https://bryantpark.org/amenities/reading-room",
-      },
-      {
-        label: "NYPL visitor guide",
-        url: "https://www.nypl.org/about/locations/schwarzman/visitor-guide",
-      },
+      { label: "Bryant Park aktiviteter", url: "https://bryantpark.org/activities" },
+      { label: "Reading Room", url: "https://bryantpark.org/amenities/reading-room" },
+      { label: "NYPL visitor guide", url: "https://www.nypl.org/about/locations/schwarzman/visitor-guide" },
     ],
   },
   "nyc-grand-central": {
@@ -121,14 +97,8 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Använd Grand Central som ett snyggt förmiddagsstopp, inte som ett långt block.",
     ],
     links: [
-      {
-        label: "Besök Grand Central",
-        url: "https://grandcentralterminal.com/visit/",
-      },
-      {
-        label: "Om Grand Central",
-        url: "https://grandcentralterminal.com/about/",
-      },
+      { label: "Besök Grand Central", url: "https://grandcentralterminal.com/visit/" },
+      { label: "Om Grand Central", url: "https://grandcentralterminal.com/about/" },
     ],
   },
   "nyc-observation-deck": {
@@ -142,14 +112,8 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Top of the Rock fungerar extra bra om du vill få orientering över Manhattan tidigt i resan.",
     ],
     links: [
-      {
-        label: "Top of the Rock FAQ",
-        url: "https://www.rockefellercenter.com/buy-tickets/refunds/",
-      },
-      {
-        label: "Rockefeller Center",
-        url: "https://www.rockefellercenter.com/",
-      },
+      { label: "Top of the Rock FAQ", url: "https://www.rockefellercenter.com/buy-tickets/refunds/" },
+      { label: "Rockefeller Center", url: "https://www.rockefellercenter.com/" },
     ],
   },
   "nyc-times-square-soft": {
@@ -162,14 +126,8 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Om ni ändå passerar sent: Midnight Moment är ett bättre skäl att stanna än att bara stå still i folkmassan.",
     ],
     links: [
-      {
-        label: "Times Square Midnight Moment",
-        url: "https://www.timessquarenyc.org/arts/midnight-moment",
-      },
-      {
-        label: "Times Square Alliance",
-        url: "https://www.timessquarenyc.org/",
-      },
+      { label: "Times Square Midnight Moment", url: "https://www.timessquarenyc.org/arts/midnight-moment" },
+      { label: "Times Square Alliance", url: "https://www.timessquarenyc.org/" },
     ],
   },
   "nyc-wtc-memorial": {
@@ -183,18 +141,9 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Om du vill göra stoppet mer minnesvärt: leta upp Survivor Tree eller använd Find a Name-funktionen.",
     ],
     links: [
-      {
-        label: "Visitor guidelines",
-        url: "https://www.911memorial.org/visit/about/visitor-guidelines",
-      },
-      {
-        label: "Survivor Tree",
-        url: "https://www.911memorial.org/visit/memorial/survivor-tree",
-      },
-      {
-        label: "Find a Name",
-        url: "https://names.911memorial.org/",
-      },
+      { label: "Visitor guidelines", url: "https://www.911memorial.org/visit/about/visitor-guidelines" },
+      { label: "Survivor Tree", url: "https://www.911memorial.org/visit/memorial/survivor-tree" },
+      { label: "Find a Name", url: "https://names.911memorial.org/" },
     ],
   },
   "nyc-wall-street": {
@@ -207,10 +156,7 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Om du vill ge området mer innehåll: låt Federal Hall bli det tydliga ankaret.",
     ],
     links: [
-      {
-        label: "Federal Hall via NPS",
-        url: "https://www.nps.gov/feha/planyourvisit/publictransportation.htm",
-      },
+      { label: "Federal Hall via NPS", url: "https://www.nps.gov/feha/planyourvisit/publictransportation.htm" },
     ],
   },
   "nyc-ferry-view": {
@@ -224,14 +170,8 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Ställ dig ute när ni lämnar Manhattan för bästa känsla av skyline och vatten.",
     ],
     links: [
-      {
-        label: "Ferry information",
-        url: "https://siferry.com/",
-      },
-      {
-        label: "Ferry schedule",
-        url: "https://siferry.com/schedules/",
-      },
+      { label: "Ferry information", url: "https://siferry.com/" },
+      { label: "Ferry schedule", url: "https://siferry.com/schedules/" },
     ],
   },
   "nyc-liberty-choice": {
@@ -245,14 +185,8 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Välj tidig avgång om ni vill hinna både Liberty och Ellis Island samma dag.",
     ],
     links: [
-      {
-        label: "Plan your visit",
-        url: "https://www.nps.gov/stli/planyourvisit/",
-      },
-      {
-        label: "Pedestal info",
-        url: "https://www.nps.gov/stli/planyourvisit/visiting-the-pedestal.htm",
-      },
+      { label: "Plan your visit", url: "https://www.nps.gov/stli/planyourvisit/" },
+      { label: "Pedestal info", url: "https://www.nps.gov/stli/planyourvisit/visiting-the-pedestal.htm" },
     ],
   },
   "nyc-brooklyn-bridge-area": {
@@ -265,14 +199,8 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Det här är ett bra stopp för sen lunch eller bara 30 minuter med utsikt.",
     ],
     links: [
-      {
-        label: "Besök Brooklyn Bridge Park",
-        url: "https://brooklynbridgepark.org/",
-      },
-      {
-        label: "Plan your visit",
-        url: "https://brooklynbridgepark.org/plan-your-visit/get-a-permit/",
-      },
+      { label: "Besök Brooklyn Bridge Park", url: "https://brooklynbridgepark.org/" },
+      { label: "Plan your visit", url: "https://brooklynbridgepark.org/plan-your-visit/get-a-permit/" },
     ],
   },
   "nyc-museum-flex": {
@@ -286,18 +214,9 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Ta bara ett museum den här dagen så att resten av rytmen håller.",
     ],
     links: [
-      {
-        label: "The Met",
-        url: "https://www.metmuseum.org/en/plan-your-visit",
-      },
-      {
-        label: "MoMA",
-        url: "https://www.moma.org/",
-      },
-      {
-        label: "AMNH",
-        url: "https://www.amnh.org/plan-your-visit",
-      },
+      { label: "The Met", url: "https://www.metmuseum.org/en/plan-your-visit" },
+      { label: "MoMA", url: "https://www.moma.org/" },
+      { label: "AMNH", url: "https://www.amnh.org/plan-your-visit" },
     ],
   },
   "nyc-culture-finale": {
@@ -310,18 +229,9 @@ const nycStopInsights: Record<string, StopInsight> = {
       "Perfekt sista dag för ett enda museum plus lugn lunch.",
     ],
     links: [
-      {
-        label: "The Met",
-        url: "https://www.metmuseum.org/en/plan-your-visit",
-      },
-      {
-        label: "MoMA",
-        url: "https://www.moma.org/",
-      },
-      {
-        label: "AMNH",
-        url: "https://www.amnh.org/plan-your-visit",
-      },
+      { label: "The Met", url: "https://www.metmuseum.org/en/plan-your-visit" },
+      { label: "MoMA", url: "https://www.moma.org/" },
+      { label: "AMNH", url: "https://www.amnh.org/plan-your-visit" },
     ],
   },
 };
@@ -336,16 +246,14 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Smart drag",
     title: "Testa OMNY tidigt",
     copy: "En kort provtur gör att subway känns enkel när du verkligen behöver den.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/NYC_Subway_entrance_BW_vc.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/NYC_Subway_entrance_BW_vc.jpg",
     imageAlt: "Entré till New Yorks tunnelbana.",
   },
   "nyc-village-walk": {
     eyebrow: "Stadskänsla",
     title: "Börja där New York andas",
     copy: "Village ger filmisk känsla utan att bli för mycket för dag ett.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Washington%20Square%20Arch.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Washington_Square_-_Triumphal_arch.jpg",
     imageAlt: "Washington Square Arch i Greenwich Village.",
   },
   "nyc-park-pause": {
@@ -357,40 +265,35 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Gratisbonus",
     title: "Bryant Park är mer än en park",
     copy: "Reading Room och små aktiviteter gör stoppet mer levande än bara en snabb titt.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Bryant%20Park%20fountain.jpg",
-    imageAlt: "Fountain i Bryant Park i Midtown Manhattan.",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Bryant_Park,_New_York_City_(22462327762).jpg",
+    imageAlt: "Bryant Park i Midtown Manhattan.",
   },
   "nyc-grand-central": {
     eyebrow: "Klassiker",
     title: "Titta upp direkt",
     copy: "Grand Central blir större och snyggare så fort du står mitt i hallen och ser taket.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Grand%20Central%20Terminal%20-%20Main%20Concourse.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Grand_Central_Terminal_Main_Concourse_2019-10-03_20-02.jpg",
     imageAlt: "Main Concourse i Grand Central Terminal.",
   },
   "nyc-observation-deck": {
     eyebrow: "Wow-stopp",
     title: "Ett deck räcker långt",
     copy: "Välj en utsikt med självförtroende i stället för att jaga flera.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/View%20from%20Top%20of%20the%20Rock.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/View_from_Top_of_the_Rock.jpg",
     imageAlt: "Utsikt över Manhattan från Top of the Rock.",
   },
   "nyc-times-square-soft": {
     eyebrow: "Kort dos",
     title: "Se det, fastna inte där",
     copy: "Times Square fungerar bäst som en snabb energikick, inte som kvällens huvudnummer.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Broadway%20and%20Times%20Square%20by%20night.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Time_square_at_night_(8904647094).jpg",
     imageAlt: "Times Square nattetid med starka neonskyltar.",
   },
   "nyc-wtc-memorial": {
     eyebrow: "Eftertanke",
     title: "Ge plats för tystnad",
     copy: "Det här stoppet blir starkare när det får vara lugnt och tydligt.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/National%20September%2011%20Memorial.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/September_Eleven_Memorial.jpg",
     imageAlt: "En av minnesbassängerna vid 9/11 Memorial.",
   },
   "nyc-wall-street": {
@@ -402,8 +305,7 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Skyline",
     title: "Stor utsikt, låg friktion",
     copy: "Färjan ger mycket New York-känsla utan att kräva en tung biljettlogistik.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Manhattan%20Skyline%20from%20Staten%20Island%20Ferry.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Manhattan-Skyline-from-Staten-Island-Ferry.jpg",
     imageAlt: "Manhattans skyline sedd från Staten Island Ferry.",
   },
   "nyc-liberty-choice": {
@@ -415,8 +317,7 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Fotostopp",
     title: "Skyline med lite mer luft",
     copy: "DUMBO och Brooklyn Bridge Park ger stora vyer utan Midtown-stress.",
-    imageUrl:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Brooklyn%20Bridge%20Park.jpg",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/USA-NYC-Brooklyn_Bridge_Park.jpg",
     imageAlt: "Promenadmiljö i Brooklyn Bridge Park.",
   },
   "nyc-museum-flex": {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StopMiniCard } from "@/components/stop-mini-card";
 import { StopInsightPanel } from "@/components/stop-insight-panel";
 import { getCityGuide } from "@/lib/guide-config";
@@ -19,6 +19,7 @@ export function TodayPanel({
   onToggleChecked: (stopId: string) => void;
 }) {
   const [showInsight, setShowInsight] = useState(false);
+  const insightAnchorRef = useRef<HTMLDivElement | null>(null);
   const guide = getCityGuide(profile.cityId);
   const currentDay =
     guide.tripDays.find((day) => day.id === profile.currentDayId) ?? guide.tripDays[0];
@@ -33,6 +34,14 @@ export function TodayPanel({
   useEffect(() => {
     setShowInsight(false);
   }, [currentDayFocus.id]);
+
+  useEffect(() => {
+    if (!showInsight) return;
+    insightAnchorRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [showInsight, currentDayFocus.id]);
 
   return (
     <section className="today-native-stack" id="today">
@@ -65,28 +74,19 @@ export function TodayPanel({
             <p className="ios-group__eyebrow">Nästa stopp</p>
             <h2>{currentDayFocus.name}</h2>
           </div>
-          {focusInsight ? (
-            <button
-              className={`ios-info-button ${showInsight ? "is-active" : ""}`}
-              type="button"
-              aria-expanded={showInsight}
-              aria-label={`Visa mer info om ${currentDayFocus.name}`}
-              onClick={() => setShowInsight((open) => !open)}
-            >
-              i
-            </button>
-          ) : null}
         </div>
         <p className="ios-group__copy">{currentDayFocus.why}</p>
         <p className="ios-group__hint">{currentDayFocus.tip}</p>
-        {focusInsight ? (
-          <StopMiniCard
-            stopId={currentDayFocus.id}
-            expanded={showInsight}
-            onToggle={() => setShowInsight((open) => !open)}
-          />
-        ) : null}
-        {showInsight ? <StopInsightPanel stopId={currentDayFocus.id} /> : null}
+        <div ref={insightAnchorRef}>
+          {focusInsight ? (
+            <StopMiniCard
+              stopId={currentDayFocus.id}
+              expanded={showInsight}
+              onToggle={() => setShowInsight((open) => !open)}
+            />
+          ) : null}
+          {showInsight ? <StopInsightPanel stopId={currentDayFocus.id} /> : null}
+        </div>
         <div className="ios-group__actions">
           <button
             className={`button button--solid ${checkedStops[currentDayFocus.id] ? "is-dimmed" : ""}`}

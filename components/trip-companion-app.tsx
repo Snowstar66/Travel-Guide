@@ -41,23 +41,23 @@ export function TripCompanionApp() {
   const travelStyle =
     travelStyleOptions.find((option) => option.value === profile.travelStyle) ??
     travelStyleOptions[0];
-  const hotelArea = guide.hotelAreas.find((option) => option.value === profile.hotelArea) ??
+  const hotelArea =
+    guide.hotelAreas.find((option) => option.value === profile.hotelArea) ??
     guide.hotelAreas[guide.hotelAreas.length - 1];
-  const pace =
-    paceOptions.find((option) => option.value === profile.pace) ?? paceOptions[1];
+  const pace = paceOptions.find((option) => option.value === profile.pace) ?? paceOptions[1];
 
   return (
     <main className="page-shell page-shell--home">
       <AppHeader />
 
       <section className="panel dashboard-hero dashboard-hero--clean">
+        <div className="dashboard-hero__locale">
+          <CityFlag cityId={guide.id} className="dashboard-hero__flag dashboard-hero__flag--lead" />
+          <span>{guide.displayName}</span>
+        </div>
         <div className="dashboard-hero__topline">
           <span className="dashboard-hero__eyebrow">Översikt</span>
           <div className="dashboard-hero__meta">
-            <span className="dashboard-hero__city">
-              <CityFlag cityId={guide.id} className="dashboard-hero__flag" />
-              {guide.displayName}
-            </span>
             <span className="dashboard-hero__badge">Dag {currentDay.dayNumber}/5</span>
           </div>
         </div>
