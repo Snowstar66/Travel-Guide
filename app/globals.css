@@ -3024,6 +3024,7 @@ h1 {
 .schedule-card {
   display: grid;
   gap: 0;
+  position: relative;
   overflow: hidden;
   border: 1px solid rgba(17, 33, 47, 0.08);
   border-radius: 14px;
@@ -3130,11 +3131,19 @@ h1 {
   font-size: 0.78rem;
   line-height: 1.2;
   font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .schedule-board-card small {
   font-size: 0.64rem;
   color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .schedule-board__corner,
@@ -3244,17 +3253,24 @@ h1 {
 
 .schedule-board__stack {
   display: grid;
-  grid-template-rows: repeat(var(--timeline-slots), minmax(8px, 1fr));
+  grid-template-rows: repeat(var(--timeline-slots), 10px);
   grid-auto-flow: row;
   gap: 2px;
-  min-height: 156px;
-  align-content: stretch;
+  align-content: start;
+}
+
+.schedule-board-item {
+  position: relative;
+  min-height: 0;
 }
 
 .schedule-board-card {
   position: relative;
+  display: grid;
   align-content: start;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
   transition:
     transform 180ms ease,
     background 180ms ease,
@@ -3395,6 +3411,55 @@ h1 {
   align-items: center;
   background: rgba(17, 33, 47, 0.05);
   color: var(--muted);
+}
+
+.schedule-remove-button {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(17, 33, 47, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.schedule-remove-button:hover,
+.schedule-remove-button:focus-visible {
+  transform: translateY(-1px);
+  color: #bf3f32;
+  border-color: rgba(191, 63, 50, 0.18);
+  background: rgba(255, 248, 247, 0.98);
+  box-shadow: 0 6px 14px rgba(17, 33, 47, 0.08);
+}
+
+.schedule-remove-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.schedule-remove-button--board,
+.schedule-remove-button--card {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+}
+
+.schedule-remove-button--detail {
+  width: auto;
+  min-width: 0;
+  padding: 0 10px;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
 }
 
 .premium-lock-card {
@@ -4045,7 +4110,7 @@ textarea {
   }
 
   .schedule-board__stack {
-    min-height: 138px;
+    grid-template-rows: repeat(var(--timeline-slots), 8px);
   }
 
   .schedule-board-card {
@@ -4070,6 +4135,12 @@ textarea {
 
   .schedule-board-card small {
     font-size: 0.6rem;
+  }
+
+  .schedule-remove-button--board,
+  .schedule-remove-button--card {
+    top: 8px;
+    right: 8px;
   }
 
   .schedule-board-detail__image {
@@ -4115,7 +4186,7 @@ textarea {
   }
 
   .schedule-board__stack {
-    min-height: 188px;
+    grid-template-rows: repeat(var(--timeline-slots), 10px);
   }
 
   .schedule-board-detail {

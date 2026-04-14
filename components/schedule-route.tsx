@@ -8,6 +8,17 @@ import { SchedulePeriod } from "@/lib/trip-logic";
 import { getStopInsight, getStopInsightPreview } from "@/lib/stop-insights";
 import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
+function TrashIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path
+        d="M9 4.75h6l.55 1.5H19a.75.75 0 1 1 0 1.5h-1.1l-.74 10.16a2 2 0 0 1-1.99 1.84H8.83a2 2 0 0 1-1.99-1.84L6.1 7.75H5a.75.75 0 0 1 0-1.5h3.45L9 4.75Zm-1.4 3 .73 10.05a.5.5 0 0 0 .5.45h6.34a.5.5 0 0 0 .5-.45l.73-10.05H7.6Zm2.9 2.25c.41 0 .75.34.75.75v4.5a.75.75 0 0 1-1.5 0v-4.5c0-.41.34-.75.75-.75Zm3 0c.41 0 .75.34.75.75v4.5a.75.75 0 0 1-1.5 0v-4.5c0-.41.34-.75.75-.75Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 const periodMeta: Array<{
   key: SchedulePeriod;
   label: string;
@@ -116,10 +127,17 @@ function buildTimedPeriodItems(
 }
 
 export function ScheduleRoute() {
-  const { profile, tripBlocks, selectedStopItems, recommendedStopCount, updateProfile } =
+  const { profile, tripBlocks, selectedStopItems, recommendedStopCount, updateProfile, toggleSelected } =
     useTripCompanionState();
   const guide = getCityGuide(profile.cityId);
   const [expandedStopId, setExpandedStopId] = useState<string | null>(null);
+
+  function removeStop(stopId: string, assignedDayId: string) {
+    if (expandedStopId === stopId) {
+      setExpandedStopId(null);
+    }
+    toggleSelected(stopId, assignedDayId);
+  }
 
   const scheduleBlocks = useMemo(
     () =>
@@ -230,31 +248,46 @@ export function ScheduleRoute() {
                           const tone = getBoardTone(item);
 
                           return (
-                            <button
+                            <article
                               key={item.id}
-                              type="button"
-                              className={`schedule-board-card schedule-board-card--${tone.key} ${active ? "is-active" : ""}`}
+                              className="schedule-board-item"
                               style={
                                 {
                                   gridRow: `${item.boardRowStart} / span ${item.boardRowSpan}`,
                                 } as CSSProperties
                               }
-                              onClick={() =>
-                                setExpandedStopId((current) => (current === item.id ? null : item.id))
-                              }
                             >
-                              <span className={`schedule-board-card__tone schedule-board-card__tone--${tone.key}`}>
-                                {tone.label}
-                              </span>
-                              <span className="schedule-board-card__time">
-                                {item.startTime}–{item.endTime}
-                              </span>
-                              <strong>{item.displayName}</strong>
-                              <small>
-                                {preview?.eyebrow ?? item.sectionTitle}
-                                {item.travelBufferMinutes > 0 ? ` · +${item.travelBufferMinutes} min byte` : ""}
-                              </small>
-                            </button>
+                              <button
+                                type="button"
+                                className={`schedule-board-card schedule-board-card--${tone.key} ${active ? "is-active" : ""}`}
+                                onClick={() =>
+                                  setExpandedStopId((current) => (current === item.id ? null : item.id))
+                                }
+                              >
+                                <span className={`schedule-board-card__tone schedule-board-card__tone--${tone.key}`}>
+                                  {tone.label}
+                                </span>
+                                <span className="schedule-board-card__time">
+                                  {item.startTime}–{item.endTime}
+                                </span>
+                                <strong>{item.displayName}</strong>
+                                <small>
+                                  {preview?.eyebrow ?? item.sectionTitle}
+                                  {item.travelBufferMinutes > 0 ? ` · +${item.travelBufferMinutes} min byte` : ""}
+                                </small>
+                              </button>
+                              <button
+                                type="button"
+                                className="schedule-remove-button schedule-remove-button--board"
+                                aria-label={`Ta bort ${item.displayName} från schemat`}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  removeStop(item.id, item.assignedDayId);
+                                }}
+                              >
+                                <TrashIcon />
+                              </button>
+                            </article>
                           );
                         })}
                       </div>
@@ -327,6 +360,15 @@ export function ScheduleRoute() {
                 </p>
               ) : null}
               <div className="schedule-card__links">
+                <button
+                  type="button"
+                  className="schedule-remove-button schedule-remove-button--detail"
+                  aria-label={`Ta bort ${expandedStop.displayName} från schemat`}
+                  onClick={() => removeStop(expandedStop.id, expandedStop.assignedDayId)}
+                >
+                  <TrashIcon />
+                  Ta bort från schemat
+                </button>
                 {expandedStop.choiceOption?.url ? (
                   <a
                     className="stop-insight-panel__link"
@@ -415,6 +457,14 @@ export function ScheduleRoute() {
 
                               return (
                                 <article className="schedule-card" key={stop.id}>
+                                  <button
+                                    type="button"
+                                    className="schedule-remove-button schedule-remove-button--card"
+                                    aria-label={`Ta bort ${stop.displayName} från schemat`}
+                                    onClick={() => removeStop(stop.id, stop.assignedDayId)}
+                                  >
+                                    <TrashIcon />
+                                  </button>
                                   {preview?.imageUrl ? (
                                     <img
                                       className="schedule-card__image"
