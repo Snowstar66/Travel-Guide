@@ -2829,8 +2829,23 @@ h1 {
 }
 
 .saved-item__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   width: fit-content;
   margin-top: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-2);
+  font-size: 0.72rem;
+  font-weight: 560;
+  text-decoration: none;
+}
+
+.saved-item__source:hover,
+.saved-item__source:focus-visible {
+  text-decoration: underline;
 }
 
 .saved-item__top--stacked {

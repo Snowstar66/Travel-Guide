@@ -208,7 +208,7 @@ export function TripCompanionApp() {
                             ) : null}
                             {source ? (
                               <Link
-                                className="utility-link saved-item__source"
+                                className="saved-item__source"
                                 href={source.url}
                                 target="_blank"
                                 rel="noreferrer"
