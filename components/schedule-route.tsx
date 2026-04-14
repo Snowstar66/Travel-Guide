@@ -175,7 +175,7 @@ export function ScheduleRoute() {
                 return (
                   <div className="schedule-board__cell" key={`${block.dayId}-${period.key}`}>
                     {periodItems.length === 0 ? (
-                      <p className="schedule-board__empty">Lämna luft här</p>
+                      <p className="schedule-board__empty">Plats för fler upplevelser</p>
                     ) : (
                       <div className="schedule-board__stack">
                         {periodItems.map((item) => {
