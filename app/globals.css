@@ -738,6 +738,7 @@ h1 {
 
 .app-home-card {
   gap: 10px;
+  min-width: 0;
 }
 
 .app-home-card > .panel__header,
@@ -2741,10 +2742,6 @@ h1 {
   gap: 10px;
 }
 
-.saved-item--horizontal.saved-item--interactive {
-  min-height: 0;
-}
-
 .saved-item--interactive {
   position: relative;
   min-height: 272px;
@@ -2763,10 +2760,6 @@ h1 {
   transition: transform 260ms ease;
 }
 
-.saved-item--horizontal .saved-item__inner {
-  min-height: 0;
-}
-
 .saved-item--interactive.is-expanded .saved-item__inner {
   transform: rotateY(180deg);
 }
@@ -2782,7 +2775,7 @@ h1 {
 }
 
 .saved-item--horizontal .saved-item__face {
-  min-height: 0;
+  min-height: 100%;
   gap: 12px;
   padding: 16px;
   border: 1px solid rgba(17, 33, 47, 0.07);
@@ -2804,6 +2797,11 @@ h1 {
 
 .saved-item--horizontal .saved-item__face--back {
   background: linear-gradient(180deg, rgba(251, 253, 255, 0.98), rgba(246, 249, 253, 0.96));
+}
+
+.saved-item--horizontal.saved-item--with-image .saved-item__image {
+  height: 152px;
+  border-radius: 12px;
 }
 
 .saved-item__image {
@@ -3006,7 +3004,8 @@ h1 {
 }
 
 .saved-list--wide {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
 }
 
 .saved-list--highlights > * {
@@ -4230,7 +4229,7 @@ textarea {
   }
 
   .app-home-stack {
-    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
     align-items: start;
   }
@@ -4262,33 +4261,7 @@ textarea {
   }
 
   .app-home-card--selected .saved-list--wide {
-    grid-template-columns: 1fr !important;
-  }
-
-  .saved-item--horizontal.saved-item--with-image .saved-item__face {
-    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
-    column-gap: 16px;
-  }
-
-  .saved-item--horizontal.saved-item--with-image .saved-item__image {
-    grid-column: 1;
-    grid-row: 1 / span 4;
-    width: 100%;
-    height: 100%;
-    min-height: 148px;
-    border-radius: 12px;
-  }
-
-  .saved-item--horizontal.saved-item--with-image .saved-item__top,
-  .saved-item--horizontal.saved-item--with-image .saved-item__meta,
-  .saved-item--horizontal.saved-item--with-image .saved-item__hint,
-  .saved-item--horizontal.saved-item--with-image .saved-item__source,
-  .saved-item--horizontal.saved-item--with-image .saved-item__face p {
-    grid-column: 2;
-  }
-
-  .saved-item--horizontal .saved-item__top {
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
   }
 
   .trip-day-grid {
@@ -4593,6 +4566,6 @@ textarea {
   }
 
   .app-home-card--selected .saved-list--wide {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
   }
 }
