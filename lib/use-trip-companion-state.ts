@@ -16,9 +16,18 @@ import {
   normalizeProfile,
   TravelerProfile,
 } from "@/lib/trip-logic";
+import { getStopChoiceOption } from "@/lib/stop-insights";
 
 export type SelectionState = Record<string, string>;
 export type NotesState = Record<string, string>;
+export type StopChoiceState = Record<
+  string,
+  {
+    optionId?: string;
+    customName?: string;
+    customLink?: string;
+  }
+>;
 
 function loadLocalJson<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -68,11 +77,13 @@ function normalizeSelectedStops(raw: Record<string, string | boolean>) {
 export function useTripCompanionState() {
   const [selectedStops, setSelectedStops] = useState<SelectionState>({});
   const [notes, setNotes] = useState<NotesState>({});
+  const [stopChoices, setStopChoices] = useState<StopChoiceState>({});
   const [profile, setProfile] = useState<TravelerProfile>(defaultProfile);
 
   useEffect(() => {
     setSelectedStops(normalizeSelectedStops(loadSelectedStops()));
     setNotes(loadLocalJson<NotesState>("trip-companion-notes", {}));
+    setStopChoices(loadLocalJson<StopChoiceState>("trip-companion-stop-choices", {}));
     setProfile(readStoredProfile());
   }, []);
 
@@ -116,11 +127,19 @@ export function useTripCompanionState() {
     .map((stop) => {
       const assignedDayId = selectedStops[stop.id];
       const assignedDay = guide.tripDays.find((day) => day.id === assignedDayId);
+      const choice = stopChoices[stop.id];
+      const option = choice?.optionId ? getStopChoiceOption(stop.id, choice.optionId) : undefined;
+      const displayName = choice?.customName?.trim() || option?.title || stop.name;
+      const displayWhy = option?.summary || stop.why;
 
       return {
         ...stop,
         assignedDayId,
         assignedDayTitle: assignedDay?.title ?? stop.dayTitle,
+        displayName,
+        displayWhy,
+        customLink: choice?.customLink?.trim() || undefined,
+        choiceOption: option,
       };
     });
   const selectedCount = selectedStopItems.length;
@@ -137,6 +156,11 @@ export function useTripCompanionState() {
   function persistNotes(next: NotesState) {
     setNotes(next);
     window.localStorage.setItem("trip-companion-notes", JSON.stringify(next));
+  }
+
+  function persistStopChoices(next: StopChoiceState) {
+    setStopChoices(next);
+    window.localStorage.setItem("trip-companion-stop-choices", JSON.stringify(next));
   }
 
   function persistProfile(next: TravelerProfile) {
@@ -160,6 +184,20 @@ export function useTripCompanionState() {
     const next = { ...selectedStops, [stopId]: assignedDayId };
     persistSelected(next);
     triggerHaptic([10, 18, 10]);
+  }
+
+  function updateStopChoice(
+    stopId: string,
+    choice: StopChoiceState[string] | null
+  ) {
+    const next = { ...stopChoices };
+    if (!choice) {
+      delete next[stopId];
+    } else {
+      next[stopId] = choice;
+    }
+    persistStopChoices(next);
+    triggerHaptic(10);
   }
 
   function saveNote(dayId: string, noteValue: string) {
@@ -187,6 +225,7 @@ export function useTripCompanionState() {
   return {
     selectedStops,
     notes,
+    stopChoices,
     profile,
     tripBlocks,
     allStops,
@@ -196,6 +235,7 @@ export function useTripCompanionState() {
     notedDays,
     toggleSelected,
     moveSelectedStop,
+    updateStopChoice,
     saveNote,
     updateProfile,
     setPremiumAccess,

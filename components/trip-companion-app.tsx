@@ -43,6 +43,9 @@ export function TripCompanionApp() {
     guide.hotelAreas.find((option) => option.value === profile.hotelArea) ??
     guide.hotelAreas[guide.hotelAreas.length - 1];
   const pace = paceOptions.find((option) => option.value === profile.pace) ?? paceOptions[1];
+  const filledBlockCount = tripBlocks.filter((block) =>
+    selectedStopItems.some((stop) => stop.assignedDayId === block.dayId)
+  ).length;
   const selectedHighlights = selectedStopItems
     .slice()
     .sort(
@@ -79,13 +82,21 @@ export function TripCompanionApp() {
           </small>
         </article>
 
-        <div className="dashboard-hero__actions">
-          <Link className="button button--solid" href="/plan">
-            Öppna plan
-          </Link>
-          <Link className="button button--surface" href="/schedule">
-            Öppna schema
-          </Link>
+        <div className="overview-hero-metrics">
+          <div className="overview-hero-metric">
+            <span>Totalt valt</span>
+            <strong>{selectedStopItems.length} stopp</strong>
+          </div>
+          <div className="overview-hero-metric">
+            <span>Fyllda block</span>
+            <strong>
+              {filledBlockCount}/{tripBlocks.length}
+            </strong>
+          </div>
+          <div className="overview-hero-metric">
+            <span>Tempo</span>
+            <strong>{pace.label}</strong>
+          </div>
         </div>
       </section>
 
@@ -130,10 +141,10 @@ export function TripCompanionApp() {
                   selectedHighlights.map((stop) => (
                     <article className="saved-item" key={stop.id}>
                       <div className="saved-item__top">
-                        <h4>{stop.name}</h4>
+                        <h4>{stop.displayName}</h4>
                         <span className="pill pill--soft">{stop.assignedDayTitle}</span>
                       </div>
-                      <p>{stop.why}</p>
+                      <p>{stop.displayWhy}</p>
                     </article>
                   ))
                 )}

@@ -17,6 +17,15 @@ export type StopInsightPreview = {
   imageAlt?: string;
 };
 
+export type StopChoiceOption = {
+  id: string;
+  title: string;
+  summary: string;
+  url: string;
+  sourceLabel: string;
+  sourceUrl: string;
+};
+
 const nycStopInsights: Record<string, StopInsight> = {
   "nyc-arrival-check": {
     facts: [
@@ -332,10 +341,203 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
   },
 };
 
+const nycMuseumChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "the-met",
+    title: "The Met",
+    summary: "Det stora förstavalet om du vill ha klassiker, bredd och riktig New York-tyngd.",
+    url: "https://www.metmuseum.org/en/plan-your-visit",
+    sourceLabel: "Time Out + Condé Nast",
+    sourceUrl: "https://www.timeout.com/newyork/art/the-metropolitan-museum-of-art",
+  },
+  {
+    id: "moma",
+    title: "MoMA",
+    summary: "Det säkra moderna valet om du vill ha hög kvalitet, tydliga highlights och lätt läge i Midtown.",
+    url: "https://www.moma.org/",
+    sourceLabel: "Time Out + Tripadvisor",
+    sourceUrl: "https://www.timeout.com/newyork/museums-institutions/museum-of-modern-art-moma",
+  },
+  {
+    id: "amnh",
+    title: "American Museum of Natural History",
+    summary: "Bäst när du vill ha wow, naturvetenskap och en mer lekfull halvdag.",
+    url: "https://www.amnh.org/plan-your-visit",
+    sourceLabel: "Time Out + Tripadvisor",
+    sourceUrl: "https://www.tripadvisor.com/Attractions-g60763-Activities-c49-New_York_City_New_York.html",
+  },
+  {
+    id: "frick",
+    title: "The Frick Collection",
+    summary: "Ett mindre och mer förfinat val när du vill ha lugnare tempo och känslan av ett dyrt New York.",
+    url: "https://www.frick.org/visit",
+    sourceLabel: "Condé Nast + NYC Tourism",
+    sourceUrl: "https://www.cntraveler.com/gallery/best-museums-in-new-york-city",
+  },
+  {
+    id: "mcny",
+    title: "Museum of the City of New York",
+    summary: "Starkast om du vill förstå själva staden, inte bara konstscenen.",
+    url: "https://www.mcny.org/",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/museums/museum-of-the-city-of-new-york",
+  },
+];
+
+const nycObservationChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "top-of-the-rock",
+    title: "Top of the Rock",
+    summary: "Det mest klassiska förstavalet om du vill se både Central Park och Empire State i samma vy.",
+    url: "https://www.topoftherocknyc.com/",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/attractions/top-of-the-rock-observation-deck-at-rockefeller-center",
+  },
+  {
+    id: "summit-one-vanderbilt",
+    title: "SUMMIT One Vanderbilt",
+    summary: "Mer upplevelse än bara utsikt, bäst om du vill ha wow, speglar och en tydligt modern känsla.",
+    url: "https://summitov.com/",
+    sourceLabel: "Time Out",
+    sourceUrl: "https://www.timeout.com/newyork/attractions/summit-one-vanderbilt",
+  },
+  {
+    id: "empire-state-building",
+    title: "Empire State Building",
+    summary: "Det mest ikoniska valet om du vill göra en riktig NYC-klassiker och inte bara jaga bästa foto.",
+    url: "https://www.esbnyc.com/",
+    sourceLabel: "Time Out + Tripadvisor",
+    sourceUrl: "https://www.timeout.com/newyork/attractions/empire-state-building",
+  },
+  {
+    id: "edge",
+    title: "Edge",
+    summary: "Bra när du vill ha mest adrenalinkänsla, glasgolv och en mer nutida skylineupplevelse.",
+    url: "https://www.edgenyc.com/en",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/attractions/edge-observation-deck",
+  },
+];
+
+const nycFoodChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "mamas-too",
+    title: "Mama's Too",
+    summary: "Ett starkt pizzaval om du vill gå på Time Outs toppspår snarare än bara första bästa slice.",
+    url: "https://www.mamastoo.com/",
+    sourceLabel: "Time Out Pizza 2025",
+    sourceUrl: "https://www.timeout.com/newyork/news/this-is-officially-the-best-pizzeria-in-new-york-in-2025-according-to-time-out-102425",
+  },
+  {
+    id: "ess-a-bagel",
+    title: "Ess-a-Bagel",
+    summary: "Ett säkert bagelval om du vill ha ett av de mest omtalade klassiska namnen snarare än experimentera.",
+    url: "https://www.ess-a-bagel.com/",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/restaurants/ess-a-bagel",
+  },
+  {
+    id: "chelsea-market",
+    title: "Chelsea Market",
+    summary: "Bra om ni vill kombinera sista måltid med flera alternativ och lite shopping på samma ställe.",
+    url: "https://www.chelseamarket.com/",
+    sourceLabel: "Time Out",
+    sourceUrl: "https://www.timeout.com/newyork/shopping/chelsea-market-new-york-ny",
+  },
+  {
+    id: "time-out-market",
+    title: "Time Out Market",
+    summary: "Bra när ni vill ha skyline, flera starka matval och låg friktion i DUMBO.",
+    url: "https://www.timeoutmarket.com/newyork/",
+    sourceLabel: "Time Out Market",
+    sourceUrl: "https://www.timeout.com/newyork/time-out-market",
+  },
+];
+
+const nycQuickDinnerChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "joes-pizza",
+    title: "Joe's Pizza",
+    summary: "Det mest klassiska slice-valet om du vill ha ett säkert New York-original utan att överplanera kvällen.",
+    url: "https://www.joespizzanyc.com/",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/restaurants/joes-pizza-1",
+  },
+  {
+    id: "scarrs-pizza",
+    title: "Scarr's Pizza",
+    summary: "Bra om du vill ha en mer samtida downtown-favorit som ändå känns väldigt New York.",
+    url: "https://www.scarrspizza.com/",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/restaurants/scarrs-pizza",
+  },
+  {
+    id: "lindustrie",
+    title: "L'Industrie Pizzeria",
+    summary: "Perfekt om du vill låta pizzastoppet kännas mer destination än bara nödmat.",
+    url: "https://www.lindustriebk.com/",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/restaurants/lindustrie-pizzeria",
+  },
+  {
+    id: "russ-daughters-cafe",
+    title: "Russ & Daughters Cafe",
+    summary: "Starkast om du hellre vill göra klassisk deli-/bagelmiddag än ännu en pizzaslice.",
+    url: "https://www.russanddaughterscafe.com/",
+    sourceLabel: "Time Out Recommended",
+    sourceUrl: "https://www.timeout.com/newyork/restaurants/russ-daughters-cafe",
+  },
+];
+
+const nycNeighborhoodChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "west-village",
+    title: "West Village igen",
+    summary: "Det bästa valet om ni vill avsluta med låg puls, smågator och ett New York som känns personligt.",
+    url: "https://www.google.com/maps/search/?api=1&query=West+Village+New+York",
+    sourceLabel: "Trip Companion-spår",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=West+Village+New+York",
+  },
+  {
+    id: "dumbo-return",
+    title: "DUMBO / Brooklyn Bridge Park",
+    summary: "Starkast om ni vill ha utsikt, foto och vattenkänsla utan att dagen blir för tung.",
+    url: "https://www.google.com/maps/search/?api=1&query=Brooklyn+Bridge+Park",
+    sourceLabel: "Trip Companion-spår",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=Brooklyn+Bridge+Park",
+  },
+  {
+    id: "bryant-midtown",
+    title: "Bryant Park / Midtown",
+    summary: "Bra om ni vill hålla er centralt och göra något enkelt men snyggt sista kvällen.",
+    url: "https://www.google.com/maps/search/?api=1&query=Bryant+Park+New+York",
+    sourceLabel: "Trip Companion-spår",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=Bryant+Park+New+York",
+  },
+];
+
+const nycStopChoiceOptions: Record<string, StopChoiceOption[]> = {
+  "nyc-observation-deck": nycObservationChoiceOptions,
+  "nyc-slice-night": nycQuickDinnerChoiceOptions,
+  "nyc-midtown-dinner": nycQuickDinnerChoiceOptions,
+  "nyc-museum-flex": nycMuseumChoiceOptions,
+  "nyc-culture-finale": nycMuseumChoiceOptions,
+  "nyc-food-shopping": nycFoodChoiceOptions,
+  "nyc-favorite-return": nycNeighborhoodChoiceOptions,
+};
+
 export function getStopInsight(stopId: string) {
   return nycStopInsights[stopId];
 }
 
 export function getStopInsightPreview(stopId: string) {
   return nycStopPreviews[stopId];
+}
+
+export function getStopChoiceOptions(stopId: string) {
+  return nycStopChoiceOptions[stopId] ?? [];
+}
+
+export function getStopChoiceOption(stopId: string, optionId: string) {
+  return getStopChoiceOptions(stopId).find((option) => option.id === optionId);
 }

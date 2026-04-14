@@ -514,6 +514,33 @@ h1 {
   gap: 8px;
 }
 
+.overview-hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.overview-hero-metric {
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  border: 1px solid rgba(17, 33, 47, 0.07);
+  border-radius: 12px;
+  background: rgba(248, 251, 255, 0.92);
+}
+
+.overview-hero-metric span {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.overview-hero-metric strong {
+  font-size: 0.86rem;
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .overview-block-strip {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1463,6 +1490,112 @@ h1 {
   font-size: 0.73rem;
   line-height: 1.38;
   color: var(--muted);
+}
+
+.stop-choice-panel {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid rgba(17, 33, 47, 0.08);
+  border-radius: 12px;
+  background: rgba(248, 250, 255, 0.94);
+}
+
+.stop-choice-panel__header {
+  display: grid;
+  gap: 2px;
+}
+
+.stop-choice-panel__header strong {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.stop-choice-panel__header span {
+  font-size: 0.73rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.stop-choice-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.stop-choice-card {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(17, 33, 47, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  text-align: left;
+  cursor: pointer;
+}
+
+.stop-choice-card strong {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.stop-choice-card span {
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.stop-choice-card small {
+  font-size: 0.68rem;
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+.stop-choice-card.is-active {
+  border-color: rgba(23, 119, 242, 0.22);
+  background: rgba(240, 247, 255, 0.98);
+}
+
+.stop-choice-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.stop-choice-links a {
+  font-size: 0.7rem;
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.stop-choice-custom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stop-choice-form {
+  display: grid;
+  gap: 8px;
+}
+
+.stop-choice-form input {
+  width: 100%;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid rgba(17, 33, 47, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.stop-choice-form__actions {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .ios-info-button {

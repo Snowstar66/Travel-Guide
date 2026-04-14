@@ -14,12 +14,14 @@ type DayView = "plan" | "weather" | "map";
 export function DayRoute({ dayId }: { dayId: string }) {
   const {
     selectedStops,
+    stopChoices,
     notes,
     profile,
     tripBlocks,
     recommendedStopCount,
     toggleSelected,
     moveSelectedStop,
+    updateStopChoice,
     saveNote,
     setPremiumAccess,
   } = useTripCompanionState();
@@ -122,11 +124,13 @@ export function DayRoute({ dayId }: { dayId: string }) {
         <DayDetailPanel
           dayId={day.id}
           selectedStops={selectedStops}
+          stopChoices={stopChoices}
           tripBlocks={tripBlocks}
           recommendedStopCount={recommendedStopCount}
           notes={notes}
           onToggleSelected={toggleSelected}
           onMoveSelected={moveSelectedStop}
+          onUpdateStopChoice={updateStopChoice}
           onSaveNote={saveNote}
         />
       ) : null}

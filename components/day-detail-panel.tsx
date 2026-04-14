@@ -5,32 +5,47 @@ import { StopMiniCard } from "@/components/stop-mini-card";
 import { StopInsightPanel } from "@/components/stop-insight-panel";
 import { findTripDayById } from "@/lib/guide-config";
 import { TripBlock } from "@/lib/trip-logic";
-import { getStopInsight } from "@/lib/stop-insights";
-import { NotesState, SelectionState } from "@/lib/use-trip-companion-state";
+import {
+  getStopChoiceOption,
+  getStopChoiceOptions,
+  getStopInsight,
+} from "@/lib/stop-insights";
+import {
+  NotesState,
+  SelectionState,
+  StopChoiceState,
+} from "@/lib/use-trip-companion-state";
 
 export function DayDetailPanel({
   dayId,
   selectedStops,
+  stopChoices,
   tripBlocks,
   recommendedStopCount,
   notes,
   onToggleSelected,
   onMoveSelected,
+  onUpdateStopChoice,
   onSaveNote,
 }: {
   dayId: string;
   selectedStops: SelectionState;
+  stopChoices: StopChoiceState;
   tripBlocks: TripBlock[];
   recommendedStopCount: number;
   notes: NotesState;
   onToggleSelected: (stopId: string, assignedDayId: string) => void;
   onMoveSelected: (stopId: string, assignedDayId: string) => void;
+  onUpdateStopChoice: (stopId: string, choice: StopChoiceState[string] | null) => void;
   onSaveNote: (dayId: string, noteValue: string) => void;
 }) {
   const day = useMemo(() => findTripDayById(dayId), [dayId]);
   const [noteDraft, setNoteDraft] = useState("");
   const [saveMessage, setSaveMessage] = useState("Inte sparat än");
   const [expandedInsightId, setExpandedInsightId] = useState<string | null>(null);
+  const [customChoiceOpenId, setCustomChoiceOpenId] = useState<string | null>(null);
+  const [customNameDrafts, setCustomNameDrafts] = useState<Record<string, string>>({});
+  const [customLinkDrafts, setCustomLinkDrafts] = useState<Record<string, string>>({});
   const insightRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
@@ -38,6 +53,7 @@ export function DayDetailPanel({
     setNoteDraft(notes[day.id] ?? "");
     setSaveMessage("Inte sparat än");
     setExpandedInsightId(null);
+    setCustomChoiceOpenId(null);
   }, [day, notes]);
 
   useEffect(() => {
@@ -102,12 +118,18 @@ export function DayDetailPanel({
           </p>
         ) : (
           <div className="ios-list">
-            {selectedDayStops.map((stop) => (
-              <div className="ios-list__row" key={stop.id}>
-                <span>{stop.name}</span>
-                <strong>{stop.duration}</strong>
-              </div>
-            ))}
+            {selectedDayStops.map((stop) => {
+              const choice = stopChoices[stop.id];
+              const option = choice?.optionId ? getStopChoiceOption(stop.id, choice.optionId) : undefined;
+              const label = choice?.customName?.trim() || option?.title || stop.name;
+
+              return (
+                <div className="ios-list__row" key={stop.id}>
+                  <span>{label}</span>
+                  <strong>{stop.duration}</strong>
+                </div>
+              );
+            })}
           </div>
         )}
         {blockLoadMessage ? (
@@ -135,16 +157,22 @@ export function DayDetailPanel({
               const assignedBlock = tripBlocks.find((block) => block.dayId === assignedDayId);
               const insight = getStopInsight(stop.id);
               const insightOpen = expandedInsightId === stop.id;
+              const choiceOptions = getStopChoiceOptions(stop.id);
+              const choice = stopChoices[stop.id];
+              const chosenOption = choice?.optionId
+                ? getStopChoiceOption(stop.id, choice.optionId)
+                : undefined;
+              const chosenLabel = choice?.customName?.trim() || chosenOption?.title;
 
               return (
                 <div className="ios-stop-block" key={stop.id}>
                   <article className="ios-stop-row">
                     <div className="ios-stop-row__copy">
                       <div className="ios-stop-row__headline">
-                        <strong>{stop.name}</strong>
+                        <strong>{chosenLabel ?? stop.name}</strong>
                       </div>
                       <span>{stop.duration}</span>
-                      <p>{stop.tip}</p>
+                      <p>{chosenOption?.summary ?? stop.tip}</p>
                     </div>
                     <div className="ios-stop-row__actions">
                       <button
@@ -185,6 +213,107 @@ export function DayDetailPanel({
                     <p className="ios-stop-row__status">
                       Det här stoppet ligger just nu i {assignedBlock?.rangeLabel ?? "ett annat block"}.
                     </p>
+                  ) : null}
+
+                  {choiceOptions.length ? (
+                    <div className="stop-choice-panel">
+                      <div className="stop-choice-panel__header">
+                        <strong>Populära val just nu</strong>
+                        <span>Kuraterat från starka referenser, men du kan också lägga in ett eget tips.</span>
+                      </div>
+                      <div className="stop-choice-grid">
+                        {choiceOptions.map((option) => {
+                          const active = choice?.optionId === option.id && !choice?.customName?.trim();
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              className={`stop-choice-card ${active ? "is-active" : ""}`}
+                              onClick={() =>
+                                onUpdateStopChoice(stop.id, {
+                                  optionId: option.id,
+                                })
+                              }
+                            >
+                              <strong>{option.title}</strong>
+                              <span>{option.summary}</span>
+                              <small>{option.sourceLabel}</small>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div className="stop-choice-links">
+                        {choiceOptions.map((option) => (
+                          <a key={option.id} href={option.sourceUrl} target="_blank" rel="noreferrer">
+                            {option.title} · {option.sourceLabel}
+                          </a>
+                        ))}
+                      </div>
+                      <div className="stop-choice-custom">
+                        <button
+                          className="button button--surface"
+                          type="button"
+                          onClick={() =>
+                            setCustomChoiceOpenId((current) => (current === stop.id ? null : stop.id))
+                          }
+                        >
+                          Eget tips
+                        </button>
+                        {choice?.customName?.trim() ? (
+                          <button
+                            className="button button--surface"
+                            type="button"
+                            onClick={() => onUpdateStopChoice(stop.id, null)}
+                          >
+                            Rensa eget val
+                          </button>
+                        ) : null}
+                      </div>
+                      {customChoiceOpenId === stop.id ? (
+                        <div className="stop-choice-form">
+                          <input
+                            type="text"
+                            placeholder="Till exempel The Morgan Library"
+                            value={customNameDrafts[stop.id] ?? choice?.customName ?? ""}
+                            onChange={(event) =>
+                              setCustomNameDrafts((current) => ({
+                                ...current,
+                                [stop.id]: event.target.value,
+                              }))
+                            }
+                          />
+                          <input
+                            type="url"
+                            placeholder="Länk valfri"
+                            value={customLinkDrafts[stop.id] ?? choice?.customLink ?? ""}
+                            onChange={(event) =>
+                              setCustomLinkDrafts((current) => ({
+                                ...current,
+                                [stop.id]: event.target.value,
+                              }))
+                            }
+                          />
+                          <div className="stop-choice-form__actions">
+                            <button
+                              className="button button--solid"
+                              type="button"
+                              onClick={() => {
+                                const customName = (customNameDrafts[stop.id] ?? choice?.customName ?? "").trim();
+                                const customLink = (customLinkDrafts[stop.id] ?? choice?.customLink ?? "").trim();
+                                if (!customName) return;
+                                onUpdateStopChoice(stop.id, {
+                                  customName,
+                                  customLink,
+                                });
+                                setCustomChoiceOpenId(null);
+                              }}
+                            >
+                              Spara eget tips
+                            </button>
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
                   ) : null}
 
                   {insight ? (

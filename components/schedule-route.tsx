@@ -125,22 +125,37 @@ export function ScheduleRoute() {
                                         <p className="schedule-card__eyebrow">
                                           {preview?.eyebrow ?? "Valt stopp"}
                                         </p>
-                                        <h3>{stop.name}</h3>
+                                        <h3>{stop.displayName}</h3>
                                       </div>
                                       <div className="schedule-card__time">
                                         <span>{startTime}</span>
                                         <strong>{stop.duration}</strong>
                                       </div>
                                     </div>
-                                    <p>{preview?.copy ?? stop.why}</p>
+                                    <p>{stop.displayWhy ?? preview?.copy ?? stop.why}</p>
                                     <p className="schedule-card__slot">{stop.sectionTitle}</p>
                                     {stop.dayId !== block.dayId ? (
                                       <p className="schedule-card__meta">
                                         Ursprungligen föreslaget i {stop.dayTitle}.
                                       </p>
                                     ) : null}
-                                    {insight?.links.length ? (
+                                    {stop.choiceOption ? (
+                                      <p className="schedule-card__meta">
+                                        Kuraterat från {stop.choiceOption.sourceLabel}.
+                                      </p>
+                                    ) : null}
+                                    {stop.choiceOption?.url || insight?.links.length ? (
                                       <div className="schedule-card__links">
+                                        {stop.choiceOption?.url ? (
+                                          <a
+                                            className="stop-insight-panel__link"
+                                            href={stop.choiceOption.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                          >
+                                            Öppna {stop.displayName}
+                                          </a>
+                                        ) : null}
                                         {insight.links.slice(0, 2).map((link) => (
                                           <a
                                             key={link.url}
@@ -152,6 +167,28 @@ export function ScheduleRoute() {
                                             {link.label}
                                           </a>
                                         ))}
+                                        {stop.customLink ? (
+                                          <a
+                                            className="stop-insight-panel__link"
+                                            href={stop.customLink}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                          >
+                                            Egen länk
+                                          </a>
+                                        ) : null}
+                                      </div>
+                                    ) : null}
+                                    {!insight?.links.length && stop.customLink ? (
+                                      <div className="schedule-card__links">
+                                        <a
+                                          className="stop-insight-panel__link"
+                                          href={stop.customLink}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                        >
+                                          Egen länk
+                                        </a>
                                       </div>
                                     ) : null}
                                   </div>
