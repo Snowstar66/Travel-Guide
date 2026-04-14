@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { AppHeader } from "@/components/app-header";
 import { CityFlag } from "@/components/city-flag";
 import { NotesActions } from "@/components/notes-actions";
 import { getCityGuide } from "@/lib/guide-config";
-import { getStopInsightPreview } from "@/lib/stop-insights";
+import { getStopInsight, getStopInsightPreview } from "@/lib/stop-insights";
 import {
   getTripBlockByDayId,
   hasAccessToDay,
@@ -15,6 +16,7 @@ import {
 import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
 export function TripCompanionApp() {
+  const [expandedSavedStopId, setExpandedSavedStopId] = useState<string | null>(null);
   const {
     notes,
     profile,
@@ -51,9 +53,26 @@ export function TripCompanionApp() {
     .slice()
     .sort(
       (left, right) =>
-        Number(right.assignedDayId === currentBlock.dayId) - Number(left.assignedDayId === currentBlock.dayId)
+        Number(right.assignedDayId === currentBlock.dayId) -
+        Number(left.assignedDayId === currentBlock.dayId)
     )
-    .slice(0, 5);
+    .slice(0, 6);
+
+  function getSavedStopSource(stop: (typeof selectedStopItems)[number]) {
+    if (stop.customLink) {
+      return { label: "Ditt tips", url: stop.customLink };
+    }
+
+    if (stop.choiceOption) {
+      return {
+        label: stop.choiceOption.sourceLabel,
+        url: stop.choiceOption.sourceUrl,
+      };
+    }
+
+    const insight = getStopInsight(stop.id);
+    return insight?.links[0];
+  }
 
   return (
     <main className="page-shell page-shell--home">
@@ -61,7 +80,10 @@ export function TripCompanionApp() {
 
       <section className="panel dashboard-hero dashboard-hero--clean">
         <div className="dashboard-hero__locale">
-          <CityFlag cityId={guide.id} className="dashboard-hero__flag dashboard-hero__flag--lead" />
+          <CityFlag
+            cityId={guide.id}
+            className="dashboard-hero__flag dashboard-hero__flag--lead"
+          />
           <span>{guide.displayName}</span>
         </div>
         <div className="dashboard-hero__topline">
@@ -72,7 +94,8 @@ export function TripCompanionApp() {
         </div>
         <h1>{guide.displayName} just nu</h1>
         <p className="dashboard-hero__lead">
-          {currentBlock.label} fokuserar på {currentDay.title.toLowerCase()}. Du har byggt {selectedInCurrentBlock} stopp i det här dagspåret.
+          {currentBlock.label} fokuserar på {currentDay.title.toLowerCase()}. Du har byggt{" "}
+          {selectedInCurrentBlock} stopp i det här dagspåret.
         </p>
 
         <article className="dashboard-stat dashboard-stat--primary">
@@ -110,7 +133,7 @@ export function TripCompanionApp() {
           <div className="saved-grid saved-grid--single">
             <div>
               <h3>Aktuella stopp</h3>
-              <div className="saved-list">
+              <div className="saved-list saved-list--highlights">
                 {selectedHighlights.length === 0 ? (
                   <p className="saved-empty">
                     Lägg till stopp i planvyn så byggs din resa upp här.
@@ -118,26 +141,87 @@ export function TripCompanionApp() {
                 ) : (
                   selectedHighlights.map((stop) => {
                     const preview = getStopInsightPreview(stop.id);
+                    const insight = getStopInsight(stop.id);
+                    const assignedBlock = getTripBlockByDayId(profile, stop.assignedDayId);
+                    const source = getSavedStopSource(stop);
+                    const isExpanded = expandedSavedStopId === stop.id;
 
                     return (
-                    <article className={`saved-item ${preview?.imageUrl ? "saved-item--with-image" : ""}`} key={stop.id}>
-                      {preview?.imageUrl ? (
-                        <img
-                          className="saved-item__image"
-                          src={preview.imageUrl}
-                          alt={preview.imageAlt ?? stop.displayName}
-                        />
-                      ) : null}
-                      <div className="saved-item__top">
-                        <div>
-                          {preview?.eyebrow ? <span className="saved-item__eyebrow">{preview.eyebrow}</span> : null}
-                          <h4>{stop.displayName}</h4>
+                      <article
+                        className={`saved-item saved-item--interactive ${
+                          preview?.imageUrl ? "saved-item--with-image" : ""
+                        } ${isExpanded ? "is-expanded" : ""}`}
+                        key={stop.id}
+                        role="button"
+                        tabIndex={0}
+                        aria-expanded={isExpanded}
+                        onClick={() => setExpandedSavedStopId(isExpanded ? null : stop.id)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            setExpandedSavedStopId(isExpanded ? null : stop.id);
+                          }
+                        }}
+                      >
+                        <div className="saved-item__inner">
+                          <div className="saved-item__face saved-item__face--front">
+                            {preview?.imageUrl ? (
+                              <img
+                                className="saved-item__image"
+                                src={preview.imageUrl}
+                                alt={preview.imageAlt ?? stop.displayName}
+                              />
+                            ) : null}
+                            <div className="saved-item__top">
+                              <div>
+                                {preview?.eyebrow ? (
+                                  <span className="saved-item__eyebrow">{preview.eyebrow}</span>
+                                ) : null}
+                                <h4>{stop.displayName}</h4>
+                              </div>
+                              <span className="pill pill--soft">{stop.sectionTitle}</span>
+                            </div>
+                            <div className="saved-item__meta">
+                              <span className="saved-item__track">
+                                {`Dag ${stop.assignedDayNumber}`}
+                              </span>
+                              <span className="pill pill--soft">{stop.assignedDayTitle}</span>
+                            </div>
+                            <p>{preview?.copy ?? stop.displayWhy}</p>
+                          </div>
+
+                          <div className="saved-item__face saved-item__face--back">
+                            <div className="saved-item__top saved-item__top--stacked">
+                              <div>
+                                <span className="saved-item__eyebrow">Mer om stoppet</span>
+                                <h4>{stop.displayName}</h4>
+                              </div>
+                              <span className="pill pill--soft">{`Dag ${stop.assignedDayNumber}`}</span>
+                            </div>
+                            <div className="saved-item__meta saved-item__meta--back">
+                              <span className="saved-item__track">{stop.assignedDayTitle}</span>
+                              <span className="pill pill--soft">{stop.sectionTitle}</span>
+                            </div>
+                            <p>{insight?.facts[0] ?? stop.displayWhy}</p>
+                            {insight?.ideas[0] ? (
+                              <p className="saved-item__hint">{insight.ideas[0]}</p>
+                            ) : null}
+                            {source ? (
+                              <Link
+                                className="utility-link saved-item__source"
+                                href={source.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={(event) => event.stopPropagation()}
+                              >
+                                Källa: {source.label}
+                              </Link>
+                            ) : null}
+                          </div>
                         </div>
-                        <span className="pill pill--soft">{stop.assignedDayTitle}</span>
-                      </div>
-                      <p>{stop.displayWhy}</p>
-                    </article>
-                  )})
+                      </article>
+                    );
+                  })
                 )}
               </div>
             </div>
@@ -153,7 +237,9 @@ export function TripCompanionApp() {
             {tripBlocks.map((block) => {
               const day = guide.tripDays.find((item) => item.id === block.dayId) ?? currentDay;
               const unlocked = hasAccessToDay(profile, block.dayId);
-              const blockSelections = selectedStopItems.filter((stop) => stop.assignedDayId === block.dayId).length;
+              const blockSelections = selectedStopItems.filter(
+                (stop) => stop.assignedDayId === block.dayId
+              ).length;
 
               return (
                 <article
@@ -254,7 +340,8 @@ export function TripCompanionApp() {
                       <div className="saved-item__top">
                         <h4>{day.title}</h4>
                         <span className="pill pill--soft">
-                          {getTripBlockByDayId(profile, day.id)?.rangeLabel ?? `Dag ${day.dayNumber}`}
+                          {getTripBlockByDayId(profile, day.id)?.rangeLabel ??
+                            `Dag ${day.dayNumber}`}
                         </span>
                       </div>
                       <p>{notes[day.id]}</p>

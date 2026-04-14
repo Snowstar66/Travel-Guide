@@ -110,6 +110,7 @@ export function useTripCompanionState() {
           section.stops.map((stop, stopIndex) => ({
             ...stop,
             dayId: day.id,
+            dayNumber: day.dayNumber,
             dayTitle: day.title,
             sectionLabel: section.label,
             sectionTitle: section.title,
@@ -135,6 +136,7 @@ export function useTripCompanionState() {
       return {
         ...stop,
         assignedDayId,
+        assignedDayNumber: assignedDay?.dayNumber ?? stop.dayNumber,
         assignedDayTitle: assignedDay?.title ?? stop.dayTitle,
         displayName,
         displayWhy,

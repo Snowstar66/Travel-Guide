@@ -5,7 +5,7 @@ import { Fragment, type CSSProperties, useMemo, useState } from "react";
 import { CityFlag } from "@/components/city-flag";
 import { getCityGuide } from "@/lib/guide-config";
 import { SchedulePeriod } from "@/lib/trip-logic";
-import { getStopInsight, getStopInsightPreview } from "@/lib/stop-insights";
+import { getStopChoiceOptions, getStopInsight, getStopInsightPreview } from "@/lib/stop-insights";
 import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
 function TrashIcon() {
@@ -56,13 +56,34 @@ type TimedScheduleItem = ScheduleItem & {
   overflowsPeriod: boolean;
 };
 
+type SuggestionItem = ReturnType<typeof useTripCompanionState>["allStops"][number];
+type ChoiceSuggestionItem = {
+  stop: SuggestionItem;
+  option: ReturnType<typeof getStopChoiceOptions>[number];
+};
+type SuggestionEntry =
+  | { kind: "stop"; item: SuggestionItem }
+  | { kind: "choice"; item: ChoiceSuggestionItem };
+
 type SuggestionSlot = {
   dayId: string;
   period: SchedulePeriod;
 };
 
-function getBoardTone(item: ScheduleItem) {
-  const source = `${item.sectionTitle} ${item.displayName} ${item.displayWhy ?? item.why}`.toLowerCase();
+type SuggestionGroup = {
+  title: string;
+  hint: string;
+  items: SuggestionEntry[];
+};
+
+function getBoardTone(
+  item: Pick<ScheduleItem, "sectionTitle" | "why"> & {
+    displayName?: string;
+    displayWhy?: string;
+    name?: string;
+  }
+) {
+  const source = `${item.sectionTitle} ${item.displayName ?? item.name ?? ""} ${item.displayWhy ?? item.why}`.toLowerCase();
 
   if (
     /(museum|muse|gallery|galleri|art|konst|cathedral|katedral|history|historia)/.test(source)
@@ -136,6 +157,7 @@ export function ScheduleRoute() {
     updateProfile,
     toggleSelected,
     allStops,
+    updateStopChoice,
   } = useTripCompanionState();
   const guide = getCityGuide(profile.cityId);
   const [expandedStopId, setExpandedStopId] = useState<string | null>(null);
@@ -157,6 +179,15 @@ export function ScheduleRoute() {
     toggleSelected(stopId, assignedDayId);
     setOpenSuggestionSlot(null);
     setExpandedStopId(stopId);
+  }
+
+  function addSuggestedChoice(stop: SuggestionItem, optionId: string) {
+    updateStopChoice(stop.id, { optionId });
+    if (!selectedStopItems.some((item) => item.id === stop.id)) {
+      toggleSelected(stop.id, stop.dayId);
+    }
+    setOpenSuggestionSlot(null);
+    setExpandedStopId(stop.id);
   }
 
   const scheduleBlocks = useMemo(
@@ -207,24 +238,69 @@ export function ScheduleRoute() {
     if (!openSuggestionSlot) return null;
 
     const day = guide.tripDays.find((item) => item.id === openSuggestionSlot.dayId) ?? guide.tripDays[0];
+    const blockIndex = tripBlocks.findIndex((block) => block.dayId === openSuggestionSlot.dayId);
+    const adjacentDayIds = tripBlocks
+      .filter((_, index) => Math.abs(index - blockIndex) === 1)
+      .map((block) => block.dayId);
     const selectedIds = new Set(selectedStopItems.map((item) => item.id));
     const sameDayAvailable = allStops.filter(
       (stop) => stop.dayId === openSuggestionSlot.dayId && !selectedIds.has(stop.id)
     );
-    const prioritized = [
-      ...sameDayAvailable.filter((stop) => stop.schedulePeriod === openSuggestionSlot.period),
-      ...sameDayAvailable.filter((stop) => stop.schedulePeriod !== openSuggestionSlot.period),
-    ];
+    const adjacentAvailable = allStops.filter(
+      (stop) => adjacentDayIds.includes(stop.dayId) && !selectedIds.has(stop.id)
+    );
 
-    const groups = prioritized.reduce<Array<{ title: string; items: typeof prioritized }>>((acc, stop) => {
-      const existing = acc.find((group) => group.title === stop.sectionTitle);
-      if (existing) {
-        existing.items.push(stop);
-      } else {
-        acc.push({ title: stop.sectionTitle, items: [stop] });
-      }
-      return acc;
-    }, []);
+    const samePeriodSuggestions = sameDayAvailable
+      .filter((stop) => stop.schedulePeriod === openSuggestionSlot.period)
+      .slice(0, 8);
+    const sameTrackSuggestions = sameDayAvailable
+      .filter((stop) => stop.schedulePeriod !== openSuggestionSlot.period)
+      .slice(0, 10);
+    const adjacentSuggestions = adjacentAvailable
+      .sort(
+        (left, right) =>
+          Number(right.schedulePeriod === openSuggestionSlot.period) -
+          Number(left.schedulePeriod === openSuggestionSlot.period)
+      )
+      .slice(0, 12);
+    const popularChoiceSuggestions = [...sameDayAvailable, ...adjacentAvailable]
+      .sort(
+        (left, right) =>
+          Number(right.schedulePeriod === openSuggestionSlot.period) -
+          Number(left.schedulePeriod === openSuggestionSlot.period)
+      )
+      .flatMap((stop) =>
+        getStopChoiceOptions(stop.id)
+          .slice(0, 2)
+          .map((option) => ({
+            stop,
+            option,
+          }))
+      )
+      .slice(0, 12);
+
+    const groups: SuggestionGroup[] = [
+      {
+        title: "Passar bäst här och nu",
+        hint: "Förslag från samma del av dagen, så de känns naturliga att lägga in direkt.",
+        items: samePeriodSuggestions.map((item) => ({ kind: "stop" as const, item })),
+      },
+      {
+        title: "Fler idéer från samma dagspår",
+        hint: "Bra stopp från samma dag, även om de kanske passar bättre lite tidigare eller senare.",
+        items: sameTrackSuggestions.map((item) => ({ kind: "stop" as const, item })),
+      },
+      {
+        title: "Populära val just nu",
+        hint: "Konkreta museum-, mat- och kvällsval hämtade från appens utvalda tips.",
+        items: popularChoiceSuggestions.map((item) => ({ kind: "choice" as const, item })),
+      },
+      {
+        title: "Bra att låna från närliggande dagspår",
+        hint: "Om du vill fylla på mer kan du låna in stopp från dagarna intill.",
+        items: adjacentSuggestions.map((item) => ({ kind: "stop" as const, item })),
+      },
+    ].filter((group) => group.items.length > 0);
 
     return {
       day,
@@ -423,7 +499,6 @@ export function ScheduleRoute() {
                   onClick={() => removeStop(expandedStop.id, expandedStop.assignedDayId)}
                 >
                   <TrashIcon />
-                  Ta bort från schemat
                 </button>
                 {expandedStop.choiceOption?.url ? (
                   <a
@@ -491,29 +566,51 @@ export function ScheduleRoute() {
               {suggestionContext.groups.map((group) => (
                 <section className="schedule-suggestion-group" key={group.title}>
                   <div className="schedule-suggestion-group__header">
-                    <p className="schedule-period__label">{group.title}</p>
+                    <div className="schedule-suggestion-group__copy">
+                      <p className="schedule-period__label">{group.title}</p>
+                      <p className="schedule-suggestion-group__hint">{group.hint}</p>
+                    </div>
                     <span className="schedule-period__count">{group.items.length} förslag</span>
                   </div>
                   <div className="schedule-suggestion-list">
-                    {group.items.map((stop) => {
+                    {group.items.map((entry) => {
+                      const stop = entry.kind === "choice" ? entry.item.stop : entry.item;
                       const preview = getStopInsightPreview(stop.id);
+                      const tone = getBoardTone(stop);
+                      const title = entry.kind === "choice" ? entry.item.option.title : stop.name;
+                      const description =
+                        entry.kind === "choice" ? entry.item.option.summary : stop.why;
+                      const metaLabel =
+                        entry.kind === "choice"
+                          ? entry.item.option.sourceLabel
+                          : preview?.eyebrow ?? stop.sectionLabel;
+                      const actionLabel = entry.kind === "choice" ? "Välj" : "Lägg till";
                       return (
                         <button
-                          key={stop.id}
+                          key={entry.kind === "choice" ? `${stop.id}-${entry.item.option.id}` : stop.id}
                           type="button"
                           className="schedule-suggestion-item"
-                          onClick={() => addSuggestedStop(stop.id, suggestionContext.day.id)}
+                          onClick={() =>
+                            entry.kind === "choice"
+                              ? addSuggestedChoice(stop, entry.item.option.id)
+                              : addSuggestedStop(stop.id, suggestionContext.day.id)
+                          }
                         >
                           <div className="schedule-suggestion-item__copy">
-                            <span className="schedule-card__eyebrow">
-                              {preview?.eyebrow ?? stop.sectionLabel}
-                            </span>
-                            <strong>{stop.name}</strong>
-                            <p>{stop.why}</p>
+                            <div className="schedule-suggestion-item__tags">
+                              <span className={`schedule-board-card__tone schedule-board-card__tone--${tone.key}`}>
+                                {tone.label}
+                              </span>
+                              <span className="schedule-card__eyebrow">
+                                {metaLabel}
+                              </span>
+                            </div>
+                            <strong>{title}</strong>
+                            <p>{description}</p>
                           </div>
                           <div className="schedule-suggestion-item__meta">
                             <span>{stop.duration}</span>
-                            <span>Lägg till</span>
+                            <span>{actionLabel}</span>
                           </div>
                         </button>
                       );
