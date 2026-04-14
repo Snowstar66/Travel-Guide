@@ -684,6 +684,24 @@ h1 {
   margin-bottom: 0;
 }
 
+.city-guide-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.city-guide-panel__header {
+  padding-inline: var(--content-inset);
+}
+
+.city-facts-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.city-gallery-grid {
+  margin-bottom: 0;
+}
+
 .app-home-stack {
   display: grid;
   gap: 16px;
@@ -758,6 +776,13 @@ h1 {
   height: 14px;
   border-radius: 4px;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.overview-inline-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .utility-list {
@@ -2456,6 +2481,10 @@ h1 {
   padding-inline: var(--content-inset);
 }
 
+.saved-grid--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .saved-grid h3 {
   font-size: var(--type-title-md);
   line-height: 1.28;
@@ -2734,7 +2763,7 @@ textarea {
 
 .mobile-nav__items {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2px;
 }
 
@@ -2743,10 +2772,10 @@ textarea {
   justify-items: center;
   gap: 1px;
   min-height: 40px;
-  padding: 4px 2px;
+  padding: 4px 1px;
   border-radius: 10px;
   color: var(--muted);
-  font-size: 0.64rem;
+  font-size: 0.58rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   text-decoration: none;
@@ -2766,13 +2795,13 @@ textarea {
 .mobile-nav__icon {
   display: inline-grid;
   place-items: center;
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 
 .mobile-nav__icon svg {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
 }
 
 .mobile-nav__label {

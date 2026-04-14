@@ -54,16 +54,16 @@ export function TravelUtilityCards({
       <article className="panel utility-card">
         <div className="utility-card__header">
           <p className="utility-card__eyebrow">Karta</p>
-          <h2>Dagens områden</h2>
+          <h2>Aktivt block</h2>
         </div>
         <p>
           {primaryArea
-            ? `${primaryArea.name} är dagens huvudspår. ${
+            ? `${primaryArea.name} är huvudspåret i det aktiva blocket. ${
                 secondaryArea
                   ? `${secondaryArea.name} är ett bra andra stopp om energin finns.`
                   : primaryArea.routeNote
               }`
-            : "Öppna dagens område direkt i karta när du vill orientera dig snabbt."}
+            : "Öppna blockets område direkt i karta när du vill orientera dig snabbt."}
         </p>
         <div className="utility-links">
           {primaryArea ? (
@@ -118,14 +118,14 @@ export function TravelUtilityCards({
               {weather.currentLabel.toLowerCase()} just nu.
             </p>
             <p>
-              Max {weather.maxTemp !== null ? `${Math.round(weather.maxTemp)}°` : "—"} • Min{" "}
-              {weather.minTemp !== null ? `${Math.round(weather.minTemp)}°` : "—"} • Regnrisk{" "}
+              Max {weather.maxTemp !== null ? `${Math.round(weather.maxTemp)}°` : "—"} · Min{" "}
+              {weather.minTemp !== null ? `${Math.round(weather.minTemp)}°` : "—"} · Regnrisk{" "}
               {weather.precipitationChance !== null
                 ? `${Math.round(weather.precipitationChance)}%`
                 : "—"}
             </p>
-            <Link className="utility-link" href="/today">
-              Öppna väder
+            <Link className="utility-link" href="/plan">
+              Öppna plan
             </Link>
           </>
         )}

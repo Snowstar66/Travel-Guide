@@ -3,16 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getCityGuide } from "@/lib/guide-config";
 import {
   patchStoredProfile,
   profileUpdatedEvent,
   readStoredProfile,
 } from "@/lib/profile-storage";
-import { defaultProfile, hasAccessToDay, TravelerProfile } from "@/lib/trip-logic";
+import {
+  defaultProfile,
+  getTripBlockByDayId,
+  getTripBlocks,
+  hasAccessToDay,
+  TravelerProfile,
+} from "@/lib/trip-logic";
 
-function NavIcon({ type }: { type: "home" | "today" | "plan" }) {
-  if (type === "home") {
+function NavIcon({ type }: { type: "overview" | "plan" | "city" | "settings" }) {
+  if (type === "overview") {
     return (
       <svg aria-hidden="true" viewBox="0 0 24 24">
         <path
@@ -27,19 +32,26 @@ function NavIcon({ type }: { type: "home" | "today" | "plan" }) {
     );
   }
 
-  if (type === "today") {
+  if (type === "plan") {
     return (
       <svg aria-hidden="true" viewBox="0 0 24 24">
-        <circle
-          cx="12"
-          cy="12"
-          r="7.5"
+        <path
+          d="M4.5 7.5h15M4.5 12h10.5M4.5 16.5h7.5M17.5 11.25 19.5 13l-2 1.75"
           fill="none"
           stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           strokeWidth="1.9"
         />
+      </svg>
+    );
+  }
+
+  if (type === "city") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24">
         <path
-          d="M12 7.5v4.8l3.2 1.8"
+          d="M6 18.5h12M7.5 18.5v-9l4.5-2.5 4.5 2.5v9M10 12.5h4"
           fill="none"
           stroke="currentColor"
           strokeLinecap="round"
@@ -53,12 +65,12 @@ function NavIcon({ type }: { type: "home" | "today" | "plan" }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24">
       <path
-        d="M5.5 18.5h13M7 15l3-3.5 2.5 1.8 4-5.3"
+        d="M7.5 8.5h9M7.5 12h9M7.5 15.5h6M5.5 5h13a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.9"
+        strokeWidth="1.8"
       />
     </svg>
   );
@@ -98,55 +110,63 @@ export function MobileNav() {
     };
   }, []);
 
-  const guide = getCityGuide(profile.cityId);
+  const tripBlocks = getTripBlocks(profile);
   const routeDayId = pathname.startsWith("/day/") ? decodeURIComponent(pathname.slice(5)) : null;
-  const activeDayId =
-    guide.tripDays.find((day) => day.id === routeDayId)?.id ?? profile.currentDayId;
-  const currentDay = guide.tripDays.find((day) => day.id === activeDayId) ?? guide.tripDays[0];
-  const isTodayRoute = pathname === "/today";
+  const activeBlock =
+    (routeDayId ? getTripBlockByDayId(profile, routeDayId) : null) ??
+    tripBlocks.find((block) => block.dayId === profile.currentDayId) ??
+    tripBlocks[0];
+  const showBlockRail = pathname === "/plan" || pathname.startsWith("/day/");
 
   const items = [
-    { href: "/", label: "Hem", icon: "home" as const },
-    { href: "/today", label: "Idag", icon: "today" as const },
-    { href: `/day/${currentDay.id}`, label: "Plan", icon: "plan" as const },
+    { href: "/", label: "Översikt", icon: "overview" as const },
+    { href: "/plan", label: "Plan", icon: "plan" as const },
+    { href: "/city", label: "Stad", icon: "city" as const },
+    { href: "/settings", label: "Inställningar", icon: "settings" as const },
   ];
 
   return (
     <nav className="mobile-nav" aria-label="Primary">
-      <div className="mobile-day-nav" aria-label="Resdagar">
-        {guide.tripDays.map((day) => {
-          const locked = !hasAccessToDay(profile, day.id);
-          const active = day.id === currentDay.id;
-          const href = isTodayRoute ? "/today" : `/day/${day.id}`;
+      {showBlockRail ? (
+        <div className="mobile-day-nav" aria-label="Planeringsblock">
+          {tripBlocks.map((block) => {
+            const locked = !hasAccessToDay(profile, block.dayId);
+            const active = block.dayId === activeBlock?.dayId;
+            const href = pathname.startsWith("/day/") ? `/day/${block.dayId}` : "/plan";
 
-          return (
-            <Link
-              key={day.id}
-              href={href}
-              className={`mobile-day-nav__link ${active ? "is-active" : ""}`}
-              aria-current={active ? "page" : undefined}
-              onClick={() => {
-                const next = patchStoredProfile({ currentDayId: day.id });
-                setProfile(next);
-              }}
-            >
-              <span className="mobile-day-nav__day">Dag {day.dayNumber}</span>
-              {locked ? (
-                <span className="mobile-day-nav__lock" aria-hidden="true">
-                  <LockIcon />
-                </span>
-              ) : null}
-            </Link>
-          );
-        })}
-      </div>
+            return (
+              <Link
+                key={block.dayId}
+                href={href}
+                className={`mobile-day-nav__link ${active ? "is-active" : ""}`}
+                aria-current={active ? "page" : undefined}
+                aria-label={block.merged ? `Block ${block.blockNumber}, ${block.rangeLabel}` : block.rangeLabel}
+                title={block.merged ? `${block.label} · ${block.rangeLabel}` : block.rangeLabel}
+                onClick={() => {
+                  const next = patchStoredProfile({ currentDayId: block.dayId });
+                  setProfile(next);
+                }}
+              >
+                <span className="mobile-day-nav__day">{block.shortLabel}</span>
+                {locked ? (
+                  <span className="mobile-day-nav__lock" aria-hidden="true">
+                    <LockIcon />
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
+        </div>
+      ) : null}
 
       <div className="mobile-nav__items">
         {items.map((item) => {
           const active =
             item.href === "/"
               ? pathname === "/"
-              : pathname === item.href || pathname.startsWith(item.href + "/");
+              : item.href === "/plan"
+                ? pathname === "/plan" || pathname.startsWith("/day/")
+                : pathname === item.href || pathname.startsWith(item.href + "/");
 
           return (
             <Link

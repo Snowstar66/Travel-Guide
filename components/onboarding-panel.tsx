@@ -2,12 +2,13 @@
 
 import { CityFlag } from "@/components/city-flag";
 import {
+  getTripBlocks,
   hasAccessToDay,
-  isPremiumDay,
   paceOptions,
   ProfileOption,
   travelStyleOptions,
   TravelerProfile,
+  tripLengthOptions,
 } from "@/lib/trip-logic";
 import { cityOptions, getCityGuide, getHotelAreaOptions, type CityId } from "@/lib/guide-config";
 
@@ -31,20 +32,19 @@ export function OnboardingPanel({
   const hotelArea =
     hotelAreaOptions.find((option) => option.value === profile.hotelArea) ??
     hotelAreaOptions[hotelAreaOptions.length - 1];
-  const pace =
-    paceOptions.find((option) => option.value === profile.pace) ??
-    paceOptions[1];
-  const currentDay =
-    guide.tripDays.find((day) => day.id === profile.currentDayId) ?? guide.tripDays[0];
+  const pace = paceOptions.find((option) => option.value === profile.pace) ?? paceOptions[1];
+  const tripLength =
+    tripLengthOptions.find((option) => option.value === profile.tripLength) ?? tripLengthOptions[4];
+  const tripBlocks = getTripBlocks(profile);
 
   return (
     <section className="panel" id="onboarding">
       <div className="panel__header">
-        <p className="eyebrow">Onboarding</p>
-        <h2>Gör appen till din resa</h2>
+        <p className="eyebrow">Inställningar</p>
+        <h2>Forma resan efter dig</h2>
         <p>
-          Det här är en lätt viktning av upplevelsen. Du svarar inte för att
-          låsa appen, utan för att få mer relevant tempo och rätt typ av stöd.
+          Här väljer du stad, tempo och reslängd. Planen anpassar sig direkt och håller sig inom
+          fem tydliga planeringsblock.
         </p>
       </div>
 
@@ -84,11 +84,18 @@ export function OnboardingPanel({
           selected={profile.pace}
           onSelect={(value) => onUpdateProfile("pace", value)}
         />
+        <ProfilePicker
+          title="Hur lång är resan?"
+          options={tripLengthOptions}
+          selected={profile.tripLength}
+          onSelect={(value) => onUpdateProfile("tripLength", value)}
+        />
+
         <div className="profile-card profile-card--summary">
           <h3>Din resa just nu</h3>
           <p>
-            Appen lutar just nu åt en resa som känns {pace.label.toLowerCase()},
-            med bas i {hotelArea.label.toLowerCase()} i {guide.displayName} och fokus på{" "}
+            Appen lutar just nu åt en resa som känns {pace.label.toLowerCase()}, med bas i{" "}
+            {hotelArea.label.toLowerCase()} i {guide.displayName} och fokus på{" "}
             {travelStyle.label.toLowerCase()}.
           </p>
           <div className="pill-row">
@@ -99,34 +106,39 @@ export function OnboardingPanel({
             <span className="pill pill--soft">{travelStyle.label}</span>
             <span className="pill pill--soft">{hotelArea.label}</span>
             <span className="pill pill--soft">{pace.label}</span>
+            <span className="pill pill--soft">{tripLength.label}</span>
           </div>
           <div className="onboarding-summary">
-            <strong>Idag är det {currentDay.title}.</strong>
-            <span>{currentDay.theme}</span>
+            <strong>Planen använder {tripBlocks.length} block.</strong>
+            <span>
+              {profile.tripLength <= 5
+                ? "Varje block motsvarar en dag i resan."
+                : "Flera dagar slås ihop så att appen håller sig inom fem tydliga block."}
+            </span>
           </div>
           <div className="day-pill-row">
-            {guide.tripDays.map((day) => (
+            {tripBlocks.map((block) => (
               <button
-                key={day.id}
+                key={block.dayId}
                 type="button"
                 className={`day-pill ${
-                  profile.currentDayId === day.id ? "is-selected" : ""
-                } ${!hasAccessToDay(profile, day.id) ? "is-locked" : ""}`}
+                  profile.currentDayId === block.dayId ? "is-selected" : ""
+                } ${!hasAccessToDay(profile, block.dayId) ? "is-locked" : ""}`}
                 onClick={() =>
-                  hasAccessToDay(profile, day.id) ? onUpdateProfile("currentDayId", day.id) : null
+                  hasAccessToDay(profile, block.dayId) ? onUpdateProfile("currentDayId", block.dayId) : null
                 }
-                disabled={!hasAccessToDay(profile, day.id)}
+                disabled={!hasAccessToDay(profile, block.dayId)}
               >
-                Dag {day.dayNumber}
-                {isPremiumDay(day.id) && !profile.hasPremium ? " · Premium" : ""}
+                {block.rangeLabel}
+                {!hasAccessToDay(profile, block.dayId) ? " · Premium" : ""}
               </button>
             ))}
           </div>
-          {!profile.hasPremium ? (
+          {!profile.hasPremium && tripBlocks.length > 1 ? (
             <div className="premium-inline-card">
               <div>
-                <strong>Lås upp dag 2-5</strong>
-                <p>Premium öppnar resten av resan och gör alla dagval klickbara.</p>
+                <strong>Lås upp resten av blocken</strong>
+                <p>Premium öppnar block 2-5 och gör alla planval klickbara.</p>
               </div>
               <button
                 type="button"
@@ -143,7 +155,7 @@ export function OnboardingPanel({
   );
 }
 
-function ProfilePicker<T extends string>({
+function ProfilePicker<T extends string | number>({
   title,
   options,
   selected,

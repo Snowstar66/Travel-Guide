@@ -1,26 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { AppHeader } from "@/components/app-header";
 import { AreaMapPanel } from "@/components/area-map-panel";
 import { CityFlag } from "@/components/city-flag";
 import { DayDetailPanel } from "@/components/day-detail-panel";
 import { WeatherPanel } from "@/components/weather-panel";
 import { findTripDayById, getCityGuideByDayId } from "@/lib/guide-config";
-import { hasAccessToDay } from "@/lib/trip-logic";
+import { getTripBlockByDayId, hasAccessToDay } from "@/lib/trip-logic";
 import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
 type DayView = "plan" | "weather" | "map";
 
 export function DayRoute({ dayId }: { dayId: string }) {
   const {
-    checkedStops,
-    favorites,
+    selectedStops,
     notes,
     profile,
-    toggleChecked,
-    toggleFavorite,
+    toggleSelected,
     saveNote,
     setPremiumAccess,
   } = useTripCompanionState();
@@ -29,26 +25,27 @@ export function DayRoute({ dayId }: { dayId: string }) {
   const guide = getCityGuideByDayId(dayId);
   const day = findTripDayById(dayId) ?? guide?.tripDays[0];
   if (!guide || !day) return null;
+
+  const block = getTripBlockByDayId(profile, day.id);
   const hasAccess = hasAccessToDay(profile, day.id);
+  const isVisibleInTrip = Boolean(block);
 
   return (
     <main className="page-shell page-shell--route">
-      <AppHeader />
-
       <section className="screen-intro">
-        <p className="screen-intro__kicker">Dagplan</p>
+        <p className="screen-intro__kicker">Plan</p>
         <h1 className="screen-intro__title">{day.title}</h1>
         <p className="screen-intro__subtitle">
           <span className="screen-intro__city">
             <CityFlag cityId={guide.id} className="screen-intro__flag" />
             {guide.displayName}
           </span>{" "}
-          · Dag {day.dayNumber}. Växla mellan plan, väder och karta.
+          · {block ? `${block.label} · ${block.rangeLabel}` : "Inte aktivt i den här reslängden"}.
         </p>
       </section>
 
       <section className="segmented-panel">
-        <div className="segmented-control segmented-control--3" role="tablist" aria-label="Dagvyer">
+        <div className="segmented-control segmented-control--3" role="tablist" aria-label="Blockvyer">
           <button
             className={`segmented-control__button ${activeView === "plan" ? "is-active" : ""}`}
             type="button"
@@ -77,29 +74,33 @@ export function DayRoute({ dayId }: { dayId: string }) {
             Karta
           </button>
         </div>
-
-        <div className="quick-links">
-          <Link className="quick-links__item" href="/today">
-            Idag
-          </Link>
-          <Link className="quick-links__item" href="/">
-            Hem
-          </Link>
-        </div>
       </section>
 
-      {!hasAccess ? (
+      {!isVisibleInTrip ? (
         <section className="ios-group premium-lock-card">
           <div className="ios-group__header">
             <div>
-              <p className="ios-group__eyebrow">Premiumdag</p>
-              <h2>Dag {day.dayNumber} väntar bakom Premium</h2>
+              <p className="ios-group__eyebrow">Inte aktivt</p>
+              <h2>Det här blocket ingår inte i nuvarande reslängd</h2>
+            </div>
+          </div>
+          <p className="ios-group__copy">
+            Öka antalet dagar i Inställningar om du vill att det här blocket ska bli en aktiv del av resan.
+          </p>
+        </section>
+      ) : null}
+
+      {isVisibleInTrip && !hasAccess ? (
+        <section className="ios-group premium-lock-card">
+          <div className="ios-group__header">
+            <div>
+              <p className="ios-group__eyebrow">Premiumblock</p>
+              <h2>{block?.label ?? "Det här blocket"} väntar bakom Premium</h2>
             </div>
             <span className="ios-group__badge">Låst</span>
           </div>
           <p className="ios-group__copy">
-            {day.title} finns redan förberedd i appen med plan, väder, karta och stopp, men den
-            öppnas först när Premium är aktivt.
+            {day.title} finns redan förberedd i appen med plan, väder, karta och stopp, men öppnas först när Premium är aktivt.
           </p>
           <p className="ios-group__hint">{day.theme}</p>
           <div className="ios-group__actions">
@@ -110,27 +111,22 @@ export function DayRoute({ dayId }: { dayId: string }) {
             >
               Lås upp Premium
             </button>
-            <Link className="button button--surface" href="/">
-              Tillbaka till Hem
-            </Link>
           </div>
         </section>
       ) : null}
 
-      {hasAccess && activeView === "plan" ? (
+      {isVisibleInTrip && hasAccess && activeView === "plan" ? (
         <DayDetailPanel
           dayId={day.id}
-          checkedStops={checkedStops}
-          favorites={favorites}
+          selectedStops={selectedStops}
           notes={notes}
-          onToggleChecked={toggleChecked}
-          onToggleFavorite={toggleFavorite}
+          onToggleSelected={toggleSelected}
           onSaveNote={saveNote}
         />
       ) : null}
 
-      {hasAccess && activeView === "weather" ? <WeatherPanel dayId={day.id} /> : null}
-      {hasAccess && activeView === "map" ? <AreaMapPanel dayId={day.id} /> : null}
+      {isVisibleInTrip && hasAccess && activeView === "weather" ? <WeatherPanel dayId={day.id} /> : null}
+      {isVisibleInTrip && hasAccess && activeView === "map" ? <AreaMapPanel dayId={day.id} /> : null}
     </main>
   );
 }

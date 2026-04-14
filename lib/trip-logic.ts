@@ -6,17 +6,91 @@ export type TravelerProfile = {
   hotelArea: HotelAreaValue;
   pace: "calm" | "balanced" | "max";
   currentDayId: string;
+  tripLength: number;
   hasPremium: boolean;
 };
 
-export type ProfileOption<T extends string> = {
+export type ProfileOption<T extends string | number> = {
   value: T;
   label: string;
   hint: string;
 };
 
+export type TripBlock = {
+  blockNumber: number;
+  dayId: string;
+  templateDayNumber: number;
+  startDay: number;
+  endDay: number;
+  label: string;
+  rangeLabel: string;
+  shortLabel: string;
+  merged: boolean;
+};
+
+export const minTripLength = 1;
+export const maxTripLength = 10;
+
+function clampTripLength(value: number | undefined) {
+  if (!value || Number.isNaN(value)) return 5;
+  return Math.min(maxTripLength, Math.max(minTripLength, Math.round(value)));
+}
+
 function getDefaultDayId(cityId: CityId) {
   return getCityGuide(cityId).tripDays[0]?.id ?? "day-1";
+}
+
+function buildRanges(totalDays: number, blockCount: number) {
+  const ranges: Array<{ startDay: number; endDay: number }> = [];
+  let cursor = 1;
+
+  for (let index = 0; index < blockCount; index += 1) {
+    const remainingDays = totalDays - cursor + 1;
+    const remainingBlocks = blockCount - index;
+    const span = Math.ceil(remainingDays / remainingBlocks);
+    const endDay = cursor + span - 1;
+
+    ranges.push({
+      startDay: cursor,
+      endDay,
+    });
+
+    cursor = endDay + 1;
+  }
+
+  return ranges;
+}
+
+export function getTripBlocks(profile: Pick<TravelerProfile, "cityId" | "tripLength">) {
+  const guide = getCityGuide(profile.cityId);
+  const tripLength = clampTripLength(profile.tripLength);
+  const blockCount = Math.min(guide.tripDays.length, tripLength);
+  const ranges = buildRanges(tripLength, blockCount);
+
+  return guide.tripDays.slice(0, blockCount).map((day, index) => {
+    const range = ranges[index];
+    const merged = range.startDay !== range.endDay;
+    const rangeLabel = merged ? `Dag ${range.startDay}-${range.endDay}` : `Dag ${range.startDay}`;
+
+    return {
+      blockNumber: index + 1,
+      dayId: day.id,
+      templateDayNumber: day.dayNumber,
+      startDay: range.startDay,
+      endDay: range.endDay,
+      label: merged ? `Block ${index + 1}` : `Dag ${range.startDay}`,
+      rangeLabel,
+      shortLabel: merged ? `${range.startDay}-${range.endDay}` : `${range.startDay}`,
+      merged,
+    } satisfies TripBlock;
+  });
+}
+
+export function getTripBlockByDayId(
+  profile: Pick<TravelerProfile, "cityId" | "tripLength">,
+  dayId: string
+) {
+  return getTripBlocks(profile).find((block) => block.dayId === dayId);
 }
 
 export const defaultProfile: TravelerProfile = {
@@ -25,6 +99,7 @@ export const defaultProfile: TravelerProfile = {
   hotelArea: "unknown",
   pace: "balanced",
   currentDayId: getDefaultDayId(defaultCityId),
+  tripLength: 5,
   hasPremium: false,
 };
 
@@ -40,7 +115,7 @@ export function hasAccessToDay(profile: TravelerProfile, dayId: string) {
 export function normalizeProfile(profile: Partial<TravelerProfile> | TravelerProfile) {
   const legacyHotelArea = profile.hotelArea as string | undefined;
   const nextCityId = profile.cityId ?? defaultCityId;
-  const guide = getCityGuide(nextCityId);
+  const tripLength = clampTripLength(profile.tripLength);
   const hotelArea =
     legacyHotelArea === "midtown"
       ? "central"
@@ -50,13 +125,23 @@ export function normalizeProfile(profile: Partial<TravelerProfile> | TravelerPro
           ? "local"
           : profile.hotelArea ?? "unknown";
 
-  const next: TravelerProfile = {
+  const base: TravelerProfile = {
     ...defaultProfile,
     ...profile,
     cityId: nextCityId,
     hotelArea,
-    currentDayId:
-      guide.tripDays.find((day) => day.id === profile.currentDayId)?.id ?? getDefaultDayId(nextCityId),
+    tripLength,
+    currentDayId: profile.currentDayId ?? getDefaultDayId(nextCityId),
+  };
+
+  const visibleDayIds = new Set(getTripBlocks(base).map((block) => block.dayId));
+  const currentDayId = visibleDayIds.has(base.currentDayId)
+    ? base.currentDayId
+    : getDefaultDayId(nextCityId);
+
+  const next = {
+    ...base,
+    currentDayId,
   };
 
   return {
@@ -94,14 +179,29 @@ export const paceOptions: ProfileOption<TravelerProfile["pace"]>[] = [
   {
     value: "balanced",
     label: "Balanserat",
-    hint: "Bästa första läget för en femdagarsresa.",
+    hint: "Bästa första läget för en flerdagarsresa.",
   },
   {
     value: "max",
     label: "Maxa",
-    hint: "Tajtare dagar för dig som vet att du vill se mycket.",
+    hint: "Tajtare block för dig som vet att du vill se mycket.",
   },
 ];
+
+export const tripLengthOptions: ProfileOption<number>[] = Array.from(
+  { length: maxTripLength - minTripLength + 1 },
+  (_, index) => {
+    const days = index + minTripLength;
+    return {
+      value: days,
+      label: `${days} dagar`,
+      hint:
+        days <= 5
+          ? `Appen visar ${days} aktiva planeringsblock.`
+          : `Appen komprimerar ${days} dagar till fem planeringsblock.`,
+    };
+  }
+);
 
 export function getTodayOptions(profile: TravelerProfile) {
   const items: string[] = [];
@@ -112,7 +212,7 @@ export function getTodayOptions(profile: TravelerProfile) {
   } else if (profile.travelStyle === "neighborhood-hunter") {
     items.push("Lämna extra promenadluft efter huvudstoppet så att kvarteren får plats.");
   } else {
-    items.push("Håll dig till dagens kärnspår först. Känn efter innan du lägger till extrasaker.");
+    items.push("Håll dig till blockets kärnspår först. Känn efter innan du lägger till extrasaker.");
   }
 
   if (profile.hotelArea === "central") {
@@ -126,11 +226,11 @@ export function getTodayOptions(profile: TravelerProfile) {
   }
 
   if (profile.pace === "calm") {
-    items.push("Skala hellre bort ett stopp än att låta hela dagen kännas pressad.");
+    items.push("Skala hellre bort ett stopp än att låta hela blocket kännas pressat.");
   } else if (profile.pace === "max") {
-    items.push("Du kan lägga till ett extraspår idag, men bara efter att dagens huvudplan sitter.");
+    items.push("Du kan lägga till ett extraspår idag, men bara efter att blockets huvudplan sitter.");
   } else {
-    items.push(`Balanserat tempo vinner i ${guide.displayName}: ett starkt morgonblock, en riktig paus, sedan kväll.`);
+    items.push(`Balanserat tempo vinner i ${guide.displayName}: ett starkt huvudblock, en riktig paus, sedan kväll.`);
   }
 
   return items;

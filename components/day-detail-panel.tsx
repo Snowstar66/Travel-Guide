@@ -9,19 +9,15 @@ import { NotesState, RecordState } from "@/lib/use-trip-companion-state";
 
 export function DayDetailPanel({
   dayId,
-  checkedStops,
-  favorites,
+  selectedStops,
   notes,
-  onToggleChecked,
-  onToggleFavorite,
+  onToggleSelected,
   onSaveNote,
 }: {
   dayId: string;
-  checkedStops: RecordState;
-  favorites: RecordState;
+  selectedStops: RecordState;
   notes: NotesState;
-  onToggleChecked: (stopId: string) => void;
-  onToggleFavorite: (stopId: string) => void;
+  onToggleSelected: (stopId: string) => void;
   onSaveNote: (dayId: string, noteValue: string) => void;
 }) {
   const day = useMemo(() => findTripDayById(dayId), [dayId]);
@@ -50,8 +46,7 @@ export function DayDetailPanel({
   }
 
   const dayStops = day.sections.flatMap((section) => section.stops);
-  const completedStops = dayStops.filter((stop) => checkedStops[stop.id]).length;
-  const favoriteCount = dayStops.filter((stop) => favorites[stop.id]).length;
+  const selectedDayStops = dayStops.filter((stop) => selectedStops[stop.id]);
 
   return (
     <section className="today-native-stack day-native-stack">
@@ -62,24 +57,47 @@ export function DayDetailPanel({
             <h2>{day.title}</h2>
           </div>
           <span className="ios-group__badge">
-            {completedStops}/{dayStops.length}
+            {selectedDayStops.length}/{dayStops.length}
           </span>
         </div>
         <p className="ios-group__copy">{day.intro}</p>
         <div className="ios-stat-grid ios-stat-grid--3">
           <article className="ios-stat">
-            <span>Klara</span>
-            <strong>{completedStops}</strong>
+            <span>Valda</span>
+            <strong>{selectedDayStops.length}</strong>
           </article>
           <article className="ios-stat">
-            <span>Favoriter</span>
-            <strong>{favoriteCount}</strong>
+            <span>Förslag kvar</span>
+            <strong>{Math.max(dayStops.length - selectedDayStops.length, 0)}</strong>
           </article>
           <article className="ios-stat">
             <span>Energi</span>
             <strong>{day.energy}</strong>
           </article>
         </div>
+      </section>
+
+      <section className="ios-group ios-group--list">
+        <div className="ios-group__header">
+          <div>
+            <p className="ios-group__eyebrow">Ditt upplägg just nu</p>
+            <h2>Valda stopp i blocket</h2>
+          </div>
+        </div>
+        {selectedDayStops.length === 0 ? (
+          <p className="ios-group__copy">
+            Inga stopp valda än. Börja trycka på det som passar er, så byggs blocket upp här.
+          </p>
+        ) : (
+          <div className="ios-list">
+            {selectedDayStops.map((stop) => (
+              <div className="ios-list__row" key={stop.id}>
+                <span>{stop.name}</span>
+                <strong>{stop.duration}</strong>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {day.sections.map((section) => (
@@ -93,8 +111,7 @@ export function DayDetailPanel({
           <p className="ios-group__copy">{section.note}</p>
           <div className="ios-stop-list">
             {section.stops.map((stop) => {
-              const checked = Boolean(checkedStops[stop.id]);
-              const favorite = Boolean(favorites[stop.id]);
+              const selected = Boolean(selectedStops[stop.id]);
               const insight = getStopInsight(stop.id);
               const insightOpen = expandedInsightId === stop.id;
 
@@ -110,20 +127,11 @@ export function DayDetailPanel({
                     </div>
                     <div className="ios-stop-row__actions">
                       <button
-                        className={`ios-mini-button ${checked ? "is-active" : ""}`}
+                        className={`ios-mini-button ${selected ? "is-active" : ""}`}
                         type="button"
-                        onClick={() => onToggleChecked(stop.id)}
+                        onClick={() => onToggleSelected(stop.id)}
                       >
-                        {checked ? "Klar" : "Checka"}
-                      </button>
-                      <button
-                        className={`ios-mini-button ios-mini-button--ghost ${
-                          favorite ? "is-active" : ""
-                        }`}
-                        type="button"
-                        onClick={() => onToggleFavorite(stop.id)}
-                      >
-                        {favorite ? "Sparad" : "Spara"}
+                        {selected ? "Vald" : "Välj"}
                       </button>
                     </div>
                   </article>
@@ -163,7 +171,7 @@ export function DayDetailPanel({
           id="day-notes"
           value={noteDraft}
           onChange={(event) => setNoteDraft(event.target.value)}
-          placeholder="Skriv det du vill minnas från dagen."
+          placeholder="Skriv det du vill minnas från blocket."
           rows={5}
         />
         <div className="ios-group__actions">

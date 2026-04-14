@@ -8,7 +8,12 @@ import {
   readStoredProfile,
   writeStoredProfile,
 } from "@/lib/profile-storage";
-import { defaultProfile, normalizeProfile, TravelerProfile } from "@/lib/trip-logic";
+import {
+  defaultProfile,
+  getTripBlocks,
+  normalizeProfile,
+  TravelerProfile,
+} from "@/lib/trip-logic";
 
 export type RecordState = Record<string, boolean>;
 export type NotesState = Record<string, string>;
@@ -23,15 +28,24 @@ function loadLocalJson<T>(key: string, fallback: T): T {
   }
 }
 
+function loadSelectedStops() {
+  const next = loadLocalJson<RecordState>("trip-companion-selected", {});
+  const legacyChecked = loadLocalJson<RecordState>("trip-companion-checked", {});
+  const legacyFavorites = loadLocalJson<RecordState>("trip-companion-favorites", {});
+  return {
+    ...legacyChecked,
+    ...legacyFavorites,
+    ...next,
+  };
+}
+
 export function useTripCompanionState() {
-  const [checkedStops, setCheckedStops] = useState<RecordState>({});
-  const [favorites, setFavorites] = useState<RecordState>({});
+  const [selectedStops, setSelectedStops] = useState<RecordState>({});
   const [notes, setNotes] = useState<NotesState>({});
   const [profile, setProfile] = useState<TravelerProfile>(defaultProfile);
 
   useEffect(() => {
-    setCheckedStops(loadLocalJson<RecordState>("trip-companion-checked", {}));
-    setFavorites(loadLocalJson<RecordState>("trip-companion-favorites", {}));
+    setSelectedStops(loadSelectedStops());
     setNotes(loadLocalJson<NotesState>("trip-companion-notes", {}));
     setProfile(readStoredProfile());
   }, []);
@@ -49,6 +63,7 @@ export function useTripCompanionState() {
   }, []);
 
   const guide = useMemo(() => getCityGuide(profile.cityId), [profile.cityId]);
+  const tripBlocks = useMemo(() => getTripBlocks(profile), [profile]);
 
   const allStops = useMemo(
     () =>
@@ -64,18 +79,16 @@ export function useTripCompanionState() {
     [guide]
   );
 
-  const completedStops = Object.values(checkedStops).filter(Boolean).length;
-  const favoriteStops = allStops.filter((stop) => favorites[stop.id]);
-  const notedDays = guide.tripDays.filter((day) => (notes[day.id] ?? "").trim().length > 0);
+  const selectedStopItems = allStops.filter((stop) => selectedStops[stop.id]);
+  const selectedCount = selectedStopItems.length;
+  const notedDays = tripBlocks
+    .map((block) => guide.tripDays.find((day) => day.id === block.dayId))
+    .filter((day): day is NonNullable<typeof day> => Boolean(day))
+    .filter((day) => (notes[day.id] ?? "").trim().length > 0);
 
-  function persistChecked(next: RecordState) {
-    setCheckedStops(next);
-    window.localStorage.setItem("trip-companion-checked", JSON.stringify(next));
-  }
-
-  function persistFavorites(next: RecordState) {
-    setFavorites(next);
-    window.localStorage.setItem("trip-companion-favorites", JSON.stringify(next));
+  function persistSelected(next: RecordState) {
+    setSelectedStops(next);
+    window.localStorage.setItem("trip-companion-selected", JSON.stringify(next));
   }
 
   function persistNotes(next: NotesState) {
@@ -88,18 +101,11 @@ export function useTripCompanionState() {
     setProfile(normalized);
   }
 
-  function toggleChecked(stopId: string) {
-    const next = { ...checkedStops, [stopId]: !checkedStops[stopId] };
+  function toggleSelected(stopId: string) {
+    const next = { ...selectedStops, [stopId]: !selectedStops[stopId] };
     if (!next[stopId]) delete next[stopId];
-    persistChecked(next);
-    triggerHaptic(next[stopId] ? [10, 20, 10] : 12);
-  }
-
-  function toggleFavorite(stopId: string) {
-    const next = { ...favorites, [stopId]: !favorites[stopId] };
-    if (!next[stopId]) delete next[stopId];
-    persistFavorites(next);
-    triggerHaptic(next[stopId] ? [12, 24, 18] : 10);
+    persistSelected(next);
+    triggerHaptic(next[stopId] ? [12, 22, 14] : 10);
   }
 
   function saveNote(dayId: string, noteValue: string) {
@@ -125,16 +131,15 @@ export function useTripCompanionState() {
   }
 
   return {
-    checkedStops,
-    favorites,
+    selectedStops,
     notes,
     profile,
+    tripBlocks,
     allStops,
-    completedStops,
-    favoriteStops,
+    selectedCount,
+    selectedStopItems,
     notedDays,
-    toggleChecked,
-    toggleFavorite,
+    toggleSelected,
     saveNote,
     updateProfile,
     setPremiumAccess,

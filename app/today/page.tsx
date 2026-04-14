@@ -1,5 +1,5 @@
-import { TodayRoute } from "@/components/today-route";
+import { redirect } from "next/navigation";
 
 export default function TodayPage() {
-  return <TodayRoute />;
+  redirect("/");
 }
