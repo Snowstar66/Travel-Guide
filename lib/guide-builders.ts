@@ -1,5 +1,12 @@
 import type { AreaCard, RainPlan } from "@/lib/day-extras";
-import type { GuideCard, GalleryItem, TripDay, TripSection, TripStop } from "@/lib/trip-data";
+import type {
+  CityWowFact,
+  GuideCard,
+  GalleryItem,
+  TripDay,
+  TripSection,
+  TripStop,
+} from "@/lib/trip-data";
 
 export type CityId =
   | "nyc"
@@ -50,13 +57,18 @@ export type CityGuide = {
   transport: CityTransportInfo;
   hotelAreas: HotelAreaOption[];
   basics: GuideCard[];
+  wowFacts: CityWowFact[];
   gallery: GalleryItem[];
   tripDays: TripDay[];
   areaCardsByDay: Record<string, AreaCard[]>;
   rainPlansByDay: Record<string, RainPlan>;
 };
 
-export type CityGuideSeed = Omit<CityGuide, "tripDays" | "areaCardsByDay" | "rainPlansByDay"> & {
+export type CityGuideSeed = Omit<
+  CityGuide,
+  "wowFacts" | "tripDays" | "areaCardsByDay" | "rainPlansByDay"
+> & {
+  wowFacts?: CityWowFact[];
   tripDays: TripDay[];
   areaCardsByDay: Record<string, AreaCard[]>;
   rainPlansByDay: Record<string, RainPlan>;

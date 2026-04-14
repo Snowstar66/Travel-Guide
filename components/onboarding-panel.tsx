@@ -10,7 +10,14 @@ import {
   TravelerProfile,
   tripLengthOptions,
 } from "@/lib/trip-logic";
-import { cityOptions, getCityGuide, getHotelAreaOptions, type CityId } from "@/lib/guide-config";
+import {
+  cityOptions,
+  cityRequiresPremium,
+  getCityGuide,
+  getHotelAreaOptions,
+  premiumCityPriceSek,
+  type CityId,
+} from "@/lib/guide-config";
 
 export function OnboardingPanel({
   profile,
@@ -52,17 +59,35 @@ export function OnboardingPanel({
         <div className="profile-card">
           <h3>Vilken stad reser du till?</h3>
           <div className="city-option-grid">
-            {cityOptions.map((city) => (
-              <button
-                key={city.id}
-                type="button"
-                className={`city-option ${profile.cityId === city.id ? "is-selected" : ""}`}
-                onClick={() => onUpdateProfile("cityId", city.id as CityId)}
-              >
-                <CityFlag cityId={city.id} className="city-option__flag" />
-                <strong>{city.displayName}</strong>
-              </button>
-            ))}
+            {cityOptions.map((city) => {
+              const requiresPremium = cityRequiresPremium(city.id);
+              const isLocked = requiresPremium && !profile.hasPremium;
+
+              return (
+                <button
+                  key={city.id}
+                  type="button"
+                  className={`city-option ${profile.cityId === city.id ? "is-selected" : ""} ${
+                    isLocked ? "is-locked" : ""
+                  }`}
+                  onClick={() => (isLocked ? null : onUpdateProfile("cityId", city.id as CityId))}
+                  disabled={isLocked}
+                >
+                  <span className="city-option__lead">
+                    <CityFlag cityId={city.id} className="city-option__flag" />
+                    <strong>{city.displayName}</strong>
+                  </span>
+                  {requiresPremium ? (
+                    <span className="city-option__premium" aria-label={`Premium ${premiumCityPriceSek} SEK`}>
+                      <span>Premium {premiumCityPriceSek} SEK</span>
+                      <span className="city-option__lock" aria-hidden="true">
+                        <LockBadgeIcon />
+                      </span>
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -152,6 +177,21 @@ export function OnboardingPanel({
         </div>
       </div>
     </section>
+  );
+}
+
+function LockBadgeIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path
+        d="M8.25 10.25V8.75a3.75 3.75 0 1 1 7.5 0v1.5M9 10.25h6a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-6.75a1 1 0 0 1 1-1Z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
   );
 }
 

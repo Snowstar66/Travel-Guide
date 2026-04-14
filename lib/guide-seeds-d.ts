@@ -28,11 +28,11 @@ const esteponaSeed: CityGuideSeed = {
   transport: {
     title: "Till fots, strandpromenad och korta taxi/buss-hopp",
     summary:
-      "Estepona blir bäst när du håller gamla stan och strandlinjen i promenadtempo och bara använder taxi eller lokalbuss för de längre hoppen mot västsidan eller sena starter.",
+      "Estepona blir bäst när du tänker i två tydliga lager: den lilla vitkalkade stadskärnan och den öppna havssidan. Håll båda i promenadtempo och använd taxi eller lokalbuss först när ni vill göra ett längre sidosteg.",
     bullets: [
-      "Casco antiguo, Plaza de las Flores och strandpromenaden sitter ihop bättre till fots än på karta.",
-      "Paseo Marítimo och Senda Litoral gör havssidan lätt att bygga en hel dag kring utan att du behöver många beslut.",
-      "Taxi är ofta smidigare än att optimera varje liten förflyttning när värmen eller kvällstempot tar plats.",
+      "Casco antiguo, Plaza de las Flores och de små tvärgatorna ska kännas som ett sammanhängande vardagsrum, inte som separata målpunkter.",
+      "Paseo Marítimo, La Rada och vägen mot Cristo-hållet fungerar bäst när ni accepterar att promenaden i sig är en huvudaktivitet.",
+      "Taxi är ofta smidigare än att optimera varje liten förflyttning när värmen, strandväskor eller kvällstempot tar plats.",
     ],
   },
   hotelAreas: [
@@ -73,6 +73,62 @@ const esteponaSeed: CityGuideSeed = {
       title: "Murales, orkidéhuset och små utställningar gör staden rik",
       body: "Estepona blir mer intressant när du blandar gamla stan med dess nyare kulturlager: muralrutter, botaniska rum och moderna utsiktspunkter.",
     },
+    {
+      tag: "Identitet",
+      title: "Det speciella är mötet mellan söt småstad och mycket medveten stadsförnyelse",
+      body: "Estepona känns först som en enkel blomsterstad, men får mer karaktär när du ser hur muralerna, orkidéhuset, tillgängliga stråk och nya kulturpunkter faktiskt förändrat hela stadens ton.",
+    },
+    {
+      tag: "Rytm",
+      title: "Bäst när du växlar mellan gränder och hav samma dag",
+      body: "Om du stannar för länge bara i gamla stan blir Estepona nästan för söt, och om du bara gör strand försvinner dess personlighet. Växlingen är själva poängen.",
+    },
+    {
+      tag: "Kväll",
+      title: "Kvällarna ska vara lätta, inte uppklädda",
+      body: "Estepona tjänar sällan på hård kvällsplanering. Ett torg, en promenad, något kallt och god marginal gör ofta mer än att jaga rätt bord.",
+    },
+  ],
+  wowFacts: [
+    {
+      tag: "Gamla stan",
+      title: "Esteponas gamla stad ar over 130 fornyade gator och torg",
+      body: "Turismkontoret beskriver casco historico som ett tillgangligt nat av mer an 130 fornyade gator och platser med gangfart eller starkt begransad trafik. Det ar mer stadsprojekt an bara gullig kuliss.",
+      imageUrl: commons("Estepona-old-town.jpg"),
+      sourceLabel: "Turismo Estepona",
+      sourceUrl: "https://turismo.estepona.es/informacion-accesibilidad/",
+      credit: "Foto via Wikimedia Commons",
+    },
+    {
+      tag: "Orquidiario",
+      title: "Orquidiario har tre glaskupoler, 15 meters vattenfall och tusentals orkideer",
+      body: "Turismo Estepona beskriver orkidéhuset som ett subtropiskt rum med tre glaskupoler, 15 meters vattenfall och over 4 000 orkideer fran mer an 1 500 arter. Det ar ett ovantat wow-rum mitt i stadsvaven.",
+      imageUrl: commons("Orchidarium de Estepona (33712234246).jpg"),
+      sourceLabel: "Turismo Estepona om Orquidiario",
+      sourceUrl: "https://turismo.estepona.es/lugares/parque-botanico-orquidario/",
+      credit: "Foto via Wikimedia Commons",
+    },
+    {
+      tag: "Murales",
+      title: "Staden har gjort hela kvarter till ett oppet galleri",
+      body: "Den officiella muralguiden visar hur verk ar spridda over olika delar av Estepona i stallet for att samlas i ett enda museum. Resultatet ar att konst blir nagot du gar igenom, inte bara besoker.",
+      sourceLabel: "Ruta de los Murales",
+      sourceUrl: "https://turismo.estepona.es/wp-content/uploads/2025/06/2025-RUTA-MURALES.pdf",
+    },
+    {
+      tag: "Mirador",
+      title: "Mirador del Carmen ar utsiktstorn, vertikalbibliotek och kulturhus i ett",
+      body: "Det officiella materialet beskriver byggnaden som ett nytt kulturcentrum med bibliotek over flera plan, auditorium, utstallningssal och ett torn som oppnar staden mot havet. Det ar Estepona som medveten stadsfornyelse i ett enda hus.",
+      sourceLabel: "Turismo Estepona om Mirador",
+      sourceUrl: "https://turismo.estepona.es/lugares/mirador-del-carmen/",
+    },
+    {
+      tag: "Tillganglighet",
+      title: "Tillganglighet ar en del av stadens identitet, inte ett sidospår",
+      body: "Pa den officiella tillganglighetssidan lyfts bade gamla stan, muralrutterna och assisterat bad pa La Rada och El Cristo. Det gor Estepona ovanligt genomtankt for en semesterort i den har storleken.",
+      sourceLabel: "Turismo Estepona accessibility",
+      sourceUrl: "https://turismo.estepona.es/informacion-accesibilidad/",
+    },
   ],
   gallery: [
     {
@@ -87,7 +143,7 @@ const esteponaSeed: CityGuideSeed = {
     {
       title: "Plaza de las Flores",
       description:
-        "Stadens vardagsnav känns både lokalt och vackert nog för att fungera som första riktiga Estepona-minnet.",
+        "Torget visar Esteponas styrka i miniatyr: lokalt vardagsliv, blomsterkänsla och en stad som är mjuk utan att vara sömnig.",
       imageUrl: commons("Plaza de las Flores, Estepona 02.JPG"),
       sourceLabel: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Plaza_de_las_Flores,_Estepona_02.JPG",
@@ -105,7 +161,7 @@ const esteponaSeed: CityGuideSeed = {
     {
       title: "Paseo Marítimo",
       description:
-        "Här får du Estepona som semesterkropp: ljus, hav, rörelse och pauser utan att du lämnar själva staden.",
+        "Här får du Estepona som semesterkropp: ljus, hav, rörelse och pauser utan att du lämnar själva staden eller tappar kontakten med centrum.",
       imageUrl: commons("Paseo marítimo de Estepona (33623136121).jpg"),
       sourceLabel: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Paseo_mar%C3%ADtimo_de_Estepona_(33623136121).jpg",
@@ -477,10 +533,11 @@ const marbellaSeed: CityGuideSeed = {
   transport: {
     title: "Till fots, strandpromenad och korta taxihopp",
     summary:
-      "Marbella fungerar bäst när du håller gamla stan och centrum till fots och använder taxi för längre skiften mot Puerto Banús eller Cabopino.",
+      "Marbella fungerar bäst när du tänker i tydliga zoner med olika ton: gamla stan, centrala havsaxeln, Puerto Banús och Cabopino. Håll centrum till fots och använd taxi när ni medvetet byter register.",
     bullets: [
-      "Casco histórico, Alameda och Avenida del Mar ska kännas som ett sammanhängande promenadflöde.",
-      "Puerto Banús och Cabopino är bättre som tydliga halvdagsspår än som små avstickare mellan annat.",
+      "Casco histórico, Alameda, Avenida del Mar och centrala Paseo Marítimo ska kännas som ett enda stadsspår med olika tempo, inte som separata attraktioner.",
+      "Puerto Banús blir bäst när ni går dit för marina, folkspaning och kvällsljus, inte för att försöka hitta stadens själ där.",
+      "Cabopino och Artola är värda ett eget halvdagsblock eftersom de visar den mjukare, luftigare sidan av Marbella.",
       "När värmen stiger sparar taxi ofta mer energi än vad den kostar i planering.",
     ],
   },
@@ -522,6 +579,71 @@ const marbellaSeed: CityGuideSeed = {
       title: "Cabopino och Artola ger välbehövlig kontrast",
       body: "När du redan gjort centrum och Banús blir Marbella starkare om sista stora utflykten får vara trä, sand, småbåtshamn och mer luft.",
     },
+    {
+      tag: "Identitet",
+      title: "Marbella är inte en enda stadston utan flera versioner bredvid varandra",
+      body: "Det gör staden intressant. Casco histórico är varm och nästan intim, Avenida del Mar och strandlinjen känns mer polerade, Banús är ren marina-glans och Cabopino är den mjuka andningspausen.",
+    },
+    {
+      tag: "Prioritering",
+      title: "Det är bättre att välja rätt Marbella än att försöka göra all Marbella",
+      body: "Om ni försöker få in gamla stan, Banús, Golden Mile, Cabopino och stranddag i samma tempo blir staden lätt platt. Ett tydligt register per dag ger mer känsla.",
+    },
+    {
+      tag: "Kväll",
+      title: "Kvällarna kan vara allt från andalusiskt småskaliga till marina-glansiga",
+      body: "Det fina med Marbella är att ni kan styra detta aktivt. Gamla stan ger värme och lugn, medan Banús och havsstråken ger mer scenkänsla och kvällsljus.",
+    },
+  ],
+  wowFacts: [
+    {
+      tag: "Casco",
+      title: "Gamla Marbella lagrar romerska, arabiska och kristna spar i samma stadskarna",
+      body: "Marbellas egen turismsida beskriver casco historico som en plats dar romerska, arabiska och kristna vestigier moter restauranger, torg och andalusisk vardagskansla i samma korta promenad.",
+      imageUrl: commons("Marbella Old Town.jpg"),
+      sourceLabel: "Turismo Marbella om Casco Historico",
+      sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico.html",
+      credit: "Foto via Wikimedia Commons",
+    },
+    {
+      tag: "Murarna",
+      title: "Borgen i gamla stan har 1000-talsspar och romerska fragment inmurade",
+      body: "Turismo Marbella beskriver slottet som det viktigaste muslimska arvet i centrum. I murverket syns blandade byggnadssatt och infogade romerska delar, medan murarna fran 1000- och 1100-talen en gang bar upp omkring tio torn.",
+      sourceLabel: "Turismo Marbella om Castillo",
+      sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/castillo-de-marbella-alcazaba-y-muralla.html",
+    },
+    {
+      tag: "Dali",
+      title: "Avenida del Mar ar ett offentligt Dali-rum mellan park och strand",
+      body: "Marbellas officiella parksida beskriver straket som en lank mellan Alameda och Paseo Maritimo med en samling pa tio Dali-skulpturer i brons. Det ar mycket mer stadsgest an vanlig strandpassage.",
+      imageUrl: commons("Marbella 2015 10 20 1743 (24646806321).jpg"),
+      sourceLabel: "Turismo Marbella om Avenida del Mar",
+      sourceUrl: "https://turismo.marbella.es/vive/naturaleza/parques-y-jardines/avenida-del-mar.html",
+      credit: "Foto via Wikimedia Commons",
+    },
+    {
+      tag: "Hospitalet",
+      title: "Hospital Bazan blev grafikmuseum utan att tappa sin mudejar-karaktar",
+      body: "Det som i dag ar Museo del Grabado borjade som Hospital de la Encarnacion. Turismsidan lyfter renassansplanen, de mudejarinspirerade taken och hur byggnaden efter restaureringen 1989 fick nytt liv som museum.",
+      sourceLabel: "Turismo Marbella om Hospital Bazan",
+      sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/hospital-bazan-museo-del-grabado.html",
+    },
+    {
+      tag: "Kusten",
+      title: "Torre Ladrones var del av ett kustlarm med eld och roksignaler",
+      body: "Vid Artola beskriver Turismo Marbella tornet som en del av det historiska kustforsvaret. Dagstid anvandes rok och nattetid ljussignaler for att varna for fientliga fartyg langs kusten.",
+      imageUrl: commons("Cabopino 02.jpg"),
+      sourceLabel: "Turismo Marbella om Cabopino",
+      sourceUrl: "https://turismo.marbella.es/vive/mar/puertos/puerto-de-cabopino.html",
+      credit: "Foto via Wikimedia Commons",
+    },
+    {
+      tag: "Torget",
+      title: "Plaza de los Naranjos skapades for att bli stadens sociala mittpunkt",
+      body: "Efter erovringen gjordes platsen om till stadens urbana axel, enligt den officiella historiken. Namnet kom langt senare, nar dagens apelsintrad planterades 1941.",
+      sourceLabel: "Turismo Marbella om Plaza de los Naranjos",
+      sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/plaza-de-los-naranjos.html",
+    },
   ],
   gallery: [
     {
@@ -536,7 +658,7 @@ const marbellaSeed: CityGuideSeed = {
     {
       title: "Plaza de los Naranjos",
       description:
-        "Orange Square är stadens sociala mittpunkt och fungerar både som startpunkt och som plats att bara låta Marbella hända runt dig.",
+        "Orange Square visar varför Marbella inte bara är kustglans. Här sitter stadens vardagsvärme, historiska centrumkänsla och den mjukare kvällstonen.",
       imageUrl: commons("Plaza de los Naranjos3.jpg"),
       sourceLabel: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Plaza_de_los_Naranjos3.jpg",
@@ -563,7 +685,7 @@ const marbellaSeed: CityGuideSeed = {
     {
       title: "Puerto Banús",
       description:
-        "Banús är glansigare än resten av Marbella men fungerar bäst när du går dit med rätt förväntan: marinamiljö, folkspaning och kvällsljus.",
+        "Banús är glansigare än resten av Marbella men fungerar bäst när du går dit med rätt förväntan: marinamiljö, folkspaning, kvällsljus och ren scenkänsla snarare än stadsdjup.",
       imageUrl: commons("Puerto Banús Marbella.jpg"),
       sourceLabel: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Puerto_Ban%C3%BAs_Marbella.jpg",
@@ -572,7 +694,7 @@ const marbellaSeed: CityGuideSeed = {
     {
       title: "Cabopino",
       description:
-        "Cabopino och Artola-dynerna ger det vackraste mjuka slutet: träspänger, sand, skyddade strandpartier och en liten hamn med mer luft.",
+        "Cabopino och Artola-dynerna visar den sida av Marbella som många missar: träspänger, skyddad natur, mindre marina och mycket mer luft än i centrum.",
       imageUrl: commons("Cabopino 02.jpg"),
       sourceLabel: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Cabopino_02.jpg",
@@ -609,6 +731,14 @@ const marbellaSeed: CityGuideSeed = {
             "Tapas eller enkel middag i gamla stan passar bäst."
           ),
           stop(
+            "castle-walls",
+            "Låt murarna och de äldsta delarna av casco histórico ge promenaden mer historia",
+            "30-45 min",
+            "Det här gör första kvällen rikare än bara vackra gator och restauranger.",
+            "Bra kort stopp när ni vill känna att gamla stan också har tyngd, inte bara charm.",
+            "Ta sedan torget eller middag i lugn takt."
+          ),
+          stop(
             "plaza-naranjos",
             "Sitt en stund på Plaza de los Naranjos och låt kvällen sakta in",
             "30-45 min",
@@ -636,6 +766,14 @@ const marbellaSeed: CityGuideSeed = {
             "Det här ger gamla stan ett riktigt kulturstopp och gör den mer än bara restaurangkuliss.",
             "Bra när ni vill ha inomhuslager utan att ge upp kvarterskänslan.",
             "Ta kaffe före eller efter bland gränderna."
+          ),
+          stop(
+            "encarnacion",
+            "Iglesia de la Encarnación och de närmaste gränderna runt Plaza de la Iglesia",
+            "30-45 min",
+            "Kyrkan ger gamla stan en tydlig historisk tyngd och passar fint mellan museum och park.",
+            "Ta utsidan även om ni inte går in länge, tornet och torgrummet gör mycket av jobbet.",
+            "Kaffe eller kall dryck efteråt i närheten."
           ),
           stop(
             "alameda",
@@ -675,7 +813,7 @@ const marbellaSeed: CityGuideSeed = {
       "Dag tre är rätt dag för Puerto Banús eftersom ni redan hunnit landa i stadens lugnare sida först.",
       "Ta Banús som ett tydligt block, inte som ett snabbt stickspår mellan annat.",
       [
-        section("Morgon", "Låt dagen samla sig", "Håll starten enkel så Banús inte känns som en chock.", [
+        section("Morgon", "Låt dagen samla sig eller välj konstspår", "Håll starten enkel så Banús inte känns som en chock.", [
           stop(
             "favorite-return",
             "Återvänd kort till er favoritdel av centrum för frukost eller en mjuk start",
@@ -683,6 +821,14 @@ const marbellaSeed: CityGuideSeed = {
             "Det ger dagen en lugnare förankring innan ni byter tonläge.",
             "Välj något ni redan vet fungerar snarare än att experimentera här.",
             "Frukost eller kaffe i favoritkvarteret."
+          ),
+          stop(
+            "ralli-museum",
+            "Museo Ralli om ni vill ge dagen ett extra konstlager före marinan",
+            "60-75 min",
+            "Det här är ett starkt val om ni vill att Marbella också ska få vara konst och inte bara strandlinje och båtar.",
+            "Särskilt bra om ni vill mjuka upp övergången mellan centrum och Puerto Banús.",
+            "Ta lunch när ni kommer vidare mot marinan."
           ),
         ]),
         section("Eftermiddag", "Marbellas polerade marina-sida", "Nu kan Puerto Banús få vara precis så glansigt som det är.", [
@@ -731,6 +877,14 @@ const marbellaSeed: CityGuideSeed = {
             "Perfekt efter dynerna när ni vill sitta ner med utsikt.",
             "Fisklunch eller enkel strandmat passar bra."
           ),
+          stop(
+            "torre-ladrones",
+            "Torre de los Ladrones om ni vill ge naturspåret en liten historisk höjdpunkt",
+            "20-30 min",
+            "Bra kort tillägg som gör Artola mer än bara strand och träspänger.",
+            "Ta det som ett bonusstopp om energin finns, inte som ett krav.",
+            "Fortsätt sedan mot lunch eller tillbaka till stranden."
+          ),
         ]),
       ]
     ),
@@ -746,7 +900,7 @@ const marbellaSeed: CityGuideSeed = {
         section("Morgon", "Välj den bästa tonen", "Låt sista dagen spegla den sida av Marbella ni faktiskt gillade mest.", [
           stop(
             "culture-flex",
-            "Välj sista spår: gamla stan igen, Museo del Grabado eller havsstråket från Alameda",
+            "Välj sista spår: gamla stan igen, Museo del Grabado, Ralli eller havsstråket från Alameda",
             "60-90 min",
             "En tydlig sista riktning ger bättre slut än att försöka täcka mer.",
             "Ta bara en sak här och gör den ordentligt.",

@@ -134,7 +134,6 @@ export function MobileNav() {
   const showBlockRail =
     pathname === "/" ||
     pathname === "/plan" ||
-    pathname === "/schedule" ||
     pathname.startsWith("/day/");
 
   const items = [

@@ -21,7 +21,7 @@ export function CityGuideRoute() {
             <CityFlag cityId={guide.id} className="screen-intro__flag" />
             {guide.displayName}
           </span>{" "}
-          · praktiska fakta, stadskänsla och källor på ett ställe.
+          - praktiska fakta, stadskänsla och källor på ett ställe.
         </p>
       </section>
 
@@ -40,6 +40,35 @@ export function CityGuideRoute() {
           ))}
         </div>
       </section>
+
+      {guide.wowFacts.length ? (
+        <section className="panel city-guide-panel">
+          <div className="panel__header">
+            <p className="eyebrow eyebrow--dark">Wow</p>
+            <h2>Det här kanske du inte hade koll på om {guide.displayName}</h2>
+          </div>
+          <div className="city-wow-grid">
+            {guide.wowFacts.map((item) => (
+              <article className="city-wow-card" key={item.title}>
+                {item.imageUrl ? <img src={item.imageUrl} alt={item.title} loading="lazy" /> : null}
+                <div className="city-wow-card__content">
+                  <span className="basic-card__tag">{item.tag}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                  {item.sourceUrl ? (
+                    <div className="source-line">
+                      <a href={item.sourceUrl} target="_blank" rel="noreferrer">
+                        {item.sourceLabel || "Läs mer"}
+                      </a>
+                      {item.credit ? <span>{item.credit}</span> : null}
+                    </div>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="panel city-guide-panel">
         <div className="panel__header">

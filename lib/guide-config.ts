@@ -1,5 +1,10 @@
 import { areaCardsByDay as nycAreaCardsByDay, rainPlansByDay as nycRainPlansByDay } from "@/lib/day-extras";
-import { basics as nycBasics, gallery as nycGallery, tripDays as nycTripDays } from "@/lib/trip-data";
+import {
+  basics as nycBasics,
+  gallery as nycGallery,
+  tripDays as nycTripDays,
+  wowFacts as nycWowFacts,
+} from "@/lib/trip-data";
 import {
   type CityGuide,
   type CityGuideSeed,
@@ -41,6 +46,7 @@ function prefixGuide(seed: CityGuideSeed): CityGuide {
 
   return {
     ...seed,
+    wowFacts: seed.wowFacts ?? [],
     tripDays,
     areaCardsByDay,
     rainPlansByDay,
@@ -102,6 +108,7 @@ const nycGuide = prefixGuide({
     },
   ],
   basics: nycBasics,
+  wowFacts: nycWowFacts,
   gallery: nycGallery,
   tripDays: nycTripDays,
   areaCardsByDay: nycAreaCardsByDay,
@@ -126,10 +133,17 @@ export const cityOptions = [
   cityGuides.marbella,
 ] as const;
 
+const premiumCityIds = new Set<CityId>(["paris", "milan", "london", "amsterdam", "berlin", "malaga"]);
+export const premiumCityPriceSek = 99;
+
 export const defaultCityId: CityId = "nyc";
 
 export function getCityGuide(cityId: CityId) {
   return cityGuides[cityId] ?? cityGuides[defaultCityId];
+}
+
+export function cityRequiresPremium(cityId: CityId) {
+  return premiumCityIds.has(cityId);
 }
 
 export function getHotelAreaOptions(cityId: CityId) {

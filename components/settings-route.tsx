@@ -18,6 +18,19 @@ export function SettingsRoute() {
         </p>
       </section>
 
+      <section className="panel settings-award-panel">
+        <img
+          className="settings-award-panel__badge"
+          src="/travel-guide-award.svg"
+          alt="Best Award Travel Guide 2026"
+        />
+        <div className="settings-award-panel__copy">
+          <p className="eyebrow eyebrow--dark">Utmärkelse</p>
+          <h2>Best Award 2026</h2>
+          <p>Travel Guide 2026 lyfts fram här som en tydlig kvalitetsstämpel för appens starkaste guider.</p>
+        </div>
+      </section>
+
       <OnboardingPanel
         profile={profile}
         onUpdateProfile={updateProfile}

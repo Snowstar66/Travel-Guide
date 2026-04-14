@@ -53,6 +53,19 @@ export const marbellaStopInsights: Record<string, StopInsight> = {
     ],
     links: [{ label: "Turismo Marbella", url: "https://turismo.marbella.es/" }],
   },
+  "marbella-castle-walls": {
+    facts: [
+      "Turismo Marbella beskriver Castillo de Marbella som det viktigaste bevarade muslimska arvet i stadens centrum.",
+      "Murarna ligger insydda i casco historico, vilket gor stoppet ovanligt latt att lagga in i en vanlig kvallspromenad.",
+    ],
+    ideas: [
+      "Bra forsta kvallsstopp nar ni vill ge gamla stan lite mer historisk tyngd.",
+      "Ta det har som en kort forstarkning av promenaden, inte som eget tungt block.",
+    ],
+    links: [
+      { label: "Castillo de Marbella", url: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/castillo-de-marbella-alcazaba-y-muralla.html" },
+    ],
+  },
   "marbella-plaza-naranjos": {
     facts: [
       "Plaza de los Naranjos fungerar som den historiska och sociala mittpunkten i gamla Marbella.",
@@ -77,6 +90,19 @@ export const marbellaStopInsights: Record<string, StopInsight> = {
     ],
     links: [
       { label: "Hospital Bazán - Museo del Grabado", url: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/hospital-bazan-museo-del-grabado.html" },
+    ],
+  },
+  "marbella-encarnacion": {
+    facts: [
+      "Encarnacion-kyrkan ar en av de mest synliga historiska punkterna i gamla Marbella och tornar upp sig over de mindre granderna runtom.",
+      "Plaza del Altamirano lyfts av Turismo Marbella just for utsikten mot kyrktornet genom stadsvaven.",
+    ],
+    ideas: [
+      "Perfekt mellan museum och park nar ni vill halla allt inom samma historiska karna.",
+      "Lat torgrummen runt kyrkan vara en del av stoppet, inte bara byggnaden i sig.",
+    ],
+    links: [
+      { label: "Plaza del Altamirano", url: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/plaza-del-altamirano.html" },
     ],
   },
   "marbella-alameda": {
@@ -124,6 +150,19 @@ export const marbellaStopInsights: Record<string, StopInsight> = {
       "En lugn frukost här kan göra hela Puerto Banús-dagen bättre.",
     ],
     links: [{ label: "Turismo Marbella", url: "https://turismo.marbella.es/" }],
+  },
+  "marbella-ralli-museum": {
+    facts: [
+      "Museo Ralli Marbella ar ett etablerat konststopp om ni vill ge staden ett mer internationellt konstlager.",
+      "Det fungerar sarskilt bra som motvikt till Banus eftersom dagen da far mer innehall an bara marina-glans.",
+    ],
+    ideas: [
+      "Bra val om ni vill att Marbella ocksa ska kannas kulturellt kuraterad.",
+      "Ta det har fore Puerto Banus, inte efter, om ni vill behalla dagen latt.",
+    ],
+    links: [
+      { label: "Museo Ralli Marbella", url: "https://rallimuseums.com/marbella/" },
+    ],
   },
   "marbella-puerto-banus": {
     facts: [
@@ -173,10 +212,23 @@ export const marbellaStopInsights: Record<string, StopInsight> = {
     ],
     links: [{ label: "Turismo Marbella", url: "https://turismo.marbella.es/" }],
   },
+  "marbella-torre-ladrones": {
+    facts: [
+      "Det officiella turistplandokumentet for Marbella lyfter Torre de los Ladrones som del av samma Artola-landskap som dynerna och traspangarna.",
+      "Det gor tornet till ett bra litet historiskt ankare mitt i ett annars mycket naturbetonat spar.",
+    ],
+    ideas: [
+      "Lagg till det har om ni vill ge Cabopino-dagen lite mer berattelse utan att forstora lugnet.",
+      "Bra kort stopp, inte nagot som behover bara dagen.",
+    ],
+    links: [
+      { label: "Plan Turistico de Grandes Ciudades", url: "https://turismo.marbella.es/images/media/attachments/servicios/area-profesional/5091_plan-turistico-de-grandes-ciud/02_PTGC_Marbella.pdf" },
+    ],
+  },
   "marbella-culture-flex": {
     facts: [
       "Marbellas bästa slutspår brukar vara tydligt: gamla stan, ett kulturstopp eller havsaxeln från Alameda.",
-      "Museo del Grabado och centrumstråken ligger nära nog för att fungera väl även sista dagen.",
+      "Museo del Grabado, Museo Ralli och centrumstråken ger fler riktiga slutspår än vad staden först signalerar.",
     ],
     ideas: [
       "Välj det spår som känns lättast att lämna efter lunch.",
@@ -185,6 +237,7 @@ export const marbellaStopInsights: Record<string, StopInsight> = {
     links: [
       { label: "Hospital Bazán - Museo del Grabado", url: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/hospital-bazan-museo-del-grabado.html" },
       { label: "Avenida del Mar", url: "https://turismo.marbella.es/vive/naturaleza/parques-y-jardines/avenida-del-mar.html" },
+      { label: "Museo Ralli Marbella", url: "https://rallimuseums.com/marbella/" },
     ],
   },
 };
@@ -202,6 +255,11 @@ export const marbellaStopPreviews: Record<string, StopInsightPreview> = {
     imageUrl: commons("Marbella - Old Town (5534613312).jpg"),
     imageAlt: "Gamla stan i Marbella.",
   },
+  "marbella-castle-walls": {
+    eyebrow: "Historia",
+    title: "Murarna gör gamla stan rikare",
+    copy: "Castillo och murarna ger kvällspromenaden mer tyngd än bara charm.",
+  },
   "marbella-plaza-naranjos": {
     eyebrow: "Torgliv",
     title: "Sätt tonen på Orange Square",
@@ -213,6 +271,11 @@ export const marbellaStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Kulturkärna",
     title: "Gamla stan får mer djup",
     copy: "Museo del Grabado ger centrum ett riktigt kulturstopp utan att bryta rytmen.",
+  },
+  "marbella-encarnacion": {
+    eyebrow: "Kyrkorum",
+    title: "Ett torn som samlar kvarteren",
+    copy: "Encarnación ger gamla stan ett tydligt historiskt nav mitt i gränderna.",
   },
   "marbella-alameda": {
     eyebrow: "Skugga",
@@ -240,6 +303,11 @@ export const marbellaStopPreviews: Record<string, StopInsightPreview> = {
     imageUrl: commons("Marbella Puerto Banús.jpg"),
     imageAlt: "Puerto Banús i Marbella.",
   },
+  "marbella-ralli-museum": {
+    eyebrow: "Konstspår",
+    title: "Mjuk upp Banús-dagen med konst",
+    copy: "Museo Ralli ger en helt annan ton innan marinan tar över.",
+  },
   "marbella-golden-mile": {
     eyebrow: "Förlängning",
     title: "Lite mer hav och resortton",
@@ -254,6 +322,11 @@ export const marbellaStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Lugn marina",
     title: "Cabopino mjukar upp allt",
     copy: "Den lilla hamnen här är precis rätt efter dyner och träspänger.",
+  },
+  "marbella-torre-ladrones": {
+    eyebrow: "Liten bonus",
+    title: "Artola får historia också",
+    copy: "Tornet ger naturdagen ett kort men meningsfullt extra lager.",
   },
   "marbella-culture-flex": {
     eyebrow: "Final",
@@ -297,7 +370,46 @@ const marbellaCityChoiceOptions: StopChoiceOption[] = [
   },
 ];
 
+const marbellaCultureChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "museo-grabado",
+    title: "Museo del Grabado",
+    summary: "Bäst om ni vill hålla er i gamla stan och ge Marbella ett riktigt centrumkulturspår.",
+    url: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/hospital-bazan-museo-del-grabado.html",
+    sourceLabel: "Turismo Marbella",
+    sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/hospital-bazan-museo-del-grabado.html",
+  },
+  {
+    id: "museo-ralli",
+    title: "Museo Ralli",
+    summary: "Bra om ni vill ge dagen mer internationell konstton före eller i stället för Banús.",
+    url: "https://rallimuseums.com/marbella/",
+    sourceLabel: "Museo Ralli",
+    sourceUrl: "https://rallimuseums.com/marbella/",
+  },
+  {
+    id: "castillo-muralla",
+    title: "Murarna och alcazaban",
+    summary: "Starkast om ni vill ge gamla stan mer historisk ryggrad utan att dagen blir tung.",
+    url: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/castillo-de-marbella-alcazaba-y-muralla.html",
+    sourceLabel: "Turismo Marbella",
+    sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/castillo-de-marbella-alcazaba-y-muralla.html",
+  },
+  {
+    id: "encarnacion",
+    title: "Encarnación-kyrkan",
+    summary: "Bra när ni vill hålla kulturen kort, central och tydligt historisk.",
+    url: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/plaza-del-altamirano.html",
+    sourceLabel: "Turismo Marbella",
+    sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/plaza-del-altamirano.html",
+  },
+];
+
 export const marbellaStopChoiceOptions: Record<string, StopChoiceOption[]> = {
+  "marbella-museum-grabado": marbellaCultureChoiceOptions,
+  "marbella-castle-walls": marbellaCultureChoiceOptions,
+  "marbella-encarnacion": marbellaCultureChoiceOptions,
+  "marbella-ralli-museum": marbellaCultureChoiceOptions,
   "marbella-favorite-return": marbellaCityChoiceOptions,
   "marbella-culture-flex": marbellaCityChoiceOptions,
   "marbella-puerto-banus": marbellaCityChoiceOptions,
