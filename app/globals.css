@@ -2936,6 +2936,8 @@ h1 {
 .saved-grid > div {
   display: grid;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
   padding-inline: var(--content-inset);
 }
 
@@ -2952,6 +2954,8 @@ h1 {
 .saved-list {
   display: grid;
   gap: 10px;
+  width: 100%;
+  min-width: 0;
   margin-top: 0;
 }
 
@@ -4187,11 +4191,18 @@ textarea {
     grid-column: 1 / -1;
   }
 
+  .app-home-card--selected,
+  .app-home-card--selected .saved-grid,
+  .app-home-card--selected .saved-grid > div,
+  .app-home-card--selected .saved-list {
+    width: 100%;
+    min-width: 0;
+  }
+
   .app-home-card--selected .saved-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
-    grid-auto-flow: row dense;
   }
 
   .trip-day-grid {
@@ -4359,7 +4370,7 @@ textarea {
     display: grid;
     width: max-content;
     min-width: 100%;
-    grid-template-columns: 96px repeat(var(--schedule-columns), minmax(240px, 1fr));
+    grid-template-columns: 104px repeat(var(--schedule-columns), minmax(320px, 1fr));
     gap: 8px;
     align-items: start;
   }
@@ -4370,13 +4381,13 @@ textarea {
 
   .schedule-board__corner,
   .schedule-board__day {
-    min-height: 88px;
+    min-height: 92px;
     padding: 12px;
   }
 
   .schedule-board__label,
   .schedule-board__cell {
-    height: 224px;
+    height: 280px;
     padding: 10px;
   }
 
@@ -4393,12 +4404,12 @@ textarea {
   }
 
   .schedule-board__stack {
-    grid-template-rows: repeat(var(--timeline-slots), 20px);
+    grid-template-rows: repeat(var(--timeline-slots), 28px);
   }
 
   .schedule-board-card {
     gap: 4px;
-    padding: 10px 32px 10px 13px;
+    padding: 12px 34px 12px 14px;
     border-radius: 12px;
   }
 
@@ -4409,16 +4420,16 @@ textarea {
   }
 
   .schedule-board-card__time {
-    font-size: 0.71rem;
+    font-size: 0.76rem;
   }
 
   .schedule-board-card strong {
-    font-size: 0.9rem;
+    font-size: 1rem;
     -webkit-line-clamp: 4;
   }
 
   .schedule-board-card small {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     -webkit-line-clamp: 3;
   }
 
@@ -4457,7 +4468,7 @@ textarea {
 
   .schedule-board {
     width: 100%;
-    grid-template-columns: 108px repeat(var(--schedule-columns), minmax(280px, 1fr));
+    grid-template-columns: 116px repeat(var(--schedule-columns), minmax(380px, 1fr));
   }
 
   .schedule-board__corner,
@@ -4467,11 +4478,11 @@ textarea {
 
   .schedule-board__label,
   .schedule-board__cell {
-    height: 272px;
+    height: 336px;
   }
 
   .schedule-board__stack {
-    grid-template-rows: repeat(var(--timeline-slots), 23px);
+    grid-template-rows: repeat(var(--timeline-slots), 32px);
   }
 
   .schedule-board-detail {
@@ -4486,5 +4497,11 @@ textarea {
 
   .schedule-board-detail__body {
     padding: 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .app-home-card--selected .saved-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
