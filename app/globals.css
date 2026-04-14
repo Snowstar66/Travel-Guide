@@ -2744,6 +2744,8 @@ h1 {
 .saved-item--interactive {
   position: relative;
   min-height: 272px;
+  width: 100%;
+  min-width: 0;
   padding: 0;
   cursor: pointer;
   perspective: 1200px;
@@ -4217,6 +4219,10 @@ textarea {
     justify-items: stretch;
   }
 
+  .app-home-card--selected .saved-list--highlights {
+    grid-template-columns: repeat(3, minmax(0, calc((100% - 20px) / 3))) !important;
+  }
+
   .trip-day-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -4513,7 +4519,8 @@ textarea {
 }
 
 @media (min-width: 1200px) {
-  .app-home-card--selected .saved-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .app-home-card--selected .saved-list,
+  .app-home-card--selected .saved-list--highlights {
+    grid-template-columns: repeat(3, minmax(0, calc((100% - 20px) / 3))) !important;
   }
 }
