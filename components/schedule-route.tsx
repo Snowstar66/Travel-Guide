@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Fragment, type CSSProperties, useMemo, useState } from "react";
 import { CityFlag } from "@/components/city-flag";
 import { getCityGuide } from "@/lib/guide-config";
 import { SchedulePeriod } from "@/lib/trip-logic";
@@ -28,10 +29,68 @@ function formatClock(totalMinutes: number) {
   return `${hours}.${minutes}`;
 }
 
+type ScheduleItem = ReturnType<typeof useTripCompanionState>["selectedStopItems"][number];
+
+type TimedScheduleItem = ScheduleItem & {
+  startTime: string;
+};
+
+function buildTimedPeriodItems(items: ScheduleItem[], period: SchedulePeriod, startMinutes: number) {
+  let cursor = startMinutes;
+
+  return items
+    .filter((item) => item.schedulePeriod === period)
+    .map((item) => {
+      const startTime = formatClock(cursor);
+      cursor += parseDurationMinutes(item.duration) + 20;
+      return {
+        ...item,
+        startTime,
+      } satisfies TimedScheduleItem;
+    });
+}
+
 export function ScheduleRoute() {
   const { profile, tripBlocks, selectedStopItems, recommendedStopCount, updateProfile } =
     useTripCompanionState();
   const guide = getCityGuide(profile.cityId);
+  const [expandedStopId, setExpandedStopId] = useState<string | null>(null);
+
+  const scheduleBlocks = useMemo(
+    () =>
+      tripBlocks.map((block) => {
+        const day = guide.tripDays.find((item) => item.id === block.dayId) ?? guide.tripDays[0];
+        const items = selectedStopItems
+          .filter((stop) => stop.assignedDayId === block.dayId)
+          .sort((left, right) => {
+            if (left.sectionIndex !== right.sectionIndex) {
+              return left.sectionIndex - right.sectionIndex;
+            }
+            return left.stopIndex - right.stopIndex;
+          });
+
+        const timedPeriods = Object.fromEntries(
+          periodMeta.map((period) => [
+            period.key,
+            buildTimedPeriodItems(items, period.key, period.startMinutes),
+          ])
+        ) as Record<SchedulePeriod, TimedScheduleItem[]>;
+
+        return {
+          block,
+          day,
+          items,
+          overloaded: items.length > recommendedStopCount,
+          timedPeriods,
+        };
+      }),
+    [guide.tripDays, recommendedStopCount, selectedStopItems, tripBlocks]
+  );
+
+  const expandedStop = useMemo(
+    () => scheduleBlocks.flatMap((block) => block.items).find((item) => item.id === expandedStopId) ?? null,
+    [expandedStopId, scheduleBlocks]
+  );
 
   return (
     <main className="page-shell page-shell--route">
@@ -47,19 +106,144 @@ export function ScheduleRoute() {
         </p>
       </section>
 
-      <section className="schedule-stack">
-        {tripBlocks.map((block) => {
-          const day = guide.tripDays.find((item) => item.id === block.dayId) ?? guide.tripDays[0];
-          const items = selectedStopItems
-            .filter((stop) => stop.assignedDayId === block.dayId)
-            .sort((left, right) => {
-              if (left.sectionIndex !== right.sectionIndex) {
-                return left.sectionIndex - right.sectionIndex;
-              }
-              return left.stopIndex - right.stopIndex;
-            });
-          const overloaded = items.length > recommendedStopCount;
+      <section className="schedule-board-shell" aria-label="Schemasvy i landskap">
+        <div
+          className="schedule-board"
+          style={
+            {
+              "--schedule-columns": String(scheduleBlocks.length),
+            } as CSSProperties
+          }
+        >
+          <div className="schedule-board__corner">
+            <span>Schema</span>
+            <strong>{guide.displayName}</strong>
+          </div>
+          {scheduleBlocks.map(({ block, day, items, overloaded }) => (
+            <div className="schedule-board__day" key={`header-${block.dayId}`}>
+              <span>{block.rangeLabel}</span>
+              <strong>{day.title}</strong>
+              <small>{items.length} stopp</small>
+              {overloaded ? <em>Tätt</em> : null}
+            </div>
+          ))}
 
+          {periodMeta.map((period) => (
+            <Fragment key={period.key}>
+              <div className="schedule-board__label">
+                <span>{period.label}</span>
+                <strong>{formatClock(period.startMinutes)}</strong>
+              </div>
+              {scheduleBlocks.map(({ block, timedPeriods }) => {
+                const periodItems = timedPeriods[period.key];
+                return (
+                  <div className="schedule-board__cell" key={`${block.dayId}-${period.key}`}>
+                    {periodItems.length === 0 ? (
+                      <p className="schedule-board__empty">Lämna luft här</p>
+                    ) : (
+                      <div className="schedule-board__stack">
+                        {periodItems.map((item) => {
+                          const preview = getStopInsightPreview(item.id);
+                          const active = expandedStopId === item.id;
+
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              className={`schedule-board-card ${active ? "is-active" : ""}`}
+                              onClick={() =>
+                                setExpandedStopId((current) => (current === item.id ? null : item.id))
+                              }
+                            >
+                              <span className="schedule-board-card__time">{item.startTime}</span>
+                              <strong>{item.displayName}</strong>
+                              <small>{preview?.eyebrow ?? item.sectionTitle}</small>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </Fragment>
+          ))}
+        </div>
+
+        {expandedStop ? (
+          <article className="schedule-board-detail">
+            {getStopInsightPreview(expandedStop.id)?.imageUrl ? (
+              <img
+                className="schedule-board-detail__image"
+                src={getStopInsightPreview(expandedStop.id)?.imageUrl}
+                alt={getStopInsightPreview(expandedStop.id)?.imageAlt ?? expandedStop.displayName}
+              />
+            ) : null}
+            <div className="schedule-board-detail__body">
+              <div className="schedule-board-detail__top">
+                <div>
+                  <p className="schedule-card__eyebrow">
+                    {getStopInsightPreview(expandedStop.id)?.eyebrow ?? "Valt stopp"}
+                  </p>
+                  <h2>{expandedStop.displayName}</h2>
+                </div>
+                <button
+                  type="button"
+                  className="button button--surface"
+                  onClick={() => setExpandedStopId(null)}
+                >
+                  Stäng
+                </button>
+              </div>
+              <p>{expandedStop.displayWhy ?? getStopInsightPreview(expandedStop.id)?.copy ?? expandedStop.why}</p>
+              <p className="schedule-board-detail__meta">
+                {expandedStop.assignedDayTitle} · {expandedStop.sectionTitle} · {expandedStop.duration}
+              </p>
+              {expandedStop.choiceOption ? (
+                <p className="schedule-card__meta">
+                  Populärt val från {expandedStop.choiceOption.sourceLabel}.
+                </p>
+              ) : null}
+              <div className="schedule-card__links">
+                {expandedStop.choiceOption?.url ? (
+                  <a
+                    className="stop-insight-panel__link"
+                    href={expandedStop.choiceOption.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Öppna {expandedStop.displayName}
+                  </a>
+                ) : null}
+                {getStopInsight(expandedStop.id)?.links.slice(0, 3).map((link) => (
+                  <a
+                    key={link.url}
+                    className="stop-insight-panel__link"
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+                {expandedStop.customLink ? (
+                  <a
+                    className="stop-insight-panel__link"
+                    href={expandedStop.customLink}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Egen länk
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          </article>
+        ) : null}
+      </section>
+
+      <section className="schedule-stack">
+        {scheduleBlocks.map(({ block, day, items, overloaded, timedPeriods }) => {
           return (
             <section className="ios-group schedule-block" key={block.dayId}>
               <div className="ios-group__header">
@@ -90,8 +274,7 @@ export function ScheduleRoute() {
               ) : (
                 <div className="schedule-day-table">
                   {periodMeta.map((period) => {
-                    const periodItems = items.filter((item) => item.schedulePeriod === period.key);
-                    let cursor = period.startMinutes;
+                    const periodItems = timedPeriods[period.key];
 
                     return (
                       <section className="schedule-period" key={period.key}>
@@ -107,8 +290,6 @@ export function ScheduleRoute() {
                             {periodItems.map((stop) => {
                               const preview = getStopInsightPreview(stop.id);
                               const insight = getStopInsight(stop.id);
-                              const startTime = formatClock(cursor);
-                              cursor += parseDurationMinutes(stop.duration) + 20;
 
                               return (
                                 <article className="schedule-card" key={stop.id}>
@@ -128,7 +309,7 @@ export function ScheduleRoute() {
                                         <h3>{stop.displayName}</h3>
                                       </div>
                                       <div className="schedule-card__time">
-                                        <span>{startTime}</span>
+                                        <span>{stop.startTime}</span>
                                         <strong>{stop.duration}</strong>
                                       </div>
                                     </div>
