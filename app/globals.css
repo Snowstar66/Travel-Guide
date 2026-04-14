@@ -3668,6 +3668,10 @@ h1 {
   color: var(--ink);
 }
 
+.schedule-period__suggest-button {
+  justify-self: start;
+}
+
 .schedule-suggestion-panel {
   display: grid;
   gap: 12px;

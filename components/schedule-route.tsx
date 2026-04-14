@@ -121,6 +121,7 @@ function buildTimedPeriodItems(
 ) {
   let cursor = startMinutes;
   let previousItem: ScheduleItem | null = null;
+  const totalSlots = Math.max(1, Math.floor((endMinutes - startMinutes) / 15));
 
   return items
     .filter((item) => item.schedulePeriod === period)
@@ -130,8 +131,16 @@ function buildTimedPeriodItems(
       const startMinutesValue = cursor + travelBufferMinutes;
       const endMinutesValue = startMinutesValue + durationMinutes;
       const clampedEndMinutes = Math.min(endMinutesValue, endMinutes);
-      const boardRowStart = Math.max(1, Math.floor((startMinutesValue - startMinutes) / 15) + 1);
-      const boardRowSpan = Math.max(4, Math.ceil((clampedEndMinutes - startMinutesValue) / 15));
+      const unclampedBoardRowStart = Math.floor((startMinutesValue - startMinutes) / 15) + 1;
+      const boardRowStart = Math.min(totalSlots, Math.max(1, unclampedBoardRowStart));
+      const desiredBoardRowSpan = Math.max(
+        4,
+        Math.ceil((clampedEndMinutes - startMinutesValue) / 15)
+      );
+      const boardRowSpan = Math.max(
+        1,
+        Math.min(desiredBoardRowSpan, totalSlots - boardRowStart + 1)
+      );
 
       cursor = endMinutesValue;
       previousItem = item;
@@ -492,6 +501,17 @@ export function ScheduleRoute() {
                 </p>
               ) : null}
               <div className="schedule-card__links">
+                {expandedStopPeriod ? (
+                  <button
+                    type="button"
+                    className="button button--surface"
+                    onClick={() =>
+                      openSuggestions(expandedStop.assignedDayId, expandedStop.schedulePeriod)
+                    }
+                  >
+                    Visa fler förslag för {expandedStopPeriod.label.toLowerCase()}
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   className="schedule-remove-button schedule-remove-button--detail"
@@ -673,7 +693,8 @@ export function ScheduleRoute() {
                           <strong>Visa förslag</strong>
                         </button>
                       ) : (
-                        <div className="schedule-card-list">
+                        <>
+                          <div className="schedule-card-list">
                           {periodItems.map((stop) => {
                             const preview = getStopInsightPreview(stop.id);
                             const insight = getStopInsight(stop.id);
@@ -783,7 +804,15 @@ export function ScheduleRoute() {
                               </article>
                             );
                           })}
-                        </div>
+                          </div>
+                        <button
+                          type="button"
+                          className="schedule-period__suggest-button"
+                          onClick={() => openSuggestions(block.dayId, period.key)}
+                        >
+                          Visa fler förslag
+                        </button>
+                        </>
                       )}
                     </section>
                   );
