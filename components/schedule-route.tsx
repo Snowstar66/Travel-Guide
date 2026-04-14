@@ -62,19 +62,55 @@ type ScheduleItem = ReturnType<typeof useTripCompanionState>["selectedStopItems"
 
 type TimedScheduleItem = ScheduleItem & {
   startTime: string;
+  endTime: string;
+  startMinutesValue: number;
+  endMinutesValue: number;
+  boardRowStart: number;
+  boardRowSpan: number;
+  travelBufferMinutes: number;
+  overflowsPeriod: boolean;
 };
 
-function buildTimedPeriodItems(items: ScheduleItem[], period: SchedulePeriod, startMinutes: number) {
+function getTransitionBuffer(previous: ScheduleItem | null, current: ScheduleItem) {
+  if (!previous) return 0;
+  if (previous.sectionTitle === current.sectionTitle) return 12;
+  if (previous.dayId === current.dayId) return 18;
+  return 26;
+}
+
+function buildTimedPeriodItems(
+  items: ScheduleItem[],
+  period: SchedulePeriod,
+  startMinutes: number,
+  endMinutes: number
+) {
   let cursor = startMinutes;
+  let previousItem: ScheduleItem | null = null;
 
   return items
     .filter((item) => item.schedulePeriod === period)
     .map((item) => {
-      const startTime = formatClock(cursor);
-      cursor += parseDurationMinutes(item.duration) + 20;
+      const travelBufferMinutes = getTransitionBuffer(previousItem, item);
+      const durationMinutes = parseDurationMinutes(item.duration);
+      const startMinutesValue = cursor + travelBufferMinutes;
+      const endMinutesValue = startMinutesValue + durationMinutes;
+      const clampedEndMinutes = Math.min(endMinutesValue, endMinutes);
+      const boardRowStart = Math.max(1, Math.floor((startMinutesValue - startMinutes) / 15) + 1);
+      const boardRowSpan = Math.max(2, Math.ceil((clampedEndMinutes - startMinutesValue) / 15));
+
+      cursor = endMinutesValue;
+      previousItem = item;
+
       return {
         ...item,
-        startTime,
+        startTime: formatClock(startMinutesValue),
+        endTime: formatClock(endMinutesValue),
+        startMinutesValue,
+        endMinutesValue,
+        boardRowStart,
+        boardRowSpan,
+        travelBufferMinutes,
+        overflowsPeriod: endMinutesValue > endMinutes,
       } satisfies TimedScheduleItem;
     });
 }
@@ -101,7 +137,7 @@ export function ScheduleRoute() {
         const timedPeriods = Object.fromEntries(
           periodMeta.map((period) => [
             period.key,
-            buildTimedPeriodItems(items, period.key, period.startMinutes),
+            buildTimedPeriodItems(items, period.key, period.startMinutes, period.endMinutes),
           ])
         ) as Record<SchedulePeriod, TimedScheduleItem[]>;
 
@@ -117,7 +153,10 @@ export function ScheduleRoute() {
   );
 
   const expandedStop = useMemo(
-    () => scheduleBlocks.flatMap((block) => block.items).find((item) => item.id === expandedStopId) ?? null,
+    () =>
+      scheduleBlocks
+        .flatMap((block) => periodMeta.flatMap((period) => block.timedPeriods[period.key]))
+        .find((item) => item.id === expandedStopId) ?? null,
     [expandedStopId, scheduleBlocks]
   );
   const expandedStopTone = expandedStop ? getBoardTone(expandedStop) : null;
@@ -177,7 +216,14 @@ export function ScheduleRoute() {
                     {periodItems.length === 0 ? (
                       <p className="schedule-board__empty">Plats för fler upplevelser</p>
                     ) : (
-                      <div className="schedule-board__stack">
+                      <div
+                        className="schedule-board__stack"
+                        style={
+                          {
+                            "--timeline-slots": String((period.endMinutes - period.startMinutes) / 15),
+                          } as CSSProperties
+                        }
+                      >
                         {periodItems.map((item) => {
                           const preview = getStopInsightPreview(item.id);
                           const active = expandedStopId === item.id;
@@ -188,6 +234,11 @@ export function ScheduleRoute() {
                               key={item.id}
                               type="button"
                               className={`schedule-board-card schedule-board-card--${tone.key} ${active ? "is-active" : ""}`}
+                              style={
+                                {
+                                  gridRow: `${item.boardRowStart} / span ${item.boardRowSpan}`,
+                                } as CSSProperties
+                              }
                               onClick={() =>
                                 setExpandedStopId((current) => (current === item.id ? null : item.id))
                               }
@@ -195,9 +246,14 @@ export function ScheduleRoute() {
                               <span className={`schedule-board-card__tone schedule-board-card__tone--${tone.key}`}>
                                 {tone.label}
                               </span>
-                              <span className="schedule-board-card__time">{item.startTime}</span>
+                              <span className="schedule-board-card__time">
+                                {item.startTime}–{item.endTime}
+                              </span>
                               <strong>{item.displayName}</strong>
-                              <small>{preview?.eyebrow ?? item.sectionTitle}</small>
+                              <small>
+                                {preview?.eyebrow ?? item.sectionTitle}
+                                {item.travelBufferMinutes > 0 ? ` · +${item.travelBufferMinutes} min byte` : ""}
+                              </small>
                             </button>
                           );
                         })}
@@ -237,7 +293,8 @@ export function ScheduleRoute() {
               </div>
               <p>{expandedStop.displayWhy ?? getStopInsightPreview(expandedStop.id)?.copy ?? expandedStop.why}</p>
               <p className="schedule-board-detail__meta">
-                {expandedStop.assignedDayTitle} · {expandedStop.sectionTitle} · {expandedStop.duration}
+                {expandedStop.assignedDayTitle} · {expandedStop.sectionTitle} · {expandedStop.startTime}–
+                {expandedStop.endTime}
               </p>
               <div className="schedule-board-detail__tags">
                 {expandedStopTone ? (
@@ -253,7 +310,17 @@ export function ScheduleRoute() {
                     {formatClock(expandedStopPeriod.endMinutes)}
                   </span>
                 ) : null}
+                {expandedStop.travelBufferMinutes > 0 ? (
+                  <span className="schedule-board-detail__range">
+                    Byte före · {expandedStop.travelBufferMinutes} min
+                  </span>
+                ) : null}
               </div>
+              {expandedStop.overflowsPeriod ? (
+                <p className="schedule-card__meta">
+                  Det här stoppet trycker ut dagspåret lite. Fundera på att flytta något om dagen känns tät.
+                </p>
+              ) : null}
               {expandedStop.choiceOption ? (
                 <p className="schedule-card__meta">
                   Populärt val från {expandedStop.choiceOption.sourceLabel}.
@@ -364,7 +431,9 @@ export function ScheduleRoute() {
                                         <h3>{stop.displayName}</h3>
                                       </div>
                                       <div className="schedule-card__time">
-                                        <span>{stop.startTime}</span>
+                                        <span>
+                                          {stop.startTime}–{stop.endTime}
+                                        </span>
                                         <strong>{stop.duration}</strong>
                                       </div>
                                     </div>
@@ -378,6 +447,16 @@ export function ScheduleRoute() {
                                     {stop.choiceOption ? (
                                       <p className="schedule-card__meta">
                                         Populärt val från {stop.choiceOption.sourceLabel}.
+                                      </p>
+                                    ) : null}
+                                    {stop.travelBufferMinutes > 0 ? (
+                                      <p className="schedule-card__meta">
+                                        Byte före stoppet: cirka {stop.travelBufferMinutes} min.
+                                      </p>
+                                    ) : null}
+                                    {stop.overflowsPeriod ? (
+                                      <p className="schedule-card__meta">
+                                        Det här stoppet pressar dagspåret lite utanför sin tänkta rytm.
                                       </p>
                                     ) : null}
                                     {stop.choiceOption?.url || insight?.links.length ? (
