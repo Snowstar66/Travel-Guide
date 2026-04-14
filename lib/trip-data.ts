@@ -176,15 +176,15 @@ export const wowFacts: CityWowFact[] = [
     tag: "Biblioteket",
     title: "Lejonen fick sina namn mitt under depressionen",
     body:
-      "Patience och Fortitude blev deras namn nar Mayor La Guardia tyckte att New York behovde just de egenskaperna for att ta sig igenom 1930-talet. Det gor trappan framfor NYPL till mer an ett foto.",
+      "Patience och Fortitude blev deras namn när Mayor La Guardia tyckte att New York behövde just de egenskaperna för att ta sig igenom 1930-talet. Det gör trappan framför NYPL till mer än ett foto.",
     sourceLabel: "NYPL om lejonen",
     sourceUrl: "https://www.nypl.org/125/lions",
   },
   {
     tag: "Terminalen",
-    title: "Grand Centrals zodiakhimmel ar medvetet baklanges",
+    title: "Grand Centrals zodiakhimmel är medvetet baklänges",
     body:
-      "Terminalens egen guide lyfter att den beromda himlen i Main Concourse ar malen baklanges, som ett slags gudomligt perspektiv. Nar du vet det tittar du upp pa ett helt annat satt.",
+      "Terminalens egen guide lyfter att den berömda himlen i Main Concourse är målen baklänges, som ett slags gudomligt perspektiv. När du vet det tittar du upp på ett helt annat sätt.",
     imageUrl:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Grand_Central_Terminal_Main_Concourse_2019-10-03_20-02.jpg",
     sourceLabel: "Grand Central Terminal",
@@ -193,9 +193,9 @@ export const wowFacts: CityWowFact[] = [
   },
   {
     tag: "Parken",
-    title: "High Line var ett upphojt godsspar innan den blev park",
+    title: "High Line var ett upphöjt godsspår innan den blev park",
     body:
-      "Enligt High Lines faktablad byggdes sparstrukturen pa 1930-talet for att lyfta farliga godstag bort fran gatorna pa Manhattans vastsida. Den sista lasten 1980 var tre vagnar med frysta kalkoner.",
+      "Enligt High Lines faktablad byggdes spårstrukturen på 1930-talet för att lyfta farliga godståg bort från gatorna på Manhattans västsida. Den sista lasten 1980 var tre vagnar med frysta kalkoner.",
     imageUrl:
       "https://commons.wikimedia.org/wiki/Special:FilePath/High_Line_(2009-10-29).jpg",
     sourceLabel: "High Line fact sheet",
@@ -204,17 +204,17 @@ export const wowFacts: CityWowFact[] = [
   },
   {
     tag: "Hamnstaden",
-    title: "Downtowns gamla hamn forklarar varfor New York blev New York",
+    title: "Downtowns gamla hamn förklarar varför New York blev New York",
     body:
-      "South Street Seaport Museum beskriver kvarteren som platsen dar stadens historia som varldsport fortfarande gar att lasa i byggnader, bryggor och historiska fartyg. Det ar ett lager manga missar helt.",
+      "South Street Seaport Museum beskriver kvarteren som platsen där stadens historia som världsport fortfarande går att läsa i byggnader, bryggor och historiska fartyg. Det är ett lager många missar helt.",
     sourceLabel: "South Street Seaport Museum",
     sourceUrl: "https://southstreetseaportmuseum.org/about/",
   },
   {
     tag: "Republiken",
-    title: "Pa Wall Street svors USA:s forsta president in",
+    title: "På Wall Street svors USA:s första president in",
     body:
-      "Federal Hall ar inte bara ett snyggt stopp i finansdistriktet. National Park Service beskriver platsen som starten for den amerikanska republiken, dar George Washington tog eden den 30 april 1789.",
+      "Federal Hall är inte bara ett snyggt stopp i finansdistriktet. National Park Service beskriver platsen som starten för den amerikanska republiken, där George Washington tog eden den 30 april 1789.",
     sourceLabel: "National Park Service",
     sourceUrl: "https://www.nps.gov/feha/index.htm",
   },

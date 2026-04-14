@@ -92,8 +92,8 @@ const esteponaSeed: CityGuideSeed = {
   wowFacts: [
     {
       tag: "Gamla stan",
-      title: "Esteponas gamla stad ar over 130 fornyade gator och torg",
-      body: "Turismkontoret beskriver casco historico som ett tillgangligt nat av mer an 130 fornyade gator och platser med gangfart eller starkt begransad trafik. Det ar mer stadsprojekt an bara gullig kuliss.",
+      title: "Esteponas gamla stad är över 130 förnyade gator och torg",
+      body: "Turismkontoret beskriver casco historico som ett tillgängligt nät av mer än 130 förnyade gator och platser med gångfart eller starkt begränsad trafik. Det är mer stadsprojekt än bara gullig kuliss.",
       imageUrl: commons("Estepona-old-town.jpg"),
       sourceLabel: "Turismo Estepona",
       sourceUrl: "https://turismo.estepona.es/informacion-accesibilidad/",
@@ -101,8 +101,8 @@ const esteponaSeed: CityGuideSeed = {
     },
     {
       tag: "Orquidiario",
-      title: "Orquidiario har tre glaskupoler, 15 meters vattenfall och tusentals orkideer",
-      body: "Turismo Estepona beskriver orkidéhuset som ett subtropiskt rum med tre glaskupoler, 15 meters vattenfall och over 4 000 orkideer fran mer an 1 500 arter. Det ar ett ovantat wow-rum mitt i stadsvaven.",
+      title: "Orquidiario har tre glaskupoler, 15 meters vattenfall och tusentals orkidéer",
+      body: "Turismo Estepona beskriver orkidéhuset som ett subtropiskt rum med tre glaskupoler, 15 meters vattenfall och över 4 000 orkidéer från mer än 1 500 arter. Det är ett oväntat wow-rum mitt i stadsväven.",
       imageUrl: commons("Orchidarium de Estepona (33712234246).jpg"),
       sourceLabel: "Turismo Estepona om Orquidiario",
       sourceUrl: "https://turismo.estepona.es/lugares/parque-botanico-orquidario/",
@@ -110,22 +110,22 @@ const esteponaSeed: CityGuideSeed = {
     },
     {
       tag: "Murales",
-      title: "Staden har gjort hela kvarter till ett oppet galleri",
-      body: "Den officiella muralguiden visar hur verk ar spridda over olika delar av Estepona i stallet for att samlas i ett enda museum. Resultatet ar att konst blir nagot du gar igenom, inte bara besoker.",
+      title: "Staden har gjort hela kvarter till ett öppet galleri",
+      body: "Den officiella muralguiden visar hur verk är spridda över olika delar av Estepona i stället för att samlas i ett enda museum. Resultatet är att konst blir något du går igenom, inte bara besöker.",
       sourceLabel: "Ruta de los Murales",
       sourceUrl: "https://turismo.estepona.es/wp-content/uploads/2025/06/2025-RUTA-MURALES.pdf",
     },
     {
       tag: "Mirador",
-      title: "Mirador del Carmen ar utsiktstorn, vertikalbibliotek och kulturhus i ett",
-      body: "Det officiella materialet beskriver byggnaden som ett nytt kulturcentrum med bibliotek over flera plan, auditorium, utstallningssal och ett torn som oppnar staden mot havet. Det ar Estepona som medveten stadsfornyelse i ett enda hus.",
+      title: "Mirador del Carmen är utsiktstorn, vertikalbibliotek och kulturhus i ett",
+      body: "Det officiella materialet beskriver byggnaden som ett nytt kulturcentrum med bibliotek över flera plan, auditorium, utställningssal och ett torn som öppnar staden mot havet. Det är Estepona som medveten stadsförnyelse i ett enda hus.",
       sourceLabel: "Turismo Estepona om Mirador",
       sourceUrl: "https://turismo.estepona.es/lugares/mirador-del-carmen/",
     },
     {
-      tag: "Tillganglighet",
-      title: "Tillganglighet ar en del av stadens identitet, inte ett sidospår",
-      body: "Pa den officiella tillganglighetssidan lyfts bade gamla stan, muralrutterna och assisterat bad pa La Rada och El Cristo. Det gor Estepona ovanligt genomtankt for en semesterort i den har storleken.",
+      tag: "Tillgänglighet",
+      title: "Tillgänglighet är en del av stadens identitet, inte ett sidospår",
+      body: "På den officiella tillgänglighetssidan lyfts både gamla stan, muralrutterna och assisterat bad på La Rada och El Cristo. Det gör Estepona ovanligt genomtänkt för en semesterort i den här storleken.",
       sourceLabel: "Turismo Estepona accessibility",
       sourceUrl: "https://turismo.estepona.es/informacion-accesibilidad/",
     },
@@ -150,7 +150,7 @@ const esteponaSeed: CityGuideSeed = {
       credit: "Foto via Wikimedia Commons",
     },
     {
-      title: "Parque Botánico-Orquidario",
+      title: "Parque BotÃ¡nico-Orquidario",
       description:
         "Orkidéhuset ger Estepona en oväntat stark kultur- och naturton mitt i stan, med kupoler, vattenfall och tropisk volym.",
       imageUrl: commons("Orchidarium de Estepona (33712234246).jpg"),
@@ -237,7 +237,7 @@ const esteponaSeed: CityGuideSeed = {
           ),
           stop(
             "orchidarium",
-            "Parque Botánico-Orquidario och trädgårdsrummet runt omkring",
+            "Parque BotÃ¡nico-Orquidario och trädgårdsrummet runt omkring",
             "75-90 min",
             "Det är ett av stadens mest minnesvärda stopp och ger Estepona en tydlig wow-nivå.",
             "Ta det här som dagens stora huvudnummer i stället för att jaga tre mindre.",
@@ -598,8 +598,8 @@ const marbellaSeed: CityGuideSeed = {
   wowFacts: [
     {
       tag: "Casco",
-      title: "Gamla Marbella lagrar romerska, arabiska och kristna spar i samma stadskarna",
-      body: "Marbellas egen turismsida beskriver casco historico som en plats dar romerska, arabiska och kristna vestigier moter restauranger, torg och andalusisk vardagskansla i samma korta promenad.",
+      title: "Gamla Marbella lagrar romerska, arabiska och kristna spår i samma stadskärna",
+      body: "Marbellas egen turismsida beskriver casco historico som en plats där romerska, arabiska och kristna vestigier möter restauranger, torg och andalusisk vardagskänsla i samma korta promenad.",
       imageUrl: commons("Marbella Old Town.jpg"),
       sourceLabel: "Turismo Marbella om Casco Historico",
       sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico.html",
@@ -607,15 +607,15 @@ const marbellaSeed: CityGuideSeed = {
     },
     {
       tag: "Murarna",
-      title: "Borgen i gamla stan har 1000-talsspar och romerska fragment inmurade",
-      body: "Turismo Marbella beskriver slottet som det viktigaste muslimska arvet i centrum. I murverket syns blandade byggnadssatt och infogade romerska delar, medan murarna fran 1000- och 1100-talen en gang bar upp omkring tio torn.",
+      title: "Borgen i gamla stan har 1000-talsspår och romerska fragment inmurade",
+      body: "Turismo Marbella beskriver slottet som det viktigaste muslimska arvet i centrum. I murverket syns blandade byggnadssätt och infogade romerska delar, medan murarna från 1000- och 1100-talen en gång bar upp omkring tio torn.",
       sourceLabel: "Turismo Marbella om Castillo",
       sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/castillo-de-marbella-alcazaba-y-muralla.html",
     },
     {
       tag: "Dali",
-      title: "Avenida del Mar ar ett offentligt Dali-rum mellan park och strand",
-      body: "Marbellas officiella parksida beskriver straket som en lank mellan Alameda och Paseo Maritimo med en samling pa tio Dali-skulpturer i brons. Det ar mycket mer stadsgest an vanlig strandpassage.",
+      title: "Avenida del Mar är ett offentligt Dalí-rum mellan park och strand",
+      body: "Marbellas officiella parksida beskriver stråket som en länk mellan Alameda och Paseo Marítimo med en samling på tio Dalí-skulpturer i brons. Det är mycket mer stadsgest än vanlig strandpassage.",
       imageUrl: commons("Marbella 2015 10 20 1743 (24646806321).jpg"),
       sourceLabel: "Turismo Marbella om Avenida del Mar",
       sourceUrl: "https://turismo.marbella.es/vive/naturaleza/parques-y-jardines/avenida-del-mar.html",
@@ -623,15 +623,15 @@ const marbellaSeed: CityGuideSeed = {
     },
     {
       tag: "Hospitalet",
-      title: "Hospital Bazan blev grafikmuseum utan att tappa sin mudejar-karaktar",
-      body: "Det som i dag ar Museo del Grabado borjade som Hospital de la Encarnacion. Turismsidan lyfter renassansplanen, de mudejarinspirerade taken och hur byggnaden efter restaureringen 1989 fick nytt liv som museum.",
+      title: "Hospital Bazán blev grafikmuseum utan att tappa sin mudéjar-karaktär",
+      body: "Det som i dag är Museo del Grabado började som Hospital de la Encarnación. Turismsidan lyfter renässansplanen, de mudéjarinspirerade taken och hur byggnaden efter restaureringen 1989 fick nytt liv som museum.",
       sourceLabel: "Turismo Marbella om Hospital Bazan",
       sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/hospital-bazan-museo-del-grabado.html",
     },
     {
       tag: "Kusten",
-      title: "Torre Ladrones var del av ett kustlarm med eld och roksignaler",
-      body: "Vid Artola beskriver Turismo Marbella tornet som en del av det historiska kustforsvaret. Dagstid anvandes rok och nattetid ljussignaler for att varna for fientliga fartyg langs kusten.",
+      title: "Torre Ladrones var del av ett kustlarm med eld och röksignaler",
+      body: "Vid Artola beskriver Turismo Marbella tornet som en del av det historiska kustförsvaret. Dagstid användes rök och nattetid ljussignaler för att varna för fientliga fartyg längs kusten.",
       imageUrl: commons("Cabopino 02.jpg"),
       sourceLabel: "Turismo Marbella om Cabopino",
       sourceUrl: "https://turismo.marbella.es/vive/mar/puertos/puerto-de-cabopino.html",
@@ -639,8 +639,8 @@ const marbellaSeed: CityGuideSeed = {
     },
     {
       tag: "Torget",
-      title: "Plaza de los Naranjos skapades for att bli stadens sociala mittpunkt",
-      body: "Efter erovringen gjordes platsen om till stadens urbana axel, enligt den officiella historiken. Namnet kom langt senare, nar dagens apelsintrad planterades 1941.",
+      title: "Plaza de los Naranjos skapades för att bli stadens sociala mittpunkt",
+      body: "Efter erövringen gjordes platsen om till stadens urbana axel, enligt den officiella historiken. Namnet kom långt senare, när dagens apelsinträd planterades 1941.",
       sourceLabel: "Turismo Marbella om Plaza de los Naranjos",
       sourceUrl: "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/plaza-de-los-naranjos.html",
     },
@@ -761,7 +761,7 @@ const marbellaSeed: CityGuideSeed = {
         section("Morgon", "Marbellas historiska kärna", "Låt centrum vara vackert i stället för effektivt.", [
           stop(
             "museum-grabado",
-            "Museo del Grabado och kvarteren runt Hospital Bazán",
+            "Museo del Grabado och kvarteren runt Hospital BazÃ¡n",
             "60-75 min",
             "Det här ger gamla stan ett riktigt kulturstopp och gör den mer än bara restaurangkuliss.",
             "Bra när ni vill ha inomhuslager utan att ge upp kvarterskänslan.",
@@ -948,7 +948,7 @@ const marbellaSeed: CityGuideSeed = {
     "day-2": [
       area(
         "bazan-core",
-        "Hospital Bazán och gamla stan",
+        "Hospital BazÃ¡n och gamla stan",
         "Kultur i småskala",
         "Ger centrum både tyngd och charm utan att dagen blir museitung.",
         "Låt gränderna binda ihop stoppen.",
