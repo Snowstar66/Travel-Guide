@@ -107,7 +107,7 @@ export const palmaStopInsights: Record<string, StopInsight> = {
       "Den bevarade centralsalen med kolonner gör stoppet litet till ytan men stort i atmosfär.",
     ],
     ideas: [
-      "Gör det här tillsammans med grändpromenaden, inte som ett separat tungt block.",
+      "Gör det här tillsammans med grändpromenaden, inte som ett separat tungt dagsspår.",
       "Stanna gärna en stund i trädgården efteråt innan ni går vidare.",
     ],
     links: [
@@ -197,6 +197,7 @@ export const palmaStopInsights: Record<string, StopInsight> = {
     links: [
       { label: "Can Pere Antoni", url: "https://visitpalma.com/en/dir/can-pere-antoni/" },
       { label: "Kuststråket i Palma", url: "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/routes/pln651/palma-coastal-path-an-inspiring-stroll" },
+      { label: "Stränder i Palma", url: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/beaches" },
     ],
   },
   "palma-la-lonja": {
@@ -272,7 +273,7 @@ export const palmaStopPreviews: Record<string, StopInsightPreview> = {
   "palma-almudaina": {
     eyebrow: "Kungligt lager",
     title: "Palats med hav i ryggen",
-    copy: "Almudaina ger både makthistoria och utsikt utan att kräva ett halvdagsblock.",
+    copy: "Almudaina ger både makthistoria och utsikt utan att kräva ett halvdagsspår.",
   },
   "palma-arab-baths": {
     eyebrow: "Tyst historia",
@@ -314,6 +315,8 @@ export const palmaStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Luft",
     title: "Havspaus med katedralvy",
     copy: "Can Pere Antoni är perfekt när ni vill låta kroppen hinna ikapp allt fint.",
+    imageUrl: commons("Platja de Can Pere Antoni - Palma de Mallorca 01.jpg"),
+    imageAlt: "Can Pere Antoni-stranden i Palma.",
   },
   "palma-la-lonja": {
     eyebrow: "Kvällssten",
@@ -361,6 +364,155 @@ const palmaMuseumChoiceOptions: StopChoiceOption[] = [
   },
 ];
 
+const palmaLunchChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "mercat-olivar",
+    title: "Mercat de l'Olivar",
+    summary: "Mest centralt och smidigast om ni vill göra lunchen till ett levande marknadsstopp mitt i gamla stan.",
+    url: "https://www.mercatolivar.com/",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/palma-in-2-days/pln601/mercat-de-l-olivar-an-experience-with-plenty-of-flavour",
+  },
+  {
+    id: "mercat-santa-catalina",
+    title: "Mercat de Santa Catalina",
+    summary: "Bäst om ni vill ha ett mer lokalt och lite trendigare matstopp med vin, ost och fiskspår.",
+    url: "http://www.mercatdesantacatalina.com/",
+    sourceLabel: "Visit Palma + Lonely Planet",
+    sourceUrl:
+      "https://www.visitpalma.com/en/food/pln690/mercat-de-santa-catalina-modernity-and-tradition-the-perfect-combination",
+  },
+  {
+    id: "born-lunch",
+    title: "Born / Jaume III",
+    summary: "Bra när ni vill låta lunchen bli en snygg paus bland arkader, innergårdar och citypuls.",
+    url: "https://www.visitpalma.com/en/tickets/pln668/passeig-des-born",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/pl601/discover/what-to-see-and-what-to-do/palma-in-2-days/id11/the-golden-mile-a-wonderful-wander-through-the-commercial-heart-of-palma.htm",
+  },
+];
+
+const palmaSeasideChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "portixol-promenade",
+    title: "Portixol",
+    summary: "Starkast om ni vill ha promenad, långlunch och den mest semesterlätta havskänslan nära stan.",
+    url: "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/routes/pln651/palma-coastal-path-an-inspiring-stroll",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/routes/pln651/palma-coastal-path-an-inspiring-stroll",
+  },
+  {
+    id: "can-pere-antoni",
+    title: "Can Pere Antoni",
+    summary: "Mest citynära om ni vill kombinera badpause med utsikt mot katedralen och enkel logistik.",
+    url: "https://visitpalma.com/en/dir/can-pere-antoni/",
+    sourceLabel: "Visit Palma",
+    sourceUrl: "https://visitpalma.com/en/dir/can-pere-antoni/",
+  },
+  {
+    id: "ciutat-jardi",
+    title: "Ciutat Jardí",
+    summary: "Bra om ni vill ha en mer lokal strandkänsla med promenadstråk, familjevänlig vibe och mindre citykärna.",
+    url: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/beaches",
+    sourceLabel: "Visit Palma",
+    sourceUrl: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/beaches",
+  },
+  {
+    id: "cala-major",
+    title: "Cala Major",
+    summary: "Bäst när ni hellre vill ha en tydligare stranddag med mer badkänsla än promenadkänsla.",
+    url: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/beaches",
+    sourceLabel: "Visit Palma",
+    sourceUrl: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/beaches",
+  },
+];
+
+const palmaEveningChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "santa-catalina-evening",
+    title: "Santa Catalina",
+    summary: "Starkast om ni vill ha vin, små rätter och kvarterskänsla som fortfarande känns lokal och levande.",
+    url: "http://www.mercatdesantacatalina.com/",
+    sourceLabel: "Visit Palma + Lonely Planet",
+    sourceUrl:
+      "https://www.visitpalma.com/en/food/pln690/mercat-de-santa-catalina-modernity-and-tradition-the-perfect-combination",
+  },
+  {
+    id: "la-lonja-seafood",
+    title: "La Lonja",
+    summary: "Bra när ni vill ha gotisk kvällskänsla och enkel väg in i fisk, tapas eller en snygg middag.",
+    url: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/experiences/pln657/la-lonja-elegance-in-stone",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/experiences/pln657/la-lonja-elegance-in-stone",
+  },
+  {
+    id: "born-aperitivo",
+    title: "Passeig del Born",
+    summary: "Mest citysnyggt om ni vill ha kvällspromenad, ett glas och lite mer elegant Palma-känsla.",
+    url: "https://www.visitpalma.com/en/tickets/pln668/passeig-des-born",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/pl601/discover/what-to-see-and-what-to-do/palma-in-2-days/id11/the-golden-mile-a-wonderful-wander-through-the-commercial-heart-of-palma.htm",
+  },
+  {
+    id: "portixol-sunset",
+    title: "Portixol i solnedgång",
+    summary: "Bäst om ni vill låta kvällen bli mer hav, mindre stad, med middag eller drink vid strandpromenaden.",
+    url: "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/routes/pln651/palma-coastal-path-an-inspiring-stroll",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/routes/pln651/palma-coastal-path-an-inspiring-stroll",
+  },
+];
+
+const palmaFavoriteChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "old-town-return",
+    title: "Gamla stan och Born igen",
+    summary: "Det säkraste återbesöket om ni vill ta hem Palmas stenstad, innergårdar och eleganta citystråk en gång till.",
+    url: "https://www.visitpalma.com/en/tickets/pln668/passeig-des-born",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/pl601/discover/what-to-see-and-what-to-do/palma-in-2-days/id11/the-golden-mile-a-wonderful-wander-through-the-commercial-heart-of-palma.htm",
+  },
+  {
+    id: "santa-catalina-return",
+    title: "Santa Catalina",
+    summary: "Bra om ni främst kommer att minnas Palma som mat, prat, kvarter och långsam kvällsenergi.",
+    url: "http://www.mercatdesantacatalina.com/",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/food/pln690/mercat-de-santa-catalina-modernity-and-tradition-the-perfect-combination",
+  },
+  {
+    id: "portixol-return",
+    title: "Portixol och havssidan",
+    summary: "Starkast om det är havsluften, promenaden och det lättare semesterläget ni vill bära med er hem.",
+    url: "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/routes/pln651/palma-coastal-path-an-inspiring-stroll",
+    sourceLabel: "Visit Palma",
+    sourceUrl:
+      "https://www.visitpalma.com/en/discover/what-to-see-and-what-to-do/routes/pln651/palma-coastal-path-an-inspiring-stroll",
+  },
+  {
+    id: "cathedral-return",
+    title: "Parc de la Mar och La Seu",
+    summary: "Bäst när ni vill ge resan ett sista tydligt Palma-motiv med katedral, vatten och kvällsljus.",
+    url: "https://www.catedraldemallorca.org/en/",
+    sourceLabel: "La Seu officiellt + Visit Palma",
+    sourceUrl: "https://www.catedraldemallorca.org/en/",
+  },
+];
+
 export const palmaStopChoiceOptions: Record<string, StopChoiceOption[]> = {
   "palma-museum-flex": palmaMuseumChoiceOptions,
+  "palma-olivar-market": palmaLunchChoiceOptions,
+  "palma-santa-catalina": palmaEveningChoiceOptions,
+  "palma-portixol": palmaSeasideChoiceOptions,
+  "palma-sea-pause": palmaSeasideChoiceOptions,
+  "palma-la-lonja": palmaEveningChoiceOptions,
+  "palma-favorite-return": palmaFavoriteChoiceOptions,
 };

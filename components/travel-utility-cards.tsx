@@ -54,16 +54,16 @@ export function TravelUtilityCards({
       <article className="panel utility-card">
         <div className="utility-card__header">
           <p className="utility-card__eyebrow">Karta</p>
-          <h2>Aktivt block</h2>
+          <h2>Aktivt dagspår</h2>
         </div>
         <p>
           {primaryArea
-            ? `${primaryArea.name} är huvudspåret i det aktiva blocket. ${
+            ? `${primaryArea.name} är huvudspåret i det aktiva dagspåret. ${
                 secondaryArea
                   ? `${secondaryArea.name} är ett bra andra stopp om energin finns.`
                   : primaryArea.routeNote
               }`
-            : "Öppna blockets område direkt i karta när du vill orientera dig snabbt."}
+            : "Öppna dagspårets område direkt i karta när du vill orientera dig snabbt."}
         </p>
         <div className="utility-links">
           {primaryArea ? (

@@ -44,7 +44,7 @@ export function OnboardingPanel({
         <h2>Forma resan efter dig</h2>
         <p>
           Här väljer du stad, tempo och reslängd. Planen anpassar sig direkt och håller sig inom
-          fem tydliga planeringsblock.
+          fem tydliga dagspår.
         </p>
       </div>
 
@@ -109,11 +109,11 @@ export function OnboardingPanel({
             <span className="pill pill--soft">{tripLength.label}</span>
           </div>
           <div className="onboarding-summary">
-            <strong>Planen använder {tripBlocks.length} block.</strong>
+            <strong>Planen använder {tripBlocks.length} dagspår.</strong>
             <span>
               {profile.tripLength <= 5
-                ? "Varje block motsvarar en dag i resan."
-                : "Flera dagar slås ihop så att appen håller sig inom fem tydliga block."}
+                ? "Varje dagspår motsvarar en dag i resan."
+                : "Flera dagar slås ihop så att appen håller sig inom fem tydliga dagspår."}
             </span>
           </div>
           <div className="day-pill-row">
@@ -137,8 +137,8 @@ export function OnboardingPanel({
           {!profile.hasPremium && tripBlocks.length > 1 ? (
             <div className="premium-inline-card">
               <div>
-                <strong>Lås upp resten av blocken</strong>
-                <p>Premium öppnar block 2-5 och gör alla planval klickbara.</p>
+                <strong>Lås upp resten av dagspåren</strong>
+                <p>Premium öppnar dagspår 2-5 och gör alla planval klickbara.</p>
               </div>
               <button
                 type="button"

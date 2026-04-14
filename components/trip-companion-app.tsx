@@ -5,6 +5,7 @@ import { AppHeader } from "@/components/app-header";
 import { CityFlag } from "@/components/city-flag";
 import { NotesActions } from "@/components/notes-actions";
 import { getCityGuide } from "@/lib/guide-config";
+import { getStopInsightPreview } from "@/lib/stop-insights";
 import {
   getTripBlockByDayId,
   hasAccessToDay,
@@ -71,7 +72,7 @@ export function TripCompanionApp() {
         </div>
         <h1>{guide.displayName} just nu</h1>
         <p className="dashboard-hero__lead">
-          {currentBlock.label} fokuserar på {currentDay.title.toLowerCase()}. Du har byggt {selectedInCurrentBlock} stopp i det här blocket.
+          {currentBlock.label} fokuserar på {currentDay.title.toLowerCase()}. Du har byggt {selectedInCurrentBlock} stopp i det här dagspåret.
         </p>
 
         <article className="dashboard-stat dashboard-stat--primary">
@@ -88,7 +89,7 @@ export function TripCompanionApp() {
             <strong>{selectedStopItems.length} stopp</strong>
           </div>
           <div className="overview-hero-metric">
-            <span>Fyllda block</span>
+            <span>Fyllda dagspår</span>
             <strong>
               {filledBlockCount}/{tripBlocks.length}
             </strong>
@@ -100,7 +101,7 @@ export function TripCompanionApp() {
         </div>
       </section>
 
-      <section className="overview-block-strip" aria-label="Planeringsblock">
+      <section className="overview-block-strip" aria-label="Dagspår">
         {tripBlocks.map((block) => {
           const isActive = block.dayId === currentBlock.dayId;
           const unlocked = hasAccessToDay(profile, block.dayId);
@@ -138,15 +139,28 @@ export function TripCompanionApp() {
                     Lägg till stopp i planvyn så byggs din resa upp här.
                   </p>
                 ) : (
-                  selectedHighlights.map((stop) => (
-                    <article className="saved-item" key={stop.id}>
+                  selectedHighlights.map((stop) => {
+                    const preview = getStopInsightPreview(stop.id);
+
+                    return (
+                    <article className={`saved-item ${preview?.imageUrl ? "saved-item--with-image" : ""}`} key={stop.id}>
+                      {preview?.imageUrl ? (
+                        <img
+                          className="saved-item__image"
+                          src={preview.imageUrl}
+                          alt={preview.imageAlt ?? stop.displayName}
+                        />
+                      ) : null}
                       <div className="saved-item__top">
-                        <h4>{stop.displayName}</h4>
+                        <div>
+                          {preview?.eyebrow ? <span className="saved-item__eyebrow">{preview.eyebrow}</span> : null}
+                          <h4>{stop.displayName}</h4>
+                        </div>
                         <span className="pill pill--soft">{stop.assignedDayTitle}</span>
                       </div>
                       <p>{stop.displayWhy}</p>
                     </article>
-                  ))
+                  )})
                 )}
               </div>
             </div>
@@ -155,7 +169,7 @@ export function TripCompanionApp() {
 
         <section className="app-home-card">
           <div className="panel__header">
-            <p className="eyebrow eyebrow--dark">Block</p>
+            <p className="eyebrow eyebrow--dark">Dagspår</p>
             <h2>Så här ser resan ut just nu</h2>
           </div>
           <div className="trip-day-grid">
@@ -186,7 +200,7 @@ export function TripCompanionApp() {
                       href="/plan"
                       onClick={() => updateProfile("currentDayId", block.dayId)}
                     >
-                      Öppna block
+                      Öppna dagspår
                     </Link>
                   ) : (
                     <button
@@ -194,7 +208,7 @@ export function TripCompanionApp() {
                       type="button"
                       onClick={() => setPremiumAccess(true)}
                     >
-                      Lås upp blocket
+                      Lås upp dagspåret
                     </button>
                   )}
                 </article>
@@ -233,7 +247,7 @@ export function TripCompanionApp() {
             <span className="focus-card__meta-item">{pace.label}</span>
             <span className="focus-card__meta-item">{profile.tripLength} dagar</span>
             <span className="focus-card__meta-item">
-              {profile.hasPremium ? "Premium aktivt" : "Free · första blocket öppet"}
+              {profile.hasPremium ? "Premium aktivt" : "Free · första dagspåret öppet"}
             </span>
           </div>
           <div className="dashboard-hero__actions">
@@ -253,7 +267,7 @@ export function TripCompanionApp() {
           </div>
           <div className="saved-grid saved-grid--single">
             <div>
-              <h3>Block med anteckningar</h3>
+              <h3>Dagspår med anteckningar</h3>
               <div className="saved-list">
                 {notedDays.length === 0 ? (
                   <p className="saved-empty">Inga anteckningar än.</p>

@@ -148,7 +148,7 @@ export function MobileNav() {
   return (
     <nav className="mobile-nav" aria-label="Primary">
       {showBlockRail ? (
-        <div className="mobile-day-nav" aria-label="Planeringsblock">
+        <div className="mobile-day-nav" aria-label="Dagspår">
           {tripBlocks.map((block) => {
             const locked = !hasAccessToDay(profile, block.dayId);
             const active = block.dayId === activeBlock?.dayId;
@@ -160,7 +160,7 @@ export function MobileNav() {
                 href={href}
                 className={`mobile-day-nav__link ${active ? "is-active" : ""}`}
                 aria-current={active ? "page" : undefined}
-                aria-label={block.merged ? `Block ${block.blockNumber}, ${block.rangeLabel}` : block.rangeLabel}
+                aria-label={block.merged ? `Dagspår ${block.blockNumber}, ${block.rangeLabel}` : `${block.label}, ${block.rangeLabel}`}
                 title={block.merged ? `${block.label} · ${block.rangeLabel}` : block.rangeLabel}
                 onClick={() => {
                   const next = patchStoredProfile({ currentDayId: block.dayId });

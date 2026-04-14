@@ -170,7 +170,7 @@ export const tripDays: TripDay[] = [
             name: "Promenad i Village-kvarteren",
             duration: "90 min",
             why: "Det här ger dig stadskänslan utan Times Squares överdos.",
-            tip: "Gå långsamt. Lägg märke till blocken, ljudet, små parker och hörnrestauranger.",
+            tip: "Gå långsamt. Lägg märke till kvarteren, ljudet, små parker och hörnrestauranger.",
             food: "Stanna för kaffe eller tidig bagel om energin dippar.",
           },
           {

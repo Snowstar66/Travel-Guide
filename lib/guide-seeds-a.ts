@@ -40,7 +40,7 @@ const parisSeed: CityGuideSeed = {
     {
       tag: "Stadslogik",
       title: "Tänk arrondissement, inte hela Paris på en gång",
-      body: "Paris blir lättare när du håller dig inom ett naturligt område per halvdagsblock i stället för att korsa staden för varje ikon.",
+      body: "Paris blir lättare när du håller dig inom ett naturligt område per halvdagsspår i stället för att korsa staden för varje ikon.",
     },
   ],
   gallery: [
@@ -69,7 +69,7 @@ const parisSeed: CityGuideSeed = {
         stop("place-concorde", "Promenera mot Place de la Concorde", "30 min", "Bra övergång mellan monumental stad och mer öppen rytm.", "Titta på hur staden linjerar sig runt dig, inte bara på nästa punkt.", "Spara lunchen tills ni sitter ner ordentligt."),
       ]),
       section("Eftermiddag", "Välj ett wow-spår", "Ta ett huvudnummer i stället för tre halvbra.", [
-        stop("champs-elysees", "Arc de Triomphe eller Champs-Élysées i kort dos", "60-90 min", "Du får den stora stadsbilden utan att låta hela dagen bli butiksgata.", "Se det, känn det, gå sedan vidare i tid.", "Lägg lunchen strax utanför de mest turisttäta blocken."),
+        stop("champs-elysees", "Arc de Triomphe eller Champs-Élysées i kort dos", "60-90 min", "Du får den stora stadsbilden utan att låta hela dagen bli butiksgata.", "Se det, känn det, gå sedan vidare i tid.", "Lägg lunchen strax utanför de mest turisttäta stråken."),
         stop("eiffel-evening", "Kvällskoll på Eiffeltornet från marknivå", "45-60 min", "Stor effekt med mindre logistik än tornbesök mitt på dagen.", "Sikta på utsikt snarare än max kötid första gången.", "Ta med något enkelt eller boka middag i området efteråt."),
       ]),
     ]),
@@ -100,7 +100,7 @@ const parisSeed: CityGuideSeed = {
   ],
   areaCardsByDay: {
     "day-1": [area("seine-base", "Seine / hotellets närområde", "Mjuk start", "Här får du Paris-känslan utan att behöva prestera en hel dag.", "Håll dig nära vattnet och nära hemvägen första kvällen.", ["Bro", "Kafé", "Närmaste metro"], 32, 60, mapLink("Seine central Paris")), area("first-arrondissement", "1:a arrondissementet", "Klassisk orientering", "Bra första centrumkänsla om ni landar tidigt och vill känna stenstaden direkt.", "Se detta som orientering, inte som heldagsmål.", ["Louvre", "Tuilerierna", "Rue de Rivoli"], 58, 40, mapLink("1st arrondissement Paris"))],
-    "day-2": [area("louvre-axis", "Louvre / Tuilerierna", "Monumental stad", "Här får du Paris mest klassiska mittaxel i en lättläst ordning.", "Börja tidigt och håll dagen smal.", ["Louvre", "Tuilerierna", "Concorde"], 44, 36, mapLink("Louvre Paris")), area("eiffel-west", "Eiffeltornet / västra centrum", "Vykortskänsla", "Kvällsljus och stora stadsrum gör det här till ett starkt andra block.", "Gå hit för utsikt och atmosfär snarare än för att pressa in allt.", ["Eiffeltornet", "Trocadéro", "Seine"], 72, 44, mapLink("Eiffel Tower Paris"))],
+    "day-2": [area("louvre-axis", "Louvre / Tuilerierna", "Monumental stad", "Här får du Paris mest klassiska mittaxel i en lättläst ordning.", "Börja tidigt och håll dagen smal.", ["Louvre", "Tuilerierna", "Concorde"], 44, 36, mapLink("Louvre Paris")), area("eiffel-west", "Eiffeltornet / västra centrum", "Vykortskänsla", "Kvällsljus och stora stadsrum gör det här till ett starkt andra dagsspår.", "Gå hit för utsikt och atmosfär snarare än för att pressa in allt.", ["Eiffeltornet", "Trocadéro", "Seine"], 72, 44, mapLink("Eiffel Tower Paris"))],
     "day-3": [area("cite", "Île de la Cité", "Historia", "Perfekt för att förstå Paris äldre kärna.", "Håll tempot stilla på morgonen.", ["Notre-Dame", "Seine", "Smågator"], 48, 46, mapLink("Ile de la Cite Paris")), area("marais", "Marais", "Kvarterskänsla", "Låter staden kännas personlig och promenadvänlig.", "Bra eftermiddag för låg stress och många småval.", ["Marais", "Butiker", "Bakgator"], 58, 34, mapLink("Le Marais Paris"))],
     "day-4": [area("orsay-bank", "Orsay / vänsterbanken", "Kultur och rytm", "Bra kombination av konst och promenad.", "Låt lunch och museum styra tempot.", ["Musée d'Orsay", "Boulevard", "Kafé"], 42, 42, mapLink("Musee d'Orsay Paris")), area("montmartre-map", "Montmartre", "Filmisk höjd", "Ger annan energi än centrum utan att bli för långt bort.", "Välj detta om ni vill ha utsikt och kvällskänsla.", ["Sacre-Coeur", "Trappor", "Smågator"], 64, 18, mapLink("Montmartre Paris"))],
     "day-5": [area("favorite-track", "Favoritspåret", "Personligt avslut", "Här går ni tillbaka till det som faktiskt fungerade bäst.", "Finalen ska kännas självklar, inte pliktskyldig.", ["Favoritkvarter", "Sista lunch", "Lugnt avsked"], 54, 40, mapLink("Paris cafe neighborhood")), area("soft-exit", "Mjuk exit", "Lugn energi", "Bra när ni hellre vill lämna staden med bra humör än sista-minuten-jakt.", "Håll logistiken enkel och snygg.", ["Kafé", "Packning", "Flygtransfer"], 36, 58, mapLink("Central Paris cafe"))],
@@ -177,7 +177,7 @@ const milanSeed: CityGuideSeed = {
       section("Morgon", "Lokalt spår", "Välj ett område och stanna i det.", [
         stop("isola", "Isola eller Porta Romana", "90 min", "Bra kvarter när ni vill känna vardagsliv och design snarare än sevärdhetslistor.", "Välj det område som ligger bäst mot ert hotell eller humör.", "Långfrukost eller kaffe med lugn sittning."),
       ]),
-      section("Eftermiddag", "Flexspår", "Fyll på med ett enda extra block.", [
+      section("Eftermiddag", "Flexspår", "Fyll på med ett enda extra spår.", [
         stop("shopping", "Corso Como, designbutiker eller ett enda museum", "60-120 min", "Milano tål ett val till, inte fyra.", "Gör något som känns roligt, inte korrekt.", "Sen lunch eller aperitivo beroende på tempo."),
       ]),
     ]),
@@ -191,7 +191,7 @@ const milanSeed: CityGuideSeed = {
   areaCardsByDay: {
     "day-1": [area("duomo-base", "Duomo", "Klar stadskärna", "Bra första blick på Milano utan att hela kvällen måste bli en lång runda.", "Titta, orientera, gå hem i tid.", ["Duomo", "Torg", "Metro"], 54, 40, mapLink("Duomo Milan")), area("hotel-loop", "Hotellets kvarter", "Trygg bas", "Milano känns snabbare när du vet ditt eget närområde direkt.", "Bygg basen innan du bygger ambitionsnivån.", ["Kafé", "Närbutik", "Transport"], 38, 58, mapLink("Central Milan hotel"))],
     "day-2": [area("duomo-core", "Duomo / Galleria", "Klassiskt centrum", "Den tydligaste Milano-introduktionen du kan få.", "Ta kärnan först, Brera sedan.", ["Duomo", "Galleria", "Piazza"], 50, 38, mapLink("Duomo Milan")), area("brera-map", "Brera", "Mjukare elegans", "Ger andrum och mycket stadskänsla efter centrum.", "Bra plats att sakta ner.", ["Brera", "Lunch", "Smågator"], 62, 30, mapLink("Brera Milan"))],
-    "day-3": [area("grazie", "Santa Maria delle Grazie", "Konstspår", "Bra kulturankare utan att fylla hela dagen.", "Boka i förväg om möjligt.", ["Kyrka", "Konst", "Lugn morgon"], 40, 42, mapLink("Santa Maria delle Grazie Milan")), area("navigli-map", "Navigli", "Kvällsrytm", "Milanos mest naturliga kvällsstråk för promenad och aperitivo.", "Låt detta vara kvällens enda stora block.", ["Kanal", "Aperitivo", "Broar"], 60, 68, mapLink("Navigli Milan"))],
+    "day-3": [area("grazie", "Santa Maria delle Grazie", "Konstspår", "Bra kulturankare utan att fylla hela dagen.", "Boka i förväg om möjligt.", ["Kyrka", "Konst", "Lugn morgon"], 40, 42, mapLink("Santa Maria delle Grazie Milan")), area("navigli-map", "Navigli", "Kvällsrytm", "Milanos mest naturliga kvällsstråk för promenad och aperitivo.", "Låt detta vara kvällens enda stora dagsspår.", ["Kanal", "Aperitivo", "Broar"], 60, 68, mapLink("Navigli Milan"))],
     "day-4": [area("isola-map", "Isola", "Lokal energi", "Bra om du vill känna att staden blivit mer vardaglig och egen.", "Stanna i området länge nog för att tempot ska sätta sig.", ["Kafé", "Kvarter", "Design"], 70, 24, mapLink("Isola Milan")), area("porta-romana", "Porta Romana", "Mjuk stad", "Passar när ni vill ha mindre symbolik och mer liv.", "Bra val för en lång lunch och liten radie.", ["Porta Romana", "Barer", "Smågator"], 52, 62, mapLink("Porta Romana Milan"))],
     "day-5": [area("favorite-track", "Favoritspåret", "Personligt avslut", "Återbesök slår ofta sista-minuten-jakt i Milano.", "Låt finalen kännas vuxen och enkel.", ["Favoritkvarter", "Lunch", "Avslut"], 50, 44, mapLink("Milan neighborhood cafe")), area("soft-exit", "Mjuk exit", "Bra sista energi", "Skyddar både humör och logistik.", "Sista dagen vinner på tydlig marginal.", ["Packning", "Kaffe", "Transfer"], 34, 60, mapLink("Central Milan cafe"))],
   },
@@ -223,7 +223,7 @@ const londonSeed: CityGuideSeed = {
     bullets: [
       "Lär dig närmaste Tube-linje och utgång direkt, det sparar mycket energi senare.",
       "Buss är ofta ett bra val när du vill se staden i stället för att bara passera under den.",
-      "Håll dagen inom väst eller öst per block så att tunnelbanan inte äter upp rytmen.",
+      "Håll dagen inom väst eller öst per dagsspår så att tunnelbanan inte äter upp rytmen.",
     ],
   },
   hotelAreas: [
@@ -233,7 +233,7 @@ const londonSeed: CityGuideSeed = {
     { value: "unknown", label: "Inte bestämt än", hint: "Appen fortsätter lugnt tills boendet är spikat." },
   ],
   basics: [
-    { tag: "Transport", title: "London blir lätt när du tänker linjer och zoner", body: "Börja med en tydlig del av staden per block. För många tunnelbanelinjer i huvudet samtidigt gör London större än det behöver kännas." },
+    { tag: "Transport", title: "London blir lätt när du tänker linjer och zoner", body: "Börja med en tydlig del av staden per dagsspår. För många tunnelbanelinjer i huvudet samtidigt gör London större än det behöver kännas." },
   ],
   gallery: [
     { title: "Parker, tegel och stora boulevarder", description: "London känns bäst när dagen får växla mellan monument, grönt rum och kvarter där tempot sjunker naturligt.", imageUrl: "", sourceLabel: "", sourceUrl: "", credit: "" },
@@ -253,18 +253,18 @@ const londonSeed: CityGuideSeed = {
         stop("st-james", "St James's Park mot Buckingham Palace", "45-60 min", "Bra övergång mellan ikon och andrum.", "Låt parken vara en riktig paus, inte transportsträcka.", "Lunch efteråt i området eller vidare mot Soho."),
       ]),
       section("Eftermiddag", "Covent Garden eller Trafalgar", "Välj ett mänskligare kvarter efter monumenten.", [
-        stop("covent-garden", "Covent Garden eller Trafalgar-spår", "90 min", "Bra mix av stad, liv och lättare kvarterskänsla.", "Ta detta som ett promenadblock, inte en shoppinglista.", "Sen lunch eller tidig middag passar här."),
+        stop("covent-garden", "Covent Garden eller Trafalgar-spår", "90 min", "Bra mix av stad, liv och lättare kvarterskänsla.", "Ta detta som ett promenadspår, inte en shoppinglista.", "Sen lunch eller tidig middag passar här."),
       ]),
     ]),
     day(3, "Museer eller Towern", "Välj ett enda huvudspår och låt London kännas stort men begripligt.", "Medel", "South Kensington eller Tower Bridge", "Dag tre ska kännas kuraterad. London är för stort för att pressa både öst och väst samtidigt.", "Välj kunskap eller skylinekänsla och håll resten av dagen i samma rytm.", [
-      section("Morgon", "Välj huvudnummer", "Ta ett starkt block, inte flera.", [
+      section("Morgon", "Välj huvudnummer", "Ta ett starkt spår, inte flera.", [
         stop("museum-track", "South Kensington med ett enda museum", "2-3 h", "Museispåret fungerar perfekt om ni vill ha låg logistik och hög kvalitet.", "Ta ett museum, inte tre.", "Museumslunch eller kafé efteråt."),
-        stop("tower-track", "Tower Bridge och Towern om ni hellre vill ha östra ikonspåret", "2 h", "Bra val om ni vill ha historia och skylinekänsla i samma block.", "Låt detta vara dagens huvudnummer.", "Ta lunch efter att ni lämnat området."),
+        stop("tower-track", "Tower Bridge och Towern om ni hellre vill ha östra ikonspåret", "2 h", "Bra val om ni vill ha historia och skylinekänsla i samma dagsspår.", "Låt detta vara dagens huvudnummer.", "Ta lunch efter att ni lämnat området."),
       ]),
     ]),
     day(4, "Kvarters-London", "Nu ska staden få bli lite mer din.", "Medel", "Notting Hill eller Shoreditch", "Dag fyra är dagen då London går från institution till vardaglig favorit.", "Det här är perfekt för marknader, sidogator och längre pauser.", [
       section("Morgon", "Välj kvarter", "Välj väst eller öst och stanna där.", [
-        stop("notting-hill", "Notting Hill om ni vill ha färg, bostadsgator och lugnare promenad", "90 min", "Bra för ett mjukare Londonblock.", "Kom tidigt om ni vill ha lugnare gator.", "Långfrukost eller kaffe i området."),
+        stop("notting-hill", "Notting Hill om ni vill ha färg, bostadsgator och lugnare promenad", "90 min", "Bra för ett mjukare Londonspår.", "Kom tidigt om ni vill ha lugnare gator.", "Långfrukost eller kaffe i området."),
         stop("shoreditch", "Shoreditch om ni hellre vill ha energi, butiker och lite råare citykänsla", "90 min", "Bra kontrast till Westminster och museer.", "Fokusera på ett par gator och låt resten vara bonus.", "Lunch eller fika efter humör."),
       ]),
     ]),
@@ -277,8 +277,8 @@ const londonSeed: CityGuideSeed = {
   ],
   areaCardsByDay: {
     "day-1": [area("south-bank-map", "South Bank", "Första London-känslan", "Floden gör stadens skala begriplig direkt.", "Bra första kväll utan att låsa hela schemat.", ["South Bank", "Floden", "Ljus"], 54, 56, mapLink("South Bank London")), area("hotel-loop", "Hotellets kvarter", "Trygg start", "Ju snabbare du hittar din egen bas, desto mindre överväldigande blir London.", "Låt första dagen börja här.", ["Tube", "Kafé", "Närbutik"], 34, 62, mapLink("Central London hotel"))],
-    "day-2": [area("westminster-map", "Westminster", "Ikonisk kärna", "Londons mest klassiska första heldagspunkt.", "Ta symbolerna tidigt.", ["Big Ben", "Parliament", "Westminster"], 44, 50, mapLink("Westminster London")), area("covent-garden-map", "Covent Garden", "Mjuk fortsättning", "Bra eftermiddag när ni vill lämna institutionskänslan lite.", "Bra block efter parkstråk.", ["Covent Garden", "Smågator", "Middag"], 56, 36, mapLink("Covent Garden London"))],
-    "day-3": [area("south-kensington", "South Kensington", "Museumstempo", "Det här är ett av de enklaste kvalitetsblocken i London.", "Välj ett museum och håll dagen smal.", ["Museum", "Kafé", "Boulevard"], 26, 46, mapLink("South Kensington London")), area("tower-bridge", "Tower Bridge", "Historia och skyline", "Ger ett starkt östligt Londonminne i ett tydligt block.", "Bra om ni väljer ikonspåret.", ["Tower Bridge", "Towern", "Themsen"], 74, 54, mapLink("Tower Bridge London"))],
+    "day-2": [area("westminster-map", "Westminster", "Ikonisk kärna", "Londons mest klassiska första heldagspunkt.", "Ta symbolerna tidigt.", ["Big Ben", "Parliament", "Westminster"], 44, 50, mapLink("Westminster London")), area("covent-garden-map", "Covent Garden", "Mjuk fortsättning", "Bra eftermiddag när ni vill lämna institutionskänslan lite.", "Bra spår efter parkstråk.", ["Covent Garden", "Smågator", "Middag"], 56, 36, mapLink("Covent Garden London"))],
+    "day-3": [area("south-kensington", "South Kensington", "Museumstempo", "Det här är ett av de enklaste kvalitetsspåren i London.", "Välj ett museum och håll dagen smal.", ["Museum", "Kafé", "Boulevard"], 26, 46, mapLink("South Kensington London")), area("tower-bridge", "Tower Bridge", "Historia och skyline", "Ger ett starkt östligt Londonminne i ett tydligt dagsspår.", "Bra om ni väljer ikonspåret.", ["Tower Bridge", "Towern", "Themsen"], 74, 54, mapLink("Tower Bridge London"))],
     "day-4": [area("notting-hill-map", "Notting Hill", "Lugn charm", "Passar när ni vill ha filmisk vardag snarare än monument.", "Stanna längre i ett område.", ["Portobello", "Bostadsgator", "Kafé"], 18, 34, mapLink("Notting Hill London")), area("shoreditch-map", "Shoreditch", "Lokal energi", "Bra om ni vill ha något råare och mer samtida.", "Välj detta om ni vill byta ton helt.", ["Shoreditch", "Butiker", "Barer"], 76, 32, mapLink("Shoreditch London"))],
     "day-5": [area("favorite-track", "Favoritspåret", "Personlig final", "Återbesök ger London mer sammanhang.", "Ta det ni vill bära med er hem.", ["Favoritkvarter", "Lunch", "Sista promenad"], 50, 42, mapLink("London cafe neighborhood")), area("soft-exit", "Mjuk exit", "Logistiksmart", "Bra när ni vill lämna London med bra energi i stället för stress.", "Sista dagen ska vara lätt.", ["Packning", "Transfer", "Kaffe"], 34, 60, mapLink("Central London cafe"))],
   },

@@ -96,7 +96,7 @@ const palmaSeed: CityGuideSeed = {
     {
       title: "Es Baluard och murarna",
       description:
-        "Här möts konst, utsikt och gammal försvarsstad. Ett bra Palma-stopp när du vill ha både kultur och luft i samma block.",
+        "Här möts konst, utsikt och gammal försvarsstad. Ett bra Palma-stopp när du vill ha både kultur och luft i samma dagspår.",
       imageUrl: commons("Es Baluard Palma de Mallorca 03.jpg"),
       sourceLabel: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Es_Baluard_Palma_de_Mallorca_03.jpg",
@@ -202,7 +202,7 @@ const palmaSeed: CityGuideSeed = {
     day(
       3,
       "Bellver, murar och Santa Catalina",
-      "Ge Palma höjd, utsikt och ett mer samtida kvällsblock.",
+      "Ge Palma höjd, utsikt och ett mer samtida kvällsspår.",
       "Medel",
       "Bellver + västra stadssidan",
       "Dag tre passar för en tydlig förflyttning ut från kärnan: upp till Bellver och sedan tillbaka mot murar, konst och mat.",
@@ -223,7 +223,7 @@ const palmaSeed: CityGuideSeed = {
             "es-baluard",
             "Es Baluard eller Baluard des Príncep för konst och stadsmurar",
             "75-90 min",
-            "Bra block när du vill ha både kultur och utsikt utan att göra dagen tung.",
+            "Bra spår när du vill ha både kultur och utsikt utan att göra dagen tung.",
             "Välj ett av murspåren eller museet som huvudfokus, inte allt på en gång.",
             "Kaffe eller lätt lunch förstärker eftermiddagen bättre än att skynda."
           ),
@@ -569,7 +569,7 @@ const malagaSeed: CityGuideSeed = {
       area("cathedral-core", "Katedralen", "Centrumrytm", "Bra fortsättning när ni vill hålla allt nära.", "Låt lunch bära eftermiddagen.", ["Katedral", "Centro", "Lunch"], 50, 48, mapLink("Malaga Cathedral")),
     ],
     "day-3": [
-      area("museum-core", "Museum eller marknad", "Kuraterat innehåll", "Bra när ni vill ge dagen en tydlig identitet.", "Välj ett spår, inte flera.", ["Picasso", "Pompidou", "Atarazanas"], 42, 42, mapLink("Museo Picasso Malaga")),
+      area("museum-core", "Museum eller marknad", "Populära val", "Bra när ni vill ge dagen en tydlig identitet.", "Välj ett spår, inte flera.", ["Picasso", "Pompidou", "Atarazanas"], 42, 42, mapLink("Museo Picasso Malaga")),
       area("harbour-air", "Muelle Uno", "Havsluft", "Perfekt när ni vill att eftermiddagen ska kännas lätt.", "Låt vattnet bära andra halvan.", ["Hamn", "Glass", "Promenad"], 70, 58, mapLink("Muelle Uno Malaga")),
     ],
     "day-4": [

@@ -2639,6 +2639,28 @@ h1 {
   gap: 12px;
 }
 
+.saved-item--with-image {
+  display: grid;
+  gap: 10px;
+}
+
+.saved-item__image {
+  width: 100%;
+  height: 86px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.saved-item__eyebrow {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.66rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 .stop-card h4 {
   font-size: 0.96rem;
 }

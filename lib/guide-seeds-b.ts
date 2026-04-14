@@ -56,21 +56,21 @@ const amsterdamSeed: CityGuideSeed = {
         stop("canal-belt", "Promenad genom Canal Belt", "60-90 min", "Här förstår du staden snabbast.", "Prioritera broar, gathörn och pauser framför fart.", "Kaffe och frukost längs vägen fungerar perfekt."),
         stop("jordaan", "Fortsätt mot Jordaan", "60 min", "Bra övergång från vykort till kvarter.", "Låt smågatorna få tid.", "Lunch i Jordaan passar mycket bra."),
       ]),
-      section("Eftermiddag", "Ett lugnt extra block", "Välj mer kanal eller ett enda museum.", [
+      section("Eftermiddag", "Ett lugnt extraspår", "Välj mer kanal eller ett enda museum.", [
         stop("nine-streets", "De Negen Straatjes eller ett enda mindre museum", "60-90 min", "Bra eftermiddag när ni vill hålla dagen mänsklig.", "Välj det som känns roligt, inte mest rätt.", "Fika eller tidig drink fungerar fint."),
       ]),
     ]),
-    day(3, "Museum eller historia", "Ta ett starkt innehållsspår och låt resten vara lätt.", "Medel", "Museumplein eller Anne Frank/Jordaan", "Dag tre handlar om att ge resan ett tydligt kulturellt block.", "Amsterdam belönar ett enda genomfört huvudnummer mer än flera halvstressade.", [
-      section("Morgon", "Välj huvudspår", "Ta ett av stadens stora innehållsblock.", [
+    day(3, "Museum eller historia", "Ta ett starkt innehållsspår och låt resten vara lätt.", "Medel", "Museumplein eller Anne Frank/Jordaan", "Dag tre handlar om att ge resan ett tydligt kulturellt spår.", "Amsterdam belönar ett enda genomfört huvudnummer mer än flera halvstressade.", [
+      section("Morgon", "Välj huvudspår", "Ta ett av stadens stora innehållsspår.", [
         stop("museumplein", "Museumplein med ett enda museum", "2-3 h", "Det ger kultur utan att ni behöver flänga.", "Välj ett museum och håll fast vid det.", "Lunch i området efteråt."),
         stop("anne-frank", "Anne Frank-huset om ni redan har biljett", "90 min", "Starkt och viktigt, men bäst när det inte trängs med för mycket annat.", "Bygg resten av dagen mjukare runt detta.", "Ta en lugn paus efteråt."),
       ]),
     ]),
-    day(4, "Lokala kvarter", "Nu ska Amsterdam få bli mer vardag och mindre lista.", "Medel", "De Pijp eller Oost", "Dag fyra ska kännas som en dag ni nästan hade kunnat ha om ni bodde här.", "Ta ett område, en marknad eller ett parkblock och låt det räcka.", [
+    day(4, "Lokala kvarter", "Nu ska Amsterdam få bli mer vardag och mindre lista.", "Medel", "De Pijp eller Oost", "Dag fyra ska kännas som en dag ni nästan hade kunnat ha om ni bodde här.", "Ta ett område, en marknad eller ett parkspår och låt det räcka.", [
       section("Morgon", "Välj område", "Stanna i ett område tillräckligt länge.", [
         stop("de-pijp", "De Pijp och Albert Cuyp eller Oost", "90 min", "Bra om ni vill känna mer lokal rytm.", "Prioritera gator och stämning framför att täcka allt.", "Långfrukost eller marknadssnack passar här."),
       ]),
-      section("Eftermiddag", "Park eller vatten", "Gör ett mjukt andra block.", [
+      section("Eftermiddag", "Park eller vatten", "Gör ett mjukt andra spår.", [
         stop("vondelpark", "Vondelpark eller ytterligare ett kanalspår", "60-90 min", "Bra för att ge kroppen en lätt dag utan att upplevelsen känns tunn.", "Välj park om benen behöver vila.", "Kaffe eller picknick beroende på väder."),
       ]),
     ]),
@@ -84,7 +84,7 @@ const amsterdamSeed: CityGuideSeed = {
   areaCardsByDay: {
     "day-1": [area("hotel-canal", "Hotellets kanalstråk", "Mjuk första bild", "Perfekt första kväll när ni bara vill förstå stadens logik.", "Gå kort, gå fint, gå hem i tid.", ["Bro", "Kanal", "Hållplats"], 38, 58, mapLink("Central Amsterdam canal")), area("centraal", "Centrum nära stationen", "Orientering", "Bra om ni vill se stadens kärna utan att göra en hel dag av det.", "Håll det kort första kvällen.", ["Centraal", "Kanal", "Torgrum"], 54, 36, mapLink("Amsterdam Centraal"))],
     "day-2": [area("canal-belt", "Canal Belt", "Klassisk Amsterdam", "Här sitter stadens identitet i varje kvarter.", "Ta detta som dagens ryggrad.", ["Kanaler", "Broar", "Smågator"], 48, 42, mapLink("Amsterdam Canal Belt")), area("jordaan-map", "Jordaan", "Kvarterskänsla", "Perfekt för att sakta ner efter huvudstråket.", "Bra lunch- och eftermiddagsområde.", ["Jordaan", "Kaféer", "Smågator"], 38, 34, mapLink("Jordaan Amsterdam"))],
-    "day-3": [area("museumplein-map", "Museumplein", "Kulturblock", "Lätt och kvalitativt när ni vill ge dagen ett innehållsankare.", "Välj ett museum och håll fast vid det.", ["Museum", "Gräsytor", "Kafé"], 60, 48, mapLink("Museumplein Amsterdam")), area("anne-frank-zone", "Jordaan / Anne Frank-spår", "Historia och eftertanke", "Ett starkt och tydligt block om ni redan har biljett.", "Skala ner resten av dagen runt detta.", ["Anne Frank", "Kanal", "Lugn paus"], 42, 36, mapLink("Anne Frank House Amsterdam"))],
+    "day-3": [area("museumplein-map", "Museumplein", "Kulturspår", "Lätt och kvalitativt när ni vill ge dagen ett innehållsankare.", "Välj ett museum och håll fast vid det.", ["Museum", "Gräsytor", "Kafé"], 60, 48, mapLink("Museumplein Amsterdam")), area("anne-frank-zone", "Jordaan / Anne Frank-spår", "Historia och eftertanke", "Ett starkt och tydligt spår om ni redan har biljett.", "Skala ner resten av dagen runt detta.", ["Anne Frank", "Kanal", "Lugn paus"], 42, 36, mapLink("Anne Frank House Amsterdam"))],
     "day-4": [area("de-pijp-map", "De Pijp", "Lokal energi", "Bra område när ni vill känna mer vardag än vykort.", "Låt område och lunch bära dagen.", ["Albert Cuyp", "Kafé", "Sidogator"], 62, 62, mapLink("De Pijp Amsterdam")), area("vondelpark-map", "Vondelpark", "Luft i kroppen", "Passar när ni vill ge resan en lättare dag.", "Bra eftermiddag om tempot ska vara lugnt.", ["Park", "Gräs", "Lugn promenad"], 46, 58, mapLink("Vondelpark Amsterdam"))],
     "day-5": [area("favorite-track", "Favoritkanalen", "Personligt slut", "Återbesök gör finalen starkare i Amsterdam.", "Välj det ni själva fastnat för.", ["Favoritbro", "Lunch", "Sista runda"], 50, 44, mapLink("Amsterdam canal cafe")), area("soft-exit", "Mjuk exit", "Lugn logistik", "Bra om ni hellre går hem med bra känsla än en sista jakt.", "Sista dagen ska vara lätt.", ["Packning", "Transfer", "Kaffe"], 34, 62, mapLink("Central Amsterdam cafe"))],
   },
@@ -126,7 +126,7 @@ const berlinSeed: CityGuideSeed = {
     { value: "unknown", label: "Inte bestämt än", hint: "Appen håller sig neutral tills boendet sitter." },
   ],
   basics: [
-    { tag: "Skala", title: "Berlin blir lättare när du tänker stora områden", body: "Berlin känns ofta större än det är eftersom varje stadsdel har egen identitet. Håll dagen inom ett sammanhängande område per block." },
+    { tag: "Skala", title: "Berlin blir lättare när du tänker stora områden", body: "Berlin känns ofta större än det är eftersom varje stadsdel har egen identitet. Håll dagen inom ett sammanhängande område per dagsspår." },
   ],
   gallery: [
     { title: "Rymd, historia och starka kvarter", description: "Berlin belönar långsamma skiften mellan tunga platser, breda stråk och vardagligare områden där staden slappnar av.", imageUrl: "", sourceLabel: "", sourceUrl: "", credit: "" },
@@ -143,7 +143,7 @@ const berlinSeed: CityGuideSeed = {
     day(2, "Historia och institutioner", "Nu får stadens tyngd ta plats i rätt dos.", "Medel", "Mitte + Government quarter", "Dag två passar för Berlins stora historiska axel när ni redan fått ett första grepp om transporterna.", "Håll rutten tydlig så att dagen känns stark, inte tung.", [
       section("Morgon", "Historisk kärna", "Ta de stora symbolerna i en rak följd.", [
         stop("brandenburg", "Brandenburger Tor och området runtomkring", "45-60 min", "En naturlig första heldagspunkt i Berlin.", "Kom tidigt om ni vill ha lite lugnare känsla.", "Kaffe innan ni går vidare."),
-        stop("reichstag", "Reichstag eller government quarter", "60 min", "Bra när ni vill förstå stadens moderna lager också.", "Låt detta vara ett sammanhängande block.", "Lunch efteråt i lugnare takt."),
+        stop("reichstag", "Reichstag eller government quarter", "60 min", "Bra när ni vill förstå stadens moderna lager också.", "Låt detta vara ett sammanhängande spår.", "Lunch efteråt i lugnare takt."),
       ]),
       section("Eftermiddag", "Museumsinsel eller minnesstråk", "Välj ett innehållsspår, inte två.", [
         stop("museum-memory", "Museumsinsel eller ett enda minnes-/museispår", "90-120 min", "Berlin fungerar bäst när innehållet kurateras tydligt.", "Ta ett enda starkt val.", "Planera in en riktig sittande paus."),
@@ -153,7 +153,7 @@ const berlinSeed: CityGuideSeed = {
       section("Morgon", "Kvartersspår", "Välj ett område med liv och långsammare fokus.", [
         stop("kreuzberg", "Kreuzberg till fots", "90 min", "Bra när ni vill känna vardag, kaféer och lite råare energi.", "Låt områdets rytm styra mer än listan.", "Lång brunch eller kaffe är helt rätt här."),
       ]),
-      section("Eftermiddag", "Kanal eller marknad", "Gör ett lätt extra block.", [
+      section("Eftermiddag", "Kanal eller marknad", "Gör ett lätt extraspår.", [
         stop("canal-market", "Landwehrkanal eller marknadsspår", "60-90 min", "Bra mjuk fortsättning på en mer lokal dag.", "Välj det som passar väder och energi bäst.", "Street food eller enkel lunch fungerar fint."),
       ]),
     ]),
@@ -171,15 +171,15 @@ const berlinSeed: CityGuideSeed = {
     ]),
   ],
   areaCardsByDay: {
-    "day-1": [area("mitte-base", "Mitte", "Tydlig start", "Bra första block när ni vill känna Berlin utan att gå fullt historiskt direkt.", "Kort och tydligt kvällsspår.", ["Mitte", "Kafé", "S-/U-Bahn"], 48, 40, mapLink("Mitte Berlin")), area("hotel-loop", "Hotellets kvarter", "Praktisk bas", "Väldigt värt att säkra först i Berlin.", "Bygg bas före ambition.", ["Station", "Mat", "Hemväg"], 32, 60, mapLink("Central Berlin hotel"))],
-    "day-2": [area("historic-core", "Brandenburger Tor / Reichstag", "Historisk kärna", "Ger Berlins stora berättelse i tydlig form.", "Ta detta som dagens ryggrad.", ["Brandenburger Tor", "Reichstag", "Minnesstråk"], 44, 40, mapLink("Brandenburg Gate Berlin")), area("museum-island", "Museumsinsel", "Innehållsspår", "Bra om ni vill ge dagen ett enda starkt kulturblock.", "Välj ett fokus.", ["Museum", "Spree", "Promenad"], 54, 34, mapLink("Museum Island Berlin"))],
-    "day-3": [area("kreuzberg-map", "Kreuzberg", "Lokal energi", "Bra kontrast till den mer monumentala gårdagen.", "Låt dagen vara lösare här.", ["Kreuzberg", "Kaféer", "Sidogator"], 48, 66, mapLink("Kreuzberg Berlin")), area("landwehrkanal", "Landwehrkanal", "Mjuk luft", "Bra andra block när ni vill hålla tempot lugnt.", "Låt vattnet bära eftermiddagen.", ["Kanal", "Broar", "Street food"], 58, 60, mapLink("Landwehrkanal Berlin"))],
+    "day-1": [area("mitte-base", "Mitte", "Tydlig start", "Bra första spår när ni vill känna Berlin utan att gå fullt historiskt direkt.", "Kort och tydligt kvällsspår.", ["Mitte", "Kafé", "S-/U-Bahn"], 48, 40, mapLink("Mitte Berlin")), area("hotel-loop", "Hotellets kvarter", "Praktisk bas", "Väldigt värt att säkra först i Berlin.", "Bygg bas före ambition.", ["Station", "Mat", "Hemväg"], 32, 60, mapLink("Central Berlin hotel"))],
+    "day-2": [area("historic-core", "Brandenburger Tor / Reichstag", "Historisk kärna", "Ger Berlins stora berättelse i tydlig form.", "Ta detta som dagens ryggrad.", ["Brandenburger Tor", "Reichstag", "Minnesstråk"], 44, 40, mapLink("Brandenburg Gate Berlin")), area("museum-island", "Museumsinsel", "Innehållsspår", "Bra om ni vill ge dagen ett enda starkt kulturspår.", "Välj ett fokus.", ["Museum", "Spree", "Promenad"], 54, 34, mapLink("Museum Island Berlin"))],
+    "day-3": [area("kreuzberg-map", "Kreuzberg", "Lokal energi", "Bra kontrast till den mer monumentala gårdagen.", "Låt dagen vara lösare här.", ["Kreuzberg", "Kaféer", "Sidogator"], 48, 66, mapLink("Kreuzberg Berlin")), area("landwehrkanal", "Landwehrkanal", "Mjuk luft", "Bra andra spår när ni vill hålla tempot lugnt.", "Låt vattnet bära eftermiddagen.", ["Kanal", "Broar", "Street food"], 58, 60, mapLink("Landwehrkanal Berlin"))],
     "day-4": [area("prenzlauer-map", "Prenzlauer Berg", "Lugn kvarterskänsla", "Bra för mjukare Berlin-energi.", "Stanna länge i området.", ["Kafé", "Gator", "Lugn lunch"], 58, 22, mapLink("Prenzlauer Berg Berlin")), area("tempelhof-map", "Tempelhofer Feld", "Stor luft", "En väldigt Berlin-specifik känsla av rymd och frihet.", "Bra när ni vill ha färre beslut.", ["Tempelhof", "Öppen yta", "Paus"], 42, 78, mapLink("Tempelhofer Feld Berlin"))],
     "day-5": [area("favorite-track", "Favoritspåret", "Personlig final", "Bra sätt att låta Berlin stanna kvar som känsla, inte bara fakta.", "Återvänd till det ni fastnade för.", ["Favoritkvarter", "Kaffe", "Lunch"], 50, 44, mapLink("Berlin neighborhood cafe")), area("soft-exit", "Mjuk exit", "Lugn logistik", "Sista dagen ska vara lätt att genomföra.", "Skydda transportmarginalen.", ["Packning", "Transfer", "Sista paus"], 34, 60, mapLink("Central Berlin cafe"))],
   },
   rainPlansByDay: {
     "day-1": rainPlan("Rain mode: håll Berlin liten första kvällen", "Första dagen behöver mest orientering.", ["Kortare Mitte-runda.", "Längre sittpaus.", "Tidigare kväll."]),
-    "day-2": rainPlan("Rain mode: gör historiedagen smal", "Berlins tunga dag blir bäst när den är tydlig.", ["Ta ett huvudstråk.", "Välj ett museum eller minnesblock.", "Planera ordentlig lunchpaus."]),
+    "day-2": rainPlan("Rain mode: gör historiedagen smal", "Berlins tunga dag blir bäst när den är tydlig.", ["Ta ett huvudstråk.", "Välj ett museum eller minnesspår.", "Planera ordentlig lunchpaus."]),
     "day-3": rainPlan("Rain mode: gå Kreuzberg tätare", "Lokaldagen funkar i regn om radien är mindre.", ["Fler kafépauser.", "Kortare kanalstråk.", "Låt marknad bli bonus."]),
     "day-4": rainPlan("Rain mode: välj Prenzlauer framför fält", "Dag fyra tål vädersvängningar om ni väljer kvarter framför öppen yta.", ["Håll er till ett område.", "Låt museum bli backup.", "Gör två varma stopp."]),
     "day-5": rainPlan("Rain mode: gör finalen enkel", "Sista dagen ska inte bli en kamp mot väder och transfer.", ["Återvänd nära hotellet.", "Skala bort extrasaker.", "Skydda tiden."]),

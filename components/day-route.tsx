@@ -50,7 +50,7 @@ export function DayRoute({ dayId }: { dayId: string }) {
       </section>
 
       <section className="segmented-panel">
-        <div className="segmented-control segmented-control--3" role="tablist" aria-label="Blockvyer">
+        <div className="segmented-control segmented-control--3" role="tablist" aria-label="Dagspårsvyer">
           <button
             className={`segmented-control__button ${activeView === "plan" ? "is-active" : ""}`}
             type="button"
@@ -86,11 +86,11 @@ export function DayRoute({ dayId }: { dayId: string }) {
           <div className="ios-group__header">
             <div>
               <p className="ios-group__eyebrow">Inte aktivt</p>
-              <h2>Det här blocket ingår inte i nuvarande reslängd</h2>
+              <h2>Det här dagspåret ingår inte i nuvarande reslängd</h2>
             </div>
           </div>
           <p className="ios-group__copy">
-            Öka antalet dagar i Inställningar om du vill att det här blocket ska bli en aktiv del av resan.
+            Öka antalet dagar i Inställningar om du vill att det här dagspåret ska bli en aktiv del av resan.
           </p>
         </section>
       ) : null}
@@ -99,8 +99,8 @@ export function DayRoute({ dayId }: { dayId: string }) {
         <section className="ios-group premium-lock-card">
           <div className="ios-group__header">
             <div>
-              <p className="ios-group__eyebrow">Premiumblock</p>
-              <h2>{block?.label ?? "Det här blocket"} väntar bakom Premium</h2>
+              <p className="ios-group__eyebrow">Premiumspår</p>
+              <h2>{block?.label ?? "Det här dagspåret"} väntar bakom Premium</h2>
             </div>
             <span className="ios-group__badge">Låst</span>
           </div>

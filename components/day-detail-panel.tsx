@@ -211,7 +211,7 @@ export function DayDetailPanel({
 
                   {selected && !selectedHere ? (
                     <p className="ios-stop-row__status">
-                      Det här stoppet ligger just nu i {assignedBlock?.rangeLabel ?? "ett annat block"}.
+                      Det här stoppet ligger just nu i {assignedBlock?.rangeLabel ?? "ett annat dagspår"}.
                     </p>
                   ) : null}
 

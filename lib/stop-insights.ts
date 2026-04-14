@@ -109,7 +109,7 @@ const nycStopInsights: Record<string, StopInsight> = {
     ],
     ideas: [
       "Stå mitt i Main Concourse och titta upp direkt, det är halva upplevelsen.",
-      "Använd Grand Central som ett snyggt förmiddagsstopp, inte som ett långt block.",
+      "Använd Grand Central som ett snyggt förmiddagsstopp, inte som ett långt dagsspår.",
     ],
     links: [
       { label: "Besök Grand Central", url: "https://grandcentralterminal.com/visit/" },
@@ -167,7 +167,7 @@ const nycStopInsights: Record<string, StopInsight> = {
       "National Park Service listar flera enkla subway-ankomster hit, bland annat 4/5, J/Z, 2/3, 1, R och A/C.",
     ],
     ideas: [
-      "Gör Wall Street som en kort historisk sväng, inte som ett halvdagsblock.",
+      "Gör Wall Street som en kort historisk sväng, inte som ett halvdagsspår.",
       "Om du vill ge området mer innehåll: låt Federal Hall bli det tydliga ankaret.",
     ],
     links: [

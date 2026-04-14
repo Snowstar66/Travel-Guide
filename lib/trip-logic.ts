@@ -80,7 +80,7 @@ export function getTripBlocks(profile: Pick<TravelerProfile, "cityId" | "tripLen
       templateDayNumber: day.dayNumber,
       startDay: range.startDay,
       endDay: range.endDay,
-      label: merged ? `Block ${index + 1}` : `Dag ${range.startDay}`,
+      label: `Dagspår ${index + 1}`,
       rangeLabel,
       shortLabel: merged ? `${range.startDay}-${range.endDay}` : `${range.startDay}`,
       merged,
@@ -186,7 +186,7 @@ export const paceOptions: ProfileOption<TravelerProfile["pace"]>[] = [
   {
     value: "max",
     label: "Maxa",
-    hint: "Tajtare block för dig som vet att du vill se mycket.",
+    hint: "Tajtare dagspår för dig som vet att du vill se mycket.",
   },
 ];
 
@@ -199,8 +199,8 @@ export const tripLengthOptions: ProfileOption<number>[] = Array.from(
       label: `${days} dagar`,
       hint:
         days <= 5
-          ? `Appen visar ${days} aktiva planeringsblock.`
-          : `Appen komprimerar ${days} dagar till fem planeringsblock.`,
+          ? `Appen visar ${days} aktiva dagspår.`
+          : `Appen komprimerar ${days} dagar till fem tydliga dagspår.`,
     };
   }
 );
@@ -258,13 +258,13 @@ export function getTodayOptions(profile: TravelerProfile) {
   } else if (profile.travelStyle === "neighborhood-hunter") {
     items.push("Lämna extra promenadluft efter huvudstoppet så att kvarteren får plats.");
   } else {
-    items.push("Håll dig till blockets kärnspår först. Känn efter innan du lägger till extrasaker.");
+    items.push("Håll dig till dagspårets kärnspår först. Känn efter innan du lägger till extrasaker.");
   }
 
   if (profile.hotelArea === "central") {
     items.push("Du kan ofta avsluta smart genom att äta nära hotellet i stället för att jaga ännu ett område.");
   } else if (profile.hotelArea === "historic") {
-    items.push("Du bor nära stadens berättelse. Utnyttja det för lugnare kvällsstråk och kortare sista block.");
+    items.push("Du bor nära stadens berättelse. Utnyttja det för lugnare kvällsstråk och kortare sista dagspår.");
   } else if (profile.hotelArea === "local") {
     items.push("Planera hemresan lite tidigare på kvällen så att dagens sista del fortfarande känns mjuk.");
   } else {
@@ -272,11 +272,11 @@ export function getTodayOptions(profile: TravelerProfile) {
   }
 
   if (profile.pace === "calm") {
-    items.push("Skala hellre bort ett stopp än att låta hela blocket kännas pressat.");
+    items.push("Skala hellre bort ett stopp än att låta hela dagspåret kännas pressat.");
   } else if (profile.pace === "max") {
-    items.push("Du kan lägga till ett extraspår idag, men bara efter att blockets huvudplan sitter.");
+    items.push("Du kan lägga till ett extraspår idag, men bara efter att dagspårets huvudplan sitter.");
   } else {
-    items.push(`Balanserat tempo vinner i ${guide.displayName}: ett starkt huvudblock, en riktig paus, sedan kväll.`);
+    items.push(`Balanserat tempo vinner i ${guide.displayName}: ett starkt huvudspår, en riktig paus, sedan kväll.`);
   }
 
   return items;

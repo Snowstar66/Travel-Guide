@@ -43,7 +43,7 @@ export function ScheduleRoute() {
             <CityFlag cityId={guide.id} className="screen-intro__flag" />
             {guide.displayName}
           </span>{" "}
-          · dina val, bilder, länkar och block samlade som en riktig reseplan.
+          · dina val, bilder, länkar och dagspår samlade som en riktig reseplan.
         </p>
       </section>
 
@@ -72,7 +72,7 @@ export function ScheduleRoute() {
               <p className="ios-group__copy">{day.theme}</p>
               {overloaded ? (
                 <p className="ios-group__hint ios-group__hint--warning">
-                  Det här blocket är tätare än rekommenderat. Du kan behålla det så, eller öppna plan och flytta något.
+                  Det här dagspåret är tätare än rekommenderat. Du kan behålla det så, eller öppna plan och flytta något.
                 </p>
               ) : null}
               <div className="schedule-block__actions">
@@ -81,12 +81,12 @@ export function ScheduleRoute() {
                   href="/plan"
                   onClick={() => updateProfile("currentDayId", block.dayId)}
                 >
-                  Justera block
+                  Justera dagspår
                 </Link>
               </div>
 
               {items.length === 0 ? (
-                <p className="schedule-empty">Inget valt ännu. Lägg till stopp i planvyn för att bygga det här blocket.</p>
+                <p className="schedule-empty">Inget valt ännu. Lägg till stopp i planvyn för att bygga det här dagspåret.</p>
               ) : (
                 <div className="schedule-day-table">
                   {periodMeta.map((period) => {
@@ -141,7 +141,7 @@ export function ScheduleRoute() {
                                     ) : null}
                                     {stop.choiceOption ? (
                                       <p className="schedule-card__meta">
-                                        Kuraterat från {stop.choiceOption.sourceLabel}.
+                                        Populärt val från {stop.choiceOption.sourceLabel}.
                                       </p>
                                     ) : null}
                                     {stop.choiceOption?.url || insight?.links.length ? (
