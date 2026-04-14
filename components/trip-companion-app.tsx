@@ -133,7 +133,7 @@ export function TripCompanionApp() {
           <div className="saved-grid saved-grid--single">
             <div>
               <h3>Aktuella stopp</h3>
-              <div className="saved-list saved-list--highlights">
+              <div className="saved-list saved-list--highlights saved-list--wide">
                 {selectedHighlights.length === 0 ? (
                   <p className="saved-empty">
                     Lägg till stopp i planvyn så byggs din resa upp här.
@@ -148,7 +148,7 @@ export function TripCompanionApp() {
 
                     return (
                       <article
-                        className={`saved-item saved-item--interactive ${
+                        className={`saved-item saved-item--interactive saved-item--horizontal ${
                           preview?.imageUrl ? "saved-item--with-image" : ""
                         } ${isExpanded ? "is-expanded" : ""}`}
                         key={stop.id}
