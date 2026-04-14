@@ -8,10 +8,15 @@ import { SchedulePeriod } from "@/lib/trip-logic";
 import { getStopInsight, getStopInsightPreview } from "@/lib/stop-insights";
 import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
-const periodMeta: Array<{ key: SchedulePeriod; label: string; startMinutes: number }> = [
-  { key: "morning", label: "Morgon", startMinutes: 9 * 60 },
-  { key: "midday", label: "Eftermiddag", startMinutes: 13 * 60 },
-  { key: "evening", label: "Kväll", startMinutes: 18 * 60 + 30 },
+const periodMeta: Array<{
+  key: SchedulePeriod;
+  label: string;
+  startMinutes: number;
+  endMinutes: number;
+}> = [
+  { key: "morning", label: "Morgon", startMinutes: 9 * 60, endMinutes: 12 * 60 + 30 },
+  { key: "midday", label: "Eftermiddag", startMinutes: 13 * 60, endMinutes: 17 * 60 },
+  { key: "evening", label: "Kväll", startMinutes: 18 * 60 + 30, endMinutes: 22 * 60 },
 ];
 
 function parseDurationMinutes(duration: string) {
@@ -27,6 +32,30 @@ function formatClock(totalMinutes: number) {
     .padStart(2, "0");
   const minutes = (totalMinutes % 60).toString().padStart(2, "0");
   return `${hours}.${minutes}`;
+}
+
+function getBoardTone(item: ScheduleItem) {
+  const source = `${item.sectionTitle} ${item.displayName} ${item.displayWhy ?? item.why}`.toLowerCase();
+
+  if (
+    /(museum|muse|gallery|galleri|art|konst|cathedral|katedral|history|historia)/.test(source)
+  ) {
+    return { key: "culture", label: "Kultur" } as const;
+  }
+
+  if (/(food|lunch|dinner|brunch|market|bagel|pizza|cafe|bar|vin|cocktail)/.test(source)) {
+    return { key: "food", label: "Mat" } as const;
+  }
+
+  if (/(park|garden|beach|sea|harbor|hamn|coast|strand|water|promenade|nature)/.test(source)) {
+    return { key: "outdoor", label: "Ute" } as const;
+  }
+
+  if (/(view|deck|skyline|tower|rooftop|ferry|boat|bridge|lookout|mirador)/.test(source)) {
+    return { key: "view", label: "Utsikt" } as const;
+  }
+
+  return { key: "city", label: "Stad" } as const;
 }
 
 type ScheduleItem = ReturnType<typeof useTripCompanionState>["selectedStopItems"][number];
@@ -91,9 +120,13 @@ export function ScheduleRoute() {
     () => scheduleBlocks.flatMap((block) => block.items).find((item) => item.id === expandedStopId) ?? null,
     [expandedStopId, scheduleBlocks]
   );
+  const expandedStopTone = expandedStop ? getBoardTone(expandedStop) : null;
+  const expandedStopPeriod = expandedStop
+    ? periodMeta.find((period) => period.key === expandedStop.schedulePeriod)
+    : null;
 
   return (
-    <main className="page-shell page-shell--route">
+    <main className="page-shell page-shell--route page-shell--schedule">
       <section className="screen-intro">
         <p className="screen-intro__kicker">Schema</p>
         <h1 className="screen-intro__title">Så här ser hela vistelsen ut</h1>
@@ -133,6 +166,9 @@ export function ScheduleRoute() {
               <div className="schedule-board__label">
                 <span>{period.label}</span>
                 <strong>{formatClock(period.startMinutes)}</strong>
+                <small>
+                  {formatClock(period.startMinutes)}–{formatClock(period.endMinutes)}
+                </small>
               </div>
               {scheduleBlocks.map(({ block, timedPeriods }) => {
                 const periodItems = timedPeriods[period.key];
@@ -145,16 +181,20 @@ export function ScheduleRoute() {
                         {periodItems.map((item) => {
                           const preview = getStopInsightPreview(item.id);
                           const active = expandedStopId === item.id;
+                          const tone = getBoardTone(item);
 
                           return (
                             <button
                               key={item.id}
                               type="button"
-                              className={`schedule-board-card ${active ? "is-active" : ""}`}
+                              className={`schedule-board-card schedule-board-card--${tone.key} ${active ? "is-active" : ""}`}
                               onClick={() =>
                                 setExpandedStopId((current) => (current === item.id ? null : item.id))
                               }
                             >
+                              <span className={`schedule-board-card__tone schedule-board-card__tone--${tone.key}`}>
+                                {tone.label}
+                              </span>
                               <span className="schedule-board-card__time">{item.startTime}</span>
                               <strong>{item.displayName}</strong>
                               <small>{preview?.eyebrow ?? item.sectionTitle}</small>
@@ -199,6 +239,21 @@ export function ScheduleRoute() {
               <p className="schedule-board-detail__meta">
                 {expandedStop.assignedDayTitle} · {expandedStop.sectionTitle} · {expandedStop.duration}
               </p>
+              <div className="schedule-board-detail__tags">
+                {expandedStopTone ? (
+                  <span
+                    className={`schedule-board-card__tone schedule-board-card__tone--detail schedule-board-card__tone--${expandedStopTone.key}`}
+                  >
+                    {expandedStopTone.label}
+                  </span>
+                ) : null}
+                {expandedStopPeriod ? (
+                  <span className="schedule-board-detail__range">
+                    {expandedStopPeriod.label} · {formatClock(expandedStopPeriod.startMinutes)}–
+                    {formatClock(expandedStopPeriod.endMinutes)}
+                  </span>
+                ) : null}
+              </div>
               {expandedStop.choiceOption ? (
                 <p className="schedule-card__meta">
                   Populärt val från {expandedStop.choiceOption.sourceLabel}.
