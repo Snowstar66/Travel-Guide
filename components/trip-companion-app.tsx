@@ -15,11 +15,9 @@ import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
 export function TripCompanionApp() {
   const {
-    selectedStops,
     notes,
     profile,
     tripBlocks,
-    selectedCount,
     selectedStopItems,
     notedDays,
     setPremiumAccess,
@@ -30,12 +28,14 @@ export function TripCompanionApp() {
   const basics = guide.basics;
   const currentDay =
     guide.tripDays.find((day) => day.id === profile.currentDayId) ?? guide.tripDays[0];
-  const currentBlock =
-    getTripBlockByDayId(profile, currentDay.id) ?? tripBlocks[0];
+  const currentBlock = getTripBlockByDayId(profile, currentDay.id) ?? tripBlocks[0];
   const currentDayStops = currentDay.sections.flatMap((section) => section.stops);
-  const selectedInCurrentBlock = currentDayStops.filter((stop) => selectedStops[stop.id]).length;
+  const selectedInCurrentBlock = selectedStopItems.filter(
+    (stop) => stop.assignedDayId === currentBlock.dayId
+  ).length;
   const nextSuggested =
-    currentDayStops.find((stop) => !selectedStops[stop.id]) ?? currentDayStops[0];
+    currentDayStops.find((stop) => !selectedStopItems.some((item) => item.id === stop.id)) ??
+    currentDayStops[0];
   const travelStyle =
     travelStyleOptions.find((option) => option.value === profile.travelStyle) ??
     travelStyleOptions[0];
@@ -45,7 +45,10 @@ export function TripCompanionApp() {
   const pace = paceOptions.find((option) => option.value === profile.pace) ?? paceOptions[1];
   const selectedHighlights = selectedStopItems
     .slice()
-    .sort((left, right) => Number(right.dayId === currentDay.id) - Number(left.dayId === currentDay.id))
+    .sort(
+      (left, right) =>
+        Number(right.assignedDayId === currentBlock.dayId) - Number(left.assignedDayId === currentBlock.dayId)
+    )
     .slice(0, 5);
 
   return (
@@ -65,8 +68,7 @@ export function TripCompanionApp() {
         </div>
         <h1>{guide.displayName} just nu</h1>
         <p className="dashboard-hero__lead">
-          {currentBlock.label} fokuserar på {currentDay.title.toLowerCase()}. Du har valt{" "}
-          {selectedInCurrentBlock} av {currentDayStops.length} stopp i det här blocket.
+          {currentBlock.label} fokuserar på {currentDay.title.toLowerCase()}. Du har byggt {selectedInCurrentBlock} stopp i det här blocket.
         </p>
 
         <article className="dashboard-stat dashboard-stat--primary">
@@ -81,10 +83,33 @@ export function TripCompanionApp() {
           <Link className="button button--solid" href="/plan">
             Öppna plan
           </Link>
-          <Link className="button button--surface" href="/city">
-            Läs om staden
+          <Link className="button button--surface" href="/schedule">
+            Öppna schema
           </Link>
         </div>
+      </section>
+
+      <section className="overview-block-strip" aria-label="Planeringsblock">
+        {tripBlocks.map((block) => {
+          const isActive = block.dayId === currentBlock.dayId;
+          const unlocked = hasAccessToDay(profile, block.dayId);
+
+          return (
+            <Link
+              key={block.dayId}
+              href={unlocked ? "/plan" : "/settings"}
+              className={`overview-block-pill ${isActive ? "is-active" : ""} ${!unlocked ? "is-locked" : ""}`}
+              onClick={() => {
+                if (unlocked) {
+                  updateProfile("currentDayId", block.dayId);
+                }
+              }}
+            >
+              <span>{block.rangeLabel}</span>
+              <strong>{block.label}</strong>
+            </Link>
+          );
+        })}
       </section>
 
       <section className="app-home-stack">
@@ -99,14 +124,14 @@ export function TripCompanionApp() {
               <div className="saved-list">
                 {selectedHighlights.length === 0 ? (
                   <p className="saved-empty">
-                    Välj stopp i planvyn så byggs din resa upp här.
+                    Lägg till stopp i planvyn så byggs din resa upp här.
                   </p>
                 ) : (
                   selectedHighlights.map((stop) => (
                     <article className="saved-item" key={stop.id}>
                       <div className="saved-item__top">
                         <h4>{stop.name}</h4>
-                        <span className="pill pill--soft">{stop.dayTitle}</span>
+                        <span className="pill pill--soft">{stop.assignedDayTitle}</span>
                       </div>
                       <p>{stop.why}</p>
                     </article>
@@ -126,6 +151,7 @@ export function TripCompanionApp() {
             {tripBlocks.map((block) => {
               const day = guide.tripDays.find((item) => item.id === block.dayId) ?? currentDay;
               const unlocked = hasAccessToDay(profile, block.dayId);
+              const blockSelections = selectedStopItems.filter((stop) => stop.assignedDayId === block.dayId).length;
 
               return (
                 <article
@@ -142,6 +168,7 @@ export function TripCompanionApp() {
                   </div>
                   <h3>{day.title}</h3>
                   <p>{day.theme}</p>
+                  <p className="trip-day-card__meta">{blockSelections} valda stopp</p>
                   {unlocked ? (
                     <Link
                       className="button button--surface"
@@ -176,6 +203,9 @@ export function TripCompanionApp() {
             <div className="overview-inline-links">
               <Link className="utility-link" href="/city">
                 Mer stadskunskap
+              </Link>
+              <Link className="utility-link" href="/schedule">
+                Se hela schemat
               </Link>
             </div>
           </article>

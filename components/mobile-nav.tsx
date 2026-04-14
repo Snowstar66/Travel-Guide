@@ -16,7 +16,7 @@ import {
   TravelerProfile,
 } from "@/lib/trip-logic";
 
-function NavIcon({ type }: { type: "overview" | "plan" | "city" | "settings" }) {
+function NavIcon({ type }: { type: "overview" | "plan" | "schedule" | "city" | "settings" }) {
   if (type === "overview") {
     return (
       <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -42,6 +42,21 @@ function NavIcon({ type }: { type: "overview" | "plan" | "city" | "settings" }) 
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="1.9"
+        />
+      </svg>
+    );
+  }
+
+  if (type === "schedule") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path
+          d="M7 4.75v2.5M17 4.75v2.5M5.75 8.5h12.5M6.5 6.5h11a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-10a1 1 0 0 1 1-1Zm2.25 5h2.5m2 0h2.5m-6.5 3h2.5"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.7"
         />
       </svg>
     );
@@ -116,13 +131,18 @@ export function MobileNav() {
     (routeDayId ? getTripBlockByDayId(profile, routeDayId) : null) ??
     tripBlocks.find((block) => block.dayId === profile.currentDayId) ??
     tripBlocks[0];
-  const showBlockRail = pathname === "/plan" || pathname.startsWith("/day/");
+  const showBlockRail =
+    pathname === "/" ||
+    pathname === "/plan" ||
+    pathname === "/schedule" ||
+    pathname.startsWith("/day/");
 
   const items = [
     { href: "/", label: "Översikt", icon: "overview" as const },
     { href: "/plan", label: "Plan", icon: "plan" as const },
+    { href: "/schedule", label: "Schema", icon: "schedule" as const },
     { href: "/city", label: "Stad", icon: "city" as const },
-    { href: "/settings", label: "Inställningar", icon: "settings" as const },
+    { href: "/settings", label: "Inst.", icon: "settings" as const },
   ];
 
   return (
@@ -132,7 +152,7 @@ export function MobileNav() {
           {tripBlocks.map((block) => {
             const locked = !hasAccessToDay(profile, block.dayId);
             const active = block.dayId === activeBlock?.dayId;
-            const href = pathname.startsWith("/day/") ? `/day/${block.dayId}` : "/plan";
+            const href = pathname === "/" || pathname === "/schedule" ? pathname : pathname.startsWith("/day/") ? `/day/${block.dayId}` : "/plan";
 
             return (
               <Link

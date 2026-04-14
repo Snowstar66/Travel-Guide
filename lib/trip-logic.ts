@@ -28,6 +28,8 @@ export type TripBlock = {
   merged: boolean;
 };
 
+export type SchedulePeriod = "morning" | "midday" | "evening";
+
 export const minTripLength = 1;
 export const maxTripLength = 10;
 
@@ -202,6 +204,50 @@ export const tripLengthOptions: ProfileOption<number>[] = Array.from(
     };
   }
 );
+
+export function getRecommendedStopCount(
+  pace: TravelerProfile["pace"]
+) {
+  if (pace === "calm") return 3;
+  if (pace === "max") return 5;
+  return 4;
+}
+
+export function getSchedulePeriod(label: string, sectionIndex = 0): SchedulePeriod {
+  const normalized = label.toLowerCase();
+
+  if (
+    normalized.includes("morgon") ||
+    normalized.includes("förmiddag") ||
+    normalized.includes("formiddag") ||
+    normalized.includes("ankomst") ||
+    normalized.includes("morning")
+  ) {
+    return "morning";
+  }
+
+  if (
+    normalized.includes("kväll") ||
+    normalized.includes("middag") ||
+    normalized.includes("sen") ||
+    normalized.includes("evening") ||
+    normalized.includes("night")
+  ) {
+    return "evening";
+  }
+
+  if (
+    normalized.includes("eftermiddag") ||
+    normalized.includes("lunch") ||
+    normalized.includes("afternoon")
+  ) {
+    return "midday";
+  }
+
+  if (sectionIndex <= 0) return "morning";
+  if (sectionIndex >= 2) return "evening";
+  return "midday";
+}
 
 export function getTodayOptions(profile: TravelerProfile) {
   const items: string[] = [];

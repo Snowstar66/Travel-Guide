@@ -4,20 +4,27 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { StopMiniCard } from "@/components/stop-mini-card";
 import { StopInsightPanel } from "@/components/stop-insight-panel";
 import { findTripDayById } from "@/lib/guide-config";
+import { TripBlock } from "@/lib/trip-logic";
 import { getStopInsight } from "@/lib/stop-insights";
-import { NotesState, RecordState } from "@/lib/use-trip-companion-state";
+import { NotesState, SelectionState } from "@/lib/use-trip-companion-state";
 
 export function DayDetailPanel({
   dayId,
   selectedStops,
+  tripBlocks,
+  recommendedStopCount,
   notes,
   onToggleSelected,
+  onMoveSelected,
   onSaveNote,
 }: {
   dayId: string;
-  selectedStops: RecordState;
+  selectedStops: SelectionState;
+  tripBlocks: TripBlock[];
+  recommendedStopCount: number;
   notes: NotesState;
-  onToggleSelected: (stopId: string) => void;
+  onToggleSelected: (stopId: string, assignedDayId: string) => void;
+  onMoveSelected: (stopId: string, assignedDayId: string) => void;
   onSaveNote: (dayId: string, noteValue: string) => void;
 }) {
   const day = useMemo(() => findTripDayById(dayId), [dayId]);
@@ -46,7 +53,11 @@ export function DayDetailPanel({
   }
 
   const dayStops = day.sections.flatMap((section) => section.stops);
-  const selectedDayStops = dayStops.filter((stop) => selectedStops[stop.id]);
+  const selectedDayStops = dayStops.filter((stop) => selectedStops[stop.id] === day.id);
+  const blockLoadMessage =
+    selectedDayStops.length > recommendedStopCount
+      ? `Det här blocket börjar bli tätt. ${selectedDayStops.length} stopp är mer än den rekommenderade nivån på ${recommendedStopCount}, men du kan fortfarande behålla dem eller flytta något.`
+      : null;
 
   return (
     <section className="today-native-stack day-native-stack">
@@ -63,18 +74,19 @@ export function DayDetailPanel({
         <p className="ios-group__copy">{day.intro}</p>
         <div className="ios-stat-grid ios-stat-grid--3">
           <article className="ios-stat">
-            <span>Valda</span>
+            <span>I blocket</span>
             <strong>{selectedDayStops.length}</strong>
           </article>
           <article className="ios-stat">
-            <span>Förslag kvar</span>
-            <strong>{Math.max(dayStops.length - selectedDayStops.length, 0)}</strong>
+            <span>Lagom nivå</span>
+            <strong>{recommendedStopCount}</strong>
           </article>
           <article className="ios-stat">
             <span>Energi</span>
             <strong>{day.energy}</strong>
           </article>
         </div>
+        {blockLoadMessage ? <p className="ios-group__hint ios-group__hint--warning">{blockLoadMessage}</p> : null}
       </section>
 
       <section className="ios-group ios-group--list">
@@ -98,6 +110,12 @@ export function DayDetailPanel({
             ))}
           </div>
         )}
+        {blockLoadMessage ? (
+          <div className="ios-inline-callout">
+            <strong>Tät dag</strong>
+            <span>Du kan fortfarande ha kvar allt, men det kan bli stressigt. Flytta gärna något till ett annat block.</span>
+          </div>
+        ) : null}
       </section>
 
       {day.sections.map((section) => (
@@ -111,7 +129,10 @@ export function DayDetailPanel({
           <p className="ios-group__copy">{section.note}</p>
           <div className="ios-stop-list">
             {section.stops.map((stop) => {
-              const selected = Boolean(selectedStops[stop.id]);
+              const assignedDayId = selectedStops[stop.id];
+              const selected = Boolean(assignedDayId);
+              const selectedHere = assignedDayId === day.id;
+              const assignedBlock = tripBlocks.find((block) => block.dayId === assignedDayId);
               const insight = getStopInsight(stop.id);
               const insightOpen = expandedInsightId === stop.id;
 
@@ -129,12 +150,42 @@ export function DayDetailPanel({
                       <button
                         className={`ios-mini-button ${selected ? "is-active" : ""}`}
                         type="button"
-                        onClick={() => onToggleSelected(stop.id)}
+                        onClick={() => onToggleSelected(stop.id, day.id)}
                       >
-                        {selected ? "Vald" : "Välj"}
+                        {selectedHere ? "Tillagd" : selected ? `I ${assignedBlock?.shortLabel ?? "plan"}` : "Lägg till"}
                       </button>
+                      {selected ? (
+                        <>
+                          <label className="ios-stop-row__move">
+                            <span>Flytta till</span>
+                            <select
+                              value={assignedDayId}
+                              onChange={(event) => onMoveSelected(stop.id, event.target.value)}
+                            >
+                              {tripBlocks.map((block) => (
+                                <option key={block.dayId} value={block.dayId}>
+                                  {block.rangeLabel}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          <button
+                            className="ios-mini-button ios-mini-button--ghost"
+                            type="button"
+                            onClick={() => onToggleSelected(stop.id, day.id)}
+                          >
+                            Ta bort
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                   </article>
+
+                  {selected && !selectedHere ? (
+                    <p className="ios-stop-row__status">
+                      Det här stoppet ligger just nu i {assignedBlock?.rangeLabel ?? "ett annat block"}.
+                    </p>
+                  ) : null}
 
                   {insight ? (
                     <div

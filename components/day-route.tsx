@@ -16,7 +16,10 @@ export function DayRoute({ dayId }: { dayId: string }) {
     selectedStops,
     notes,
     profile,
+    tripBlocks,
+    recommendedStopCount,
     toggleSelected,
+    moveSelectedStop,
     saveNote,
     setPremiumAccess,
   } = useTripCompanionState();
@@ -119,8 +122,11 @@ export function DayRoute({ dayId }: { dayId: string }) {
         <DayDetailPanel
           dayId={day.id}
           selectedStops={selectedStops}
+          tripBlocks={tripBlocks}
+          recommendedStopCount={recommendedStopCount}
           notes={notes}
           onToggleSelected={toggleSelected}
+          onMoveSelected={moveSelectedStop}
           onSaveNote={saveNote}
         />
       ) : null}

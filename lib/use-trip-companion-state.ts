@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { triggerHaptic } from "@/lib/haptics";
-import { getCityGuide } from "@/lib/guide-config";
+import { getAllTripDays, getCityGuide } from "@/lib/guide-config";
 import {
   profileUpdatedEvent,
   readStoredProfile,
@@ -10,12 +10,14 @@ import {
 } from "@/lib/profile-storage";
 import {
   defaultProfile,
+  getRecommendedStopCount,
+  getSchedulePeriod,
   getTripBlocks,
   normalizeProfile,
   TravelerProfile,
 } from "@/lib/trip-logic";
 
-export type RecordState = Record<string, boolean>;
+export type SelectionState = Record<string, string>;
 export type NotesState = Record<string, string>;
 
 function loadLocalJson<T>(key: string, fallback: T): T {
@@ -29,9 +31,9 @@ function loadLocalJson<T>(key: string, fallback: T): T {
 }
 
 function loadSelectedStops() {
-  const next = loadLocalJson<RecordState>("trip-companion-selected", {});
-  const legacyChecked = loadLocalJson<RecordState>("trip-companion-checked", {});
-  const legacyFavorites = loadLocalJson<RecordState>("trip-companion-favorites", {});
+  const next = loadLocalJson<Record<string, string | boolean>>("trip-companion-selected", {});
+  const legacyChecked = loadLocalJson<Record<string, boolean>>("trip-companion-checked", {});
+  const legacyFavorites = loadLocalJson<Record<string, boolean>>("trip-companion-favorites", {});
   return {
     ...legacyChecked,
     ...legacyFavorites,
@@ -39,13 +41,37 @@ function loadSelectedStops() {
   };
 }
 
+const stopDayLookup = new Map(
+  getAllTripDays().flatMap((day) => day.sections.flatMap((section) => section.stops.map((stop) => [stop.id, day.id] as const)))
+);
+
+function normalizeSelectedStops(raw: Record<string, string | boolean>) {
+  const next: SelectionState = {};
+
+  for (const [stopId, value] of Object.entries(raw)) {
+    if (typeof value === "string" && stopDayLookup.has(stopId)) {
+      next[stopId] = value;
+      continue;
+    }
+
+    if (value) {
+      const sourceDayId = stopDayLookup.get(stopId);
+      if (sourceDayId) {
+        next[stopId] = sourceDayId;
+      }
+    }
+  }
+
+  return next;
+}
+
 export function useTripCompanionState() {
-  const [selectedStops, setSelectedStops] = useState<RecordState>({});
+  const [selectedStops, setSelectedStops] = useState<SelectionState>({});
   const [notes, setNotes] = useState<NotesState>({});
   const [profile, setProfile] = useState<TravelerProfile>(defaultProfile);
 
   useEffect(() => {
-    setSelectedStops(loadSelectedStops());
+    setSelectedStops(normalizeSelectedStops(loadSelectedStops()));
     setNotes(loadLocalJson<NotesState>("trip-companion-notes", {}));
     setProfile(readStoredProfile());
   }, []);
@@ -64,29 +90,46 @@ export function useTripCompanionState() {
 
   const guide = useMemo(() => getCityGuide(profile.cityId), [profile.cityId]);
   const tripBlocks = useMemo(() => getTripBlocks(profile), [profile]);
+  const recommendedStopCount = useMemo(() => getRecommendedStopCount(profile.pace), [profile.pace]);
 
   const allStops = useMemo(
     () =>
       guide.tripDays.flatMap((day) =>
-        day.sections.flatMap((section) =>
-          section.stops.map((stop) => ({
+        day.sections.flatMap((section, sectionIndex) =>
+          section.stops.map((stop, stopIndex) => ({
             ...stop,
             dayId: day.id,
             dayTitle: day.title,
+            sectionLabel: section.label,
+            sectionTitle: section.title,
+            sectionIndex,
+            stopIndex,
+            schedulePeriod: getSchedulePeriod(section.label, sectionIndex),
           }))
         )
       ),
     [guide]
   );
 
-  const selectedStopItems = allStops.filter((stop) => selectedStops[stop.id]);
+  const selectedStopItems = allStops
+    .filter((stop) => selectedStops[stop.id])
+    .map((stop) => {
+      const assignedDayId = selectedStops[stop.id];
+      const assignedDay = guide.tripDays.find((day) => day.id === assignedDayId);
+
+      return {
+        ...stop,
+        assignedDayId,
+        assignedDayTitle: assignedDay?.title ?? stop.dayTitle,
+      };
+    });
   const selectedCount = selectedStopItems.length;
   const notedDays = tripBlocks
     .map((block) => guide.tripDays.find((day) => day.id === block.dayId))
     .filter((day): day is NonNullable<typeof day> => Boolean(day))
     .filter((day) => (notes[day.id] ?? "").trim().length > 0);
 
-  function persistSelected(next: RecordState) {
+  function persistSelected(next: SelectionState) {
     setSelectedStops(next);
     window.localStorage.setItem("trip-companion-selected", JSON.stringify(next));
   }
@@ -101,11 +144,22 @@ export function useTripCompanionState() {
     setProfile(normalized);
   }
 
-  function toggleSelected(stopId: string) {
-    const next = { ...selectedStops, [stopId]: !selectedStops[stopId] };
-    if (!next[stopId]) delete next[stopId];
+  function toggleSelected(stopId: string, assignedDayId: string) {
+    const next = { ...selectedStops };
+    if (next[stopId]) {
+      delete next[stopId];
+    } else {
+      next[stopId] = assignedDayId;
+    }
     persistSelected(next);
     triggerHaptic(next[stopId] ? [12, 22, 14] : 10);
+  }
+
+  function moveSelectedStop(stopId: string, assignedDayId: string) {
+    if (!selectedStops[stopId]) return;
+    const next = { ...selectedStops, [stopId]: assignedDayId };
+    persistSelected(next);
+    triggerHaptic([10, 18, 10]);
   }
 
   function saveNote(dayId: string, noteValue: string) {
@@ -138,8 +192,10 @@ export function useTripCompanionState() {
     allStops,
     selectedCount,
     selectedStopItems,
+    recommendedStopCount,
     notedDays,
     toggleSelected,
+    moveSelectedStop,
     saveNote,
     updateProfile,
     setPremiumAccess,
