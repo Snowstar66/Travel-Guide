@@ -1,3 +1,9 @@
+import {
+  palmaStopChoiceOptions,
+  palmaStopInsights,
+  palmaStopPreviews,
+} from "@/lib/palma-stop-insights";
+
 export type StopInsightLink = {
   label: string;
   url: string;
@@ -330,7 +336,7 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     imageAlt: "Promenadmiljö i Brooklyn Bridge Park.",
   },
   "nyc-museum-flex": {
-    eyebrow: "Kuraterat",
+    eyebrow: "Populära val",
     title: "Ett museum, rätt museum",
     copy: "Välj efter energi och smak i stället för att försöka hinna allt kulturellt på en gång.",
   },
@@ -526,16 +532,31 @@ const nycStopChoiceOptions: Record<string, StopChoiceOption[]> = {
   "nyc-favorite-return": nycNeighborhoodChoiceOptions,
 };
 
+const stopInsights: Record<string, StopInsight> = {
+  ...nycStopInsights,
+  ...palmaStopInsights,
+};
+
+const stopPreviews: Record<string, StopInsightPreview> = {
+  ...nycStopPreviews,
+  ...palmaStopPreviews,
+};
+
+const stopChoiceOptions: Record<string, StopChoiceOption[]> = {
+  ...nycStopChoiceOptions,
+  ...palmaStopChoiceOptions,
+};
+
 export function getStopInsight(stopId: string) {
-  return nycStopInsights[stopId];
+  return stopInsights[stopId];
 }
 
 export function getStopInsightPreview(stopId: string) {
-  return nycStopPreviews[stopId];
+  return stopPreviews[stopId];
 }
 
 export function getStopChoiceOptions(stopId: string) {
-  return nycStopChoiceOptions[stopId] ?? [];
+  return stopChoiceOptions[stopId] ?? [];
 }
 
 export function getStopChoiceOption(stopId: string, optionId: string) {

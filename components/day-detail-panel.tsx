@@ -72,7 +72,7 @@ export function DayDetailPanel({
   const selectedDayStops = dayStops.filter((stop) => selectedStops[stop.id] === day.id);
   const blockLoadMessage =
     selectedDayStops.length > recommendedStopCount
-      ? `Det här blocket börjar bli tätt. ${selectedDayStops.length} stopp är mer än den rekommenderade nivån på ${recommendedStopCount}, men du kan fortfarande behålla dem eller flytta något.`
+      ? `Det här dagspåret börjar bli tätt. ${selectedDayStops.length} stopp är mer än den rekommenderade nivån på ${recommendedStopCount}, men du kan fortfarande behålla dem eller flytta något.`
       : null;
 
   return (
@@ -90,7 +90,7 @@ export function DayDetailPanel({
         <p className="ios-group__copy">{day.intro}</p>
         <div className="ios-stat-grid ios-stat-grid--3">
           <article className="ios-stat">
-            <span>I blocket</span>
+            <span>I dagspåret</span>
             <strong>{selectedDayStops.length}</strong>
           </article>
           <article className="ios-stat">
@@ -109,12 +109,12 @@ export function DayDetailPanel({
         <div className="ios-group__header">
           <div>
             <p className="ios-group__eyebrow">Ditt upplägg just nu</p>
-            <h2>Valda stopp i blocket</h2>
+            <h2>Valda stopp i dagspåret</h2>
           </div>
         </div>
         {selectedDayStops.length === 0 ? (
           <p className="ios-group__copy">
-            Inga stopp valda än. Börja trycka på det som passar er, så byggs blocket upp här.
+            Inga stopp valda än. Börja trycka på det som passar er, så byggs dagspåret upp här.
           </p>
         ) : (
           <div className="ios-list">
@@ -134,8 +134,8 @@ export function DayDetailPanel({
         )}
         {blockLoadMessage ? (
           <div className="ios-inline-callout">
-            <strong>Tät dag</strong>
-            <span>Du kan fortfarande ha kvar allt, men det kan bli stressigt. Flytta gärna något till ett annat block.</span>
+            <strong>Tätt dagspår</strong>
+            <span>Du kan fortfarande ha kvar allt, men det kan bli stressigt. Flytta gärna något till ett annat dagspår.</span>
           </div>
         ) : null}
       </section>
@@ -219,7 +219,7 @@ export function DayDetailPanel({
                     <div className="stop-choice-panel">
                       <div className="stop-choice-panel__header">
                         <strong>Populära val just nu</strong>
-                        <span>Kuraterat från starka referenser, men du kan också lägga in ett eget tips.</span>
+                        <span>Bygger på populära tips från starka referenser, men du kan också lägga in ett eget tips.</span>
                       </div>
                       <div className="stop-choice-grid">
                         {choiceOptions.map((option) => {
@@ -351,7 +351,7 @@ export function DayDetailPanel({
           id="day-notes"
           value={noteDraft}
           onChange={(event) => setNoteDraft(event.target.value)}
-          placeholder="Skriv det du vill minnas från blocket."
+          placeholder="Skriv det du vill minnas från dagspåret."
           rows={5}
         />
         <div className="ios-group__actions">

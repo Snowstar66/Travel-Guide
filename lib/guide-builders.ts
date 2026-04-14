@@ -1,7 +1,15 @@
 import type { AreaCard, RainPlan } from "@/lib/day-extras";
 import type { GuideCard, GalleryItem, TripDay, TripSection, TripStop } from "@/lib/trip-data";
 
-export type CityId = "nyc" | "paris" | "milan" | "london" | "amsterdam" | "berlin";
+export type CityId =
+  | "nyc"
+  | "paris"
+  | "milan"
+  | "london"
+  | "amsterdam"
+  | "berlin"
+  | "palma"
+  | "malaga";
 export type HotelAreaValue = "central" | "historic" | "local" | "unknown";
 
 export type HotelAreaOption = {
