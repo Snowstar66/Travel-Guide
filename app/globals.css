@@ -3884,6 +3884,12 @@ textarea {
   }
 }
 
+@media (min-width: 800px) and (orientation: portrait) {
+  .page-shell--schedule .schedule-stack {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (orientation: landscape) and (min-width: 700px) {
   .page-shell--schedule {
     padding-inline: 6px;
