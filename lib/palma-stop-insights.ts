@@ -213,6 +213,62 @@ export const palmaStopInsights: Record<string, StopInsight> = {
       { label: "La Lonja via Visit Palma", url: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/experiences/pln657/la-lonja-elegance-in-stone" },
     ],
   },
+  "palma-can-balaguer": {
+    facts: [
+      "Visit Palma beskriver Can Balaguer som ett av de vackraste och bäst bevarade patiorummen i Palma.",
+      "Det är dessutom det enda publikt tillgängliga stadspalatset i Palma som fortfarande har sitt originalmöblemang bevarat.",
+    ],
+    ideas: [
+      "Bra stopp när du vill ge gamla stan ett mer intimt och levt lager efter katedral och palats.",
+      "Kombinera det gärna med grändpromenaden i stället för att göra det till en separat halvdag.",
+    ],
+    links: [
+      { label: "Can Balaguer via Visit Palma", url: "https://visitpalma.com/en/dir/can-balaguer-palmas-great-courtyard/" },
+      { label: "Can Balaguer officiellt", url: "https://canbalaguer.palma.cat/" },
+    ],
+  },
+  "palma-casal-solleric": {
+    facts: [
+      "Visit Palma beskriver Casal Solleric som ett av de mest eleganta patiorummen i staden och som en av knutpunkterna i Palmas kulturliv.",
+      "Byggnaden rymmer samtida utställningar och installationer, men själva gården och trappan är en stor del av upplevelsen i sig.",
+    ],
+    ideas: [
+      "Perfekt när du vill ge Born mer innehåll än bara shopping eller kvällsstråk.",
+      "Ta det här som mjuk kultur mellan Es Baluard och kvällsmaten i stället för som ett eget tungt program.",
+    ],
+    links: [
+      { label: "Casal Solleric via Visit Palma", url: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/palma-in-1-day/pln607/casal-solleric-the-elegance-of-a-courtyard" },
+      { label: "Casal Solleric officiellt", url: "https://casalsolleric.palma.cat/" },
+    ],
+  },
+  "palma-miro-foundation": {
+    facts: [
+      "Visit Palma lyfter Fundació Miró Mallorca som ett ovanligt privilegierat möte med konstnärens kreativa process tack vare att både Taller Sert och Son Boter bevarats.",
+      "Fundació Miró Mallorcas officiella sida beskriver platsen som ett besök i studiorna, samlingen och omgivningarna där Miró faktiskt arbetade.",
+    ],
+    ideas: [
+      "Det här är ett starkt val när ni vill ha kultur med luft omkring er, inte ännu ett monument mitt i centrum.",
+      "Bra sista kulturstopp om ni vill att Palma ska sluta mer personligt än pampigt.",
+    ],
+    links: [
+      { label: "Fundació Miró Mallorca via Visit Palma", url: "https://www.visitpalma.com/es/descubrir/que-ver-y-que-hacer/palma-en-3-dias/pln635/fundacio-miro-mallorca" },
+      { label: "Fundació Miró Mallorca officiellt", url: "https://miromallorca.com/en/" },
+    ],
+  },
+  "palma-caixaforum": {
+    facts: [
+      "CaixaForum Palma beskriver själv byggnaden som det tidigare Gran Hotel, ritat av Lluís Domènech i Montaner och ett av stadens tydligaste modernistiska landmärken.",
+      "CaixaForums officiella Palma-program visar dessutom löpande tillfälliga utställningar, vilket gör stoppet extra relevant även när ni redan sett Palmas historiska kärna.",
+    ],
+    ideas: [
+      "Välj det här när vädret skiftar eller när ni vill ha ett centralt kulturkort med låg logistisk friktion.",
+      "Lägg gärna några minuter på fasaden och trapphallen även om ni främst går för utställningen.",
+    ],
+    links: [
+      { label: "CaixaForum Palma", url: "https://caixaforum.org/es/web/palma" },
+      { label: "Byggnaden Gran Hotel", url: "https://caixaforum.org/es/palma/el-edificio" },
+    ],
+  },
   "palma-museum-flex": {
     facts: [
       "Palmas styrka är att kulturutbudet spänner från renässansmurar och samtidskonst till Miró och små privata samlingar nära katedralen.",
@@ -325,6 +381,34 @@ export const palmaStopPreviews: Record<string, StopInsightPreview> = {
     imageUrl: commons("Lonja, Palma de Mallorca, España, 2022-10-06, DD 25-27 HDR.jpg"),
     imageAlt: "La Lonja i Palma.",
   },
+  "palma-can-balaguer": {
+    eyebrow: "Patio",
+    title: "Se Palma från insidan",
+    copy: "Can Balaguer ger gamla stan en mer levd och stilla sorts tyngd.",
+    imageUrl: commons("Palma. Can Balaguer. Carrer de Can Serinyà.jpg"),
+    imageAlt: "Can Balaguer i Palma de Mallorca.",
+  },
+  "palma-casal-solleric": {
+    eyebrow: "Born-kultur",
+    title: "Elegant patio mitt i city",
+    copy: "Casal Solleric är perfekt när ni vill ge Born mer kultur och mindre bara flanörkänsla.",
+    imageUrl: commons("Majorque Palma Palau Solleric Patio - panoramio.jpg"),
+    imageAlt: "Patio i Casal Solleric i Palma.",
+  },
+  "palma-miro-foundation": {
+    eyebrow: "Ateljéer",
+    title: "Miró med luft omkring sig",
+    copy: "Fundació Miró Mallorca känns mer personlig och skapande än många klassiska stadsmuseer.",
+    imageUrl: commons("Fundacio-Pilar-i-Joan-Miro-Studio-Sert-07-2015.jpg"),
+    imageAlt: "Studio Sert vid Fundació Miró Mallorca.",
+  },
+  "palma-caixaforum": {
+    eyebrow: "Modernism",
+    title: "Gran Hotel gör kultur lätt",
+    copy: "CaixaForum Palma fungerar fint när ni vill ha central kultur, bra arkitektur och låg friktion.",
+    imageUrl: commons("Gran Hotel.JPG"),
+    imageAlt: "Gran Hotel, dagens CaixaForum Palma.",
+  },
   "palma-museum-flex": {
     eyebrow: "Populära val",
     title: "Välj ett kulturspår med känsla",
@@ -361,6 +445,30 @@ const palmaMuseumChoiceOptions: StopChoiceOption[] = [
     url: "http://www.fundacionbmarch.es/",
     sourceLabel: "Visit Palma",
     sourceUrl: "https://www.visitpalma.com/es/descubrir/que-ver-y-que-hacer/palma-en-2-dias/pln601/palau-march",
+  },
+  {
+    id: "caixaforum-palma",
+    title: "CaixaForum Palma",
+    summary: "Starkt när du vill ha modernism, tillfälliga utställningar och ett väldigt lättillgängligt kulturstopp mitt i stan.",
+    url: "https://caixaforum.org/es/web/palma",
+    sourceLabel: "CaixaForum Palma",
+    sourceUrl: "https://caixaforum.org/es/web/palma",
+  },
+  {
+    id: "can-balaguer",
+    title: "Can Balaguer",
+    summary: "Bäst om du vill ha ett intimt Palma-stopp med patio, originalinteriörer och historisk stadskänsla.",
+    url: "https://canbalaguer.palma.cat/",
+    sourceLabel: "Visit Palma",
+    sourceUrl: "https://visitpalma.com/en/dir/can-balaguer-palmas-great-courtyard/",
+  },
+  {
+    id: "casal-solleric",
+    title: "Casal Solleric",
+    summary: "Bra när du vill lägga till samtidskonst och ett av stadens finaste patiorum utan att lämna Born.",
+    url: "https://casalsolleric.palma.cat/",
+    sourceLabel: "Visit Palma",
+    sourceUrl: "https://visitpalma.com/en/discover/what-to-see-and-what-to-do/palma-in-1-day/pln607/casal-solleric-the-elegance-of-a-courtyard",
   },
 ];
 

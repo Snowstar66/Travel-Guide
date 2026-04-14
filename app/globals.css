@@ -3452,6 +3452,8 @@ h1 {
 .schedule-board-item {
   position: relative;
   min-height: 0;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 .schedule-board-card {
@@ -4501,7 +4503,7 @@ textarea {
 
   .schedule-board-card {
     gap: 4px;
-    padding: 10px 28px 10px 12px;
+    padding: 8px 24px 8px 10px;
     border-radius: 10px;
   }
 
@@ -4516,13 +4518,13 @@ textarea {
   }
 
   .schedule-board-card strong {
-    font-size: 0.86rem;
-    -webkit-line-clamp: 3;
+    font-size: 0.8rem;
+    -webkit-line-clamp: 2;
   }
 
   .schedule-board-card small {
-    font-size: 0.7rem;
-    -webkit-line-clamp: 2;
+    font-size: 0.66rem;
+    -webkit-line-clamp: 1;
   }
 
   .schedule-remove-button--board,

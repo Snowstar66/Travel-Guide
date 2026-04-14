@@ -111,6 +111,24 @@ const palmaSeed: CityGuideSeed = {
       sourceUrl: "https://commons.wikimedia.org/wiki/File:PortixolPalma.jpg",
       credit: "Foto via Wikimedia Commons",
     },
+    {
+      title: "Fundació Miró Mallorca",
+      description:
+        "Mirós ateljéer ger Palma en mer personlig kulturton än de stora monumenten i centrum, särskilt fint som senare resestopp.",
+      imageUrl: commons("Miro's Studio Sert - Palma de Mallorca.jpg"),
+      sourceLabel: "Wikimedia Commons",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Miro%27s_Studio_Sert_-_Palma_de_Mallorca.jpg",
+      credit: "Foto via Wikimedia Commons",
+    },
+    {
+      title: "Gran Hotel och CaixaForum Palma",
+      description:
+        "Gran Hotel är ett av Palmas tydligaste modernistiska landmärken och gör kultur lätt att lägga in även när vädret svänger.",
+      imageUrl: commons("Gran Hotel.JPG"),
+      sourceLabel: "Wikimedia Commons",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Gran_Hotel.JPG",
+      credit: "Foto via Wikimedia Commons",
+    },
   ],
   tripDays: [
     day(
@@ -189,6 +207,14 @@ const palmaSeed: CityGuideSeed = {
             "En kall dryck eller glasspaus passar perfekt efteråt."
           ),
           stop(
+            "can-balaguer",
+            "Can Balaguer för patio, stadspalats och en mer intim Palma-historia",
+            "45-60 min",
+            "Det här ger gamla stan ett rikare lager än bara de stora monumenten.",
+            "Bra stopp om du vill se hur Palma känns inifrån, inte bara från gatan.",
+            "Fortsätt sedan mot lunch eller ett lugnt kvarterskaffe."
+          ),
+          stop(
             "olivar-market",
             "Mercat de l'Olivar för sen lunch, tapas eller småköp",
             "60-90 min",
@@ -226,6 +252,14 @@ const palmaSeed: CityGuideSeed = {
             "Bra spår när du vill ha både kultur och utsikt utan att göra dagen tung.",
             "Välj ett av murspåren eller museet som huvudfokus, inte allt på en gång.",
             "Kaffe eller lätt lunch förstärker eftermiddagen bättre än att skynda."
+          ),
+          stop(
+            "casal-solleric",
+            "Casal Solleric och Born om du vill ha patio, samtidskonst och elegant citypuls",
+            "45-60 min",
+            "Ett väldigt Palma-typiskt stopp när du vill växla från murar till stadsliv utan hårt temposkifte.",
+            "Perfekt som mjuk övergång mellan kultur och kväll.",
+            "Stanna gärna för något kallt eller ett glas innan ni går vidare."
           ),
           stop(
             "santa-catalina",
@@ -295,6 +329,22 @@ const palmaSeed: CityGuideSeed = {
             "Välj ett enda ställe och låt det räcka.",
             "Lunch efteråt i området ni helst vill avsluta i."
           ),
+          stop(
+            "miro-foundation",
+            "Fundació Miró Mallorca om ni vill ha ateljéer, skulpturer och havsluft",
+            "90-120 min",
+            "Det här är ett av Palmas mest minnesvärda kulturstopp om ni vill ha något mer personligt än monumentalt.",
+            "Bra när ni vill byta gamla stenstaden mot ljus, ateljéer och lite mer rymd.",
+            "Kombinera gärna med Cala Major eller en lugn lunch innan ni vänder tillbaka."
+          ),
+          stop(
+            "caixaforum",
+            "CaixaForum Palma i Gran Hotel för modernism och en stark tillfällig utställning",
+            "60-90 min",
+            "Mycket bra om sista dagen eller vädret vill ha kultur med låg friktion mitt i stan.",
+            "Byggnaden i sig är nästan skäl nog att gå in.",
+            "Passar fint med kaffe eller lunch runt Plaça de Weyler."
+          ),
         ]),
         section("Final", "Avsluta snyggt", "Gör finalen lätt nog att fortfarande kännas som semester.", [
           stop(
@@ -356,11 +406,11 @@ const palmaSeed: CityGuideSeed = {
       ),
       area(
         "old-town-layers",
-        "Arab Baths och gränderna",
+        "Arab Baths, Can Balaguer och gränderna",
         "Tät historia",
         "Bra eftermiddag när du vill gå från ikon till detalj.",
         "Låt gränderna vara en del av stoppet.",
-        ["Arab Baths", "Patios", "Smågator"],
+        ["Arab Baths", "Can Balaguer", "Smågator"],
         48,
         40,
         mapLink("Banys Arabs Palma")
@@ -380,11 +430,11 @@ const palmaSeed: CityGuideSeed = {
       ),
       area(
         "baluard-catalina",
-        "Es Baluard till Santa Catalina",
+        "Es Baluard, Born och Santa Catalina",
         "Konst + mat",
         "Ger en väldigt bra Palma-kombination av kultur, murar och kvällsliv.",
         "Passar som lång eftermiddag med middag på slutet.",
-        ["Es Baluard", "Santa Catalina", "Vinbar"],
+        ["Es Baluard", "Casal Solleric", "Vinbar"],
         34,
         42,
         mapLink("Es Baluard Museu d'Art Contemporani de Palma")
@@ -417,11 +467,11 @@ const palmaSeed: CityGuideSeed = {
     "day-5": [
       area(
         "culture-finale",
-        "Miró eller Es Baluard",
+        "Miró, CaixaForum eller Es Baluard",
         "Personlig kulturfinal",
         "Bra när du vill avsluta med ett lugnt men tydligt innehållsspår.",
         "Välj ett enda stopp och låt resten vara lätt.",
-        ["Miró", "Es Baluard", "Palau March"],
+        ["Miró", "CaixaForum", "Palau March"],
         30,
         34,
         mapLink("Fundacio Miro Mallorca")
