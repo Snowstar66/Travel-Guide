@@ -2931,6 +2931,7 @@ h1 {
 
 .saved-grid {
   grid-template-columns: 1fr;
+  width: 100%;
 }
 
 .saved-grid > div {
@@ -2938,11 +2939,13 @@ h1 {
   gap: 8px;
   width: 100%;
   min-width: 0;
+  max-width: none;
   padding-inline: var(--content-inset);
 }
 
 .saved-grid--single {
   grid-template-columns: minmax(0, 1fr);
+  width: 100%;
 }
 
 .saved-grid h3 {
@@ -2956,12 +2959,19 @@ h1 {
   gap: 10px;
   width: 100%;
   min-width: 0;
+  justify-items: stretch;
+  align-items: stretch;
   margin-top: 0;
 }
 
 .saved-list--highlights {
   grid-template-columns: 1fr;
   align-items: stretch;
+}
+
+.saved-list--highlights > * {
+  width: 100%;
+  min-width: 0;
 }
 
 .trip-day-grid {
@@ -4197,12 +4207,14 @@ textarea {
   .app-home-card--selected .saved-list {
     width: 100%;
     min-width: 0;
+    max-width: none;
   }
 
   .app-home-card--selected .saved-list {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
+    justify-items: stretch;
   }
 
   .trip-day-grid {
