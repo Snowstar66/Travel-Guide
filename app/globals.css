@@ -1909,7 +1909,7 @@ h1 {
   gap: 8px;
   margin-left: auto;
   color: #0f5f8f;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -2070,13 +2070,14 @@ h1 {
   align-items: center;
   gap: 14px;
   margin-bottom: 10px;
+  padding: 14px 16px;
   background:
     linear-gradient(180deg, rgba(255, 252, 245, 0.98), rgba(247, 243, 232, 0.94));
 }
 
 .settings-award-panel__badge {
-  width: 92px;
-  height: 92px;
+  width: 76px;
+  height: 76px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -2086,9 +2087,15 @@ h1 {
   gap: 4px;
 }
 
+.settings-award-panel__copy h2 {
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
 .settings-award-panel__copy p:last-child {
   margin: 0;
   color: var(--muted);
+  font-size: 0.76rem;
   line-height: 1.48;
 }
 
@@ -4280,9 +4287,44 @@ textarea {
     align-items: stretch;
   }
 
+  .city-option-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .city-option {
+    min-height: 50px;
+    padding: 0 10px;
+  }
+
+  .city-option strong {
+    font-size: 0.8rem;
+  }
+
+  .city-option__premium {
+    gap: 6px;
+    font-size: 0.72rem;
+  }
+
+  .city-option__lock {
+    width: 26px;
+    height: 24px;
+  }
+
   .settings-award-panel {
     grid-template-columns: 1fr;
-    justify-items: start;
+    justify-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 16px 14px;
+  }
+
+  .settings-award-panel__badge {
+    width: 104px;
+    height: 104px;
+  }
+
+  .settings-award-panel__copy {
+    justify-items: center;
   }
 
   .area-map-toolbar {
