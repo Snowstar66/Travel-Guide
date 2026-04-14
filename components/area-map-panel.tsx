@@ -2,28 +2,65 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { getCityGuideByDayId } from "@/lib/guide-config";
+import type { AreaCard } from "@/lib/day-extras";
 
-function getMapEmbedUrl(mapQuery: string) {
+function extractMapQuery(mapQuery: string) {
   try {
     const url = new URL(mapQuery);
-    const query = url.searchParams.get("query") ?? url.searchParams.get("q");
-    if (query) {
-      return `https://www.google.com/maps?q=${encodeURIComponent(query)}&z=14&output=embed`;
-    }
+    return url.searchParams.get("query") ?? url.searchParams.get("q") ?? mapQuery;
   } catch {
     return mapQuery;
   }
+}
 
-  return mapQuery;
+function normalizeMapSearch(search: string) {
+  return search
+    .replace(/\bhotels?\b/gi, "")
+    .replace(/\bcaf[eé]\b/gi, "")
+    .replace(/\bcoffee\b/gi, "")
+    .replace(/\brestaurant\b/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+function getAreaPriority(area: AreaCard) {
+  const haystack = `${area.name} ${extractMapQuery(area.mapQuery)}`.toLowerCase();
+
+  if (/(hotel|exit|transfer|station cafe|cafe|soft exit|lugn exit)/.test(haystack)) {
+    return 0;
+  }
+
+  if (/(museum|cathedral|katedral|park|village|rockefeller|manhattan|dumbo|ferry|bellver|portixol)/.test(haystack)) {
+    return 2;
+  }
+
+  return 1;
+}
+
+function getPreferredArea(areas: AreaCard[]) {
+  return [...areas].sort((left, right) => getAreaPriority(right) - getAreaPriority(left))[0] ?? areas[0];
+}
+
+function getMapEmbedUrl(area: AreaCard, cityName: string) {
+  const extractedQuery = normalizeMapSearch(extractMapQuery(area.mapQuery));
+  const fallbackParts = [
+    area.anchorStops.find((stop) => !/(hotell|hotel|kaffe|coffee|lunch)/i.test(stop)),
+    area.name,
+    cityName,
+  ].filter(Boolean);
+  const fallbackQuery = fallbackParts.join(" ");
+  const finalQuery = extractedQuery.length >= 8 ? extractedQuery : fallbackQuery;
+
+  return `https://www.google.com/maps?q=${encodeURIComponent(finalQuery)}&z=14&output=embed`;
 }
 
 export function AreaMapPanel({ dayId }: { dayId: string }) {
   const guide = getCityGuideByDayId(dayId);
   const areas = guide?.areaCardsByDay[dayId] ?? [];
-  const [activeAreaId, setActiveAreaId] = useState<string | null>(areas[0]?.id ?? null);
+  const [activeAreaId, setActiveAreaId] = useState<string | null>(null);
 
   useEffect(() => {
-    setActiveAreaId(areas[0]?.id ?? null);
+    setActiveAreaId(getPreferredArea(areas)?.id ?? null);
   }, [dayId, areas]);
 
   if (areas.length === 0) {
@@ -35,7 +72,10 @@ export function AreaMapPanel({ dayId }: { dayId: string }) {
     0,
     areas.findIndex((area) => area.id === activeArea.id)
   );
-  const activeEmbedUrl = useMemo(() => getMapEmbedUrl(activeArea.mapQuery), [activeArea.mapQuery]);
+  const activeEmbedUrl = useMemo(
+    () => getMapEmbedUrl(activeArea, guide?.displayName ?? ""),
+    [activeArea, guide?.displayName]
+  );
 
   return (
     <section className="area-panel-native">
