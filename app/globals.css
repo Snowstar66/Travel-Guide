@@ -2841,6 +2841,14 @@ h1 {
   justify-content: flex-start;
 }
 
+.day-route-tablet-layout {
+  display: block;
+}
+
+.day-route-tablet-aside {
+  display: none;
+}
+
 .schedule-empty {
   margin: 0;
   font-size: var(--type-body);
@@ -3351,5 +3359,221 @@ textarea {
   .notes-panel__footer {
     flex-direction: column;
     align-items: stretch;
+  }
+}
+
+@media (min-width: 800px) {
+  :root {
+    --content-inset: 14px;
+    --tabbar-space: 66px;
+    --type-body: 0.84rem;
+    --type-title-sm: 0.98rem;
+    --type-title-md: 1.12rem;
+  }
+
+  .app-stage {
+    padding: 12px;
+  }
+
+  .app-stage__device {
+    width: min(1040px, 100%);
+    height: min(1180px, calc(100vh - 24px));
+    border-radius: 28px;
+    box-shadow:
+      0 28px 72px rgba(17, 33, 47, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+
+  .page-shell {
+    padding: 0 16px 18px;
+  }
+
+  .panel,
+  .hero-card {
+    border-radius: 18px;
+  }
+
+  .dashboard-hero {
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .dashboard-hero__topline {
+    align-items: start;
+  }
+
+  .dashboard-hero h1 {
+    font-size: clamp(1.2rem, 2.4vw, 1.48rem);
+  }
+
+  .dashboard-stat--primary strong {
+    font-size: 1.18rem;
+  }
+
+  .overview-block-strip {
+    gap: 8px;
+    margin: 12px 0 18px;
+  }
+
+  .overview-block-pill {
+    padding: 10px 9px;
+  }
+
+  .overview-block-pill strong {
+    font-size: 0.76rem;
+  }
+
+  .app-home-stack {
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .app-home-card--selected,
+  .app-home-card--tracks,
+  .app-home-card--notes {
+    grid-column: 1 / -1;
+  }
+
+  .app-home-card--selected .saved-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .trip-day-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .saved-grid,
+  .utility-grid,
+  .city-facts-grid,
+  .city-gallery-grid,
+  .weather-panel,
+  .weather-metrics,
+  .area-map--native {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .city-gallery-grid .hero-card:first-child,
+  .city-gallery-grid .hero-card:last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+
+  .screen-intro {
+    display: grid;
+    gap: 8px;
+    max-width: 70ch;
+    margin-bottom: 12px;
+    padding: 4px 2px 0;
+  }
+
+  .screen-intro__title {
+    font-size: clamp(1.3rem, 2.8vw, 1.62rem);
+  }
+
+  .screen-intro__subtitle {
+    max-width: 62ch;
+  }
+
+  .page-shell--day .segmented-panel {
+    display: none;
+  }
+
+  .segmented-panel {
+    max-width: 420px;
+    margin-bottom: 14px;
+  }
+
+  .day-route-tablet-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .day-route-tablet-main,
+  .day-route-tablet-aside {
+    min-width: 0;
+  }
+
+  .day-route-tablet-aside {
+    display: grid;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    align-self: start;
+  }
+
+  .day-route-tablet-aside .weather-panel,
+  .day-route-tablet-aside .area-panel-native {
+    margin-top: 0;
+  }
+
+  .day-route-tablet-aside .weather-panel,
+  .day-route-tablet-aside .weather-metrics,
+  .day-route-tablet-aside .area-map--native {
+    grid-template-columns: 1fr;
+  }
+
+  .today-native-stack,
+  .day-native-stack {
+    gap: 12px;
+  }
+
+  .schedule-stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: start;
+  }
+
+  .schedule-day-table {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .schedule-period {
+    padding: 10px;
+    border-radius: 14px;
+    background: rgba(17, 33, 47, 0.025);
+    border: 1px solid rgba(17, 33, 47, 0.06);
+  }
+
+  .schedule-card__image {
+    height: 112px;
+  }
+
+  .mobile-nav {
+    gap: 8px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .mobile-day-nav__link {
+    min-height: 32px;
+  }
+
+  .mobile-day-nav__day {
+    font-size: 0.72rem;
+  }
+
+  .mobile-nav__items {
+    gap: 6px;
+  }
+
+  .mobile-nav__link {
+    min-height: 46px;
+    padding: 6px 2px;
+    border-radius: 12px;
+    font-size: 0.64rem;
+  }
+
+  .mobile-nav__icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .mobile-nav__icon svg {
+    width: 16px;
+    height: 16px;
   }
 }

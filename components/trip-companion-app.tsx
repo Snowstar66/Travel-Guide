@@ -125,7 +125,7 @@ export function TripCompanionApp() {
       </section>
 
       <section className="app-home-stack">
-        <section className="app-home-card">
+        <section className="app-home-card app-home-card--selected">
           <div className="panel__header">
             <p className="eyebrow eyebrow--dark">Ditt upplägg</p>
             <h2>Mina val</h2>
@@ -167,7 +167,7 @@ export function TripCompanionApp() {
           </div>
         </section>
 
-        <section className="app-home-card">
+        <section className="app-home-card app-home-card--tracks">
           <div className="panel__header">
             <p className="eyebrow eyebrow--dark">Dagspår</p>
             <h2>Så här ser resan ut just nu</h2>
@@ -217,7 +217,7 @@ export function TripCompanionApp() {
           </div>
         </section>
 
-        <section className="app-home-card">
+        <section className="app-home-card app-home-card--insight">
           <div className="panel__header">
             <p className="eyebrow eyebrow--dark">En sak att bära med dig</p>
             <h2>{basics[0].title}</h2>
@@ -236,7 +236,7 @@ export function TripCompanionApp() {
           </article>
         </section>
 
-        <section className="panel profile-summary-panel">
+        <section className="panel profile-summary-panel app-home-card app-home-card--settings">
           <div className="panel__header">
             <p className="eyebrow eyebrow--dark">Inställningar i korthet</p>
             <h2>Resan är viktad efter dina val</h2>
@@ -260,7 +260,7 @@ export function TripCompanionApp() {
           </div>
         </section>
 
-        <section className="app-home-card">
+        <section className="app-home-card app-home-card--notes">
           <div className="panel__header">
             <p className="eyebrow eyebrow--dark">Anteckningar</p>
             <h2>Det du vill minnas</h2>

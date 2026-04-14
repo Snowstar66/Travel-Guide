@@ -36,7 +36,7 @@ export function DayRoute({ dayId }: { dayId: string }) {
   const isVisibleInTrip = Boolean(block);
 
   return (
-    <main className="page-shell page-shell--route">
+    <main className="page-shell page-shell--route page-shell--day">
       <section className="screen-intro">
         <p className="screen-intro__kicker">Plan</p>
         <h1 className="screen-intro__title">{day.title}</h1>
@@ -121,18 +121,26 @@ export function DayRoute({ dayId }: { dayId: string }) {
       ) : null}
 
       {isVisibleInTrip && hasAccess && activeView === "plan" ? (
-        <DayDetailPanel
-          dayId={day.id}
-          selectedStops={selectedStops}
-          stopChoices={stopChoices}
-          tripBlocks={tripBlocks}
-          recommendedStopCount={recommendedStopCount}
-          notes={notes}
-          onToggleSelected={toggleSelected}
-          onMoveSelected={moveSelectedStop}
-          onUpdateStopChoice={updateStopChoice}
-          onSaveNote={saveNote}
-        />
+        <section className="day-route-tablet-layout">
+          <div className="day-route-tablet-main">
+            <DayDetailPanel
+              dayId={day.id}
+              selectedStops={selectedStops}
+              stopChoices={stopChoices}
+              tripBlocks={tripBlocks}
+              recommendedStopCount={recommendedStopCount}
+              notes={notes}
+              onToggleSelected={toggleSelected}
+              onMoveSelected={moveSelectedStop}
+              onUpdateStopChoice={updateStopChoice}
+              onSaveNote={saveNote}
+            />
+          </div>
+          <aside className="day-route-tablet-aside" aria-label="Dagspårsöversikt">
+            <WeatherPanel dayId={day.id} />
+            <AreaMapPanel dayId={day.id} />
+          </aside>
+        </section>
       ) : null}
 
       {isVisibleInTrip && hasAccess && activeView === "weather" ? <WeatherPanel dayId={day.id} /> : null}
