@@ -1,46 +1,91 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import { getCityGuideByDayId } from "@/lib/guide-config";
+
+function getMapEmbedUrl(mapQuery: string) {
+  try {
+    const url = new URL(mapQuery);
+    const query = url.searchParams.get("query") ?? url.searchParams.get("q");
+    if (query) {
+      return `https://www.google.com/maps?q=${encodeURIComponent(query)}&z=14&output=embed`;
+    }
+  } catch {
+    return mapQuery;
+  }
+
+  return mapQuery;
+}
 
 export function AreaMapPanel({ dayId }: { dayId: string }) {
   const guide = getCityGuideByDayId(dayId);
   const areas = guide?.areaCardsByDay[dayId] ?? [];
+  const [activeAreaId, setActiveAreaId] = useState<string | null>(areas[0]?.id ?? null);
+
+  useEffect(() => {
+    setActiveAreaId(areas[0]?.id ?? null);
+  }, [dayId, areas]);
 
   if (areas.length === 0) {
     return null;
   }
 
+  const activeArea = areas.find((area) => area.id === activeAreaId) ?? areas[0];
+  const activeIndex = Math.max(
+    0,
+    areas.findIndex((area) => area.id === activeArea.id)
+  );
+  const activeEmbedUrl = useMemo(() => getMapEmbedUrl(activeArea.mapQuery), [activeArea.mapQuery]);
+
   return (
     <section className="area-panel-native">
-      <div className="area-map-canvas area-map-canvas--native" aria-label="Day area map">
-        <svg viewBox="0 0 100 100" className="area-map-svg" role="img">
-          <title>Dagens områdeskarta</title>
-          <path
-            d="M42 6 C52 16, 56 34, 54 52 C52 70, 48 86, 44 96"
-            className="area-map-river"
-          />
-          <path
-            d={`M${areas[0].x} ${areas[0].y} ${areas
-              .slice(1)
-              .map((area) => `L${area.x} ${area.y}`)
-              .join(" ")}`}
-            className="area-map-route"
-          />
+      <div className="area-map-canvas area-map-canvas--native area-map-canvas--embed">
+        <div className="area-map-toolbar">
+          <div className="area-map-toolbar__copy">
+            <p className="area-card__vibe">Dagens karta</p>
+            <h3>{activeArea.name}</h3>
+            <p>{activeArea.routeNote}</p>
+          </div>
+          <a className="area-card__link" href={activeArea.mapQuery} target="_blank" rel="noreferrer">
+            Öppna i karta
+          </a>
+        </div>
+
+        <div className="area-map-switcher" role="tablist" aria-label="Välj område på kartan">
           {areas.map((area, index) => (
-            <g key={area.id}>
-              <circle
-                cx={area.x}
-                cy={area.y}
-                r="5.5"
-                className={`area-map-marker area-map-marker--${index + 1}`}
-              />
-              <circle cx={area.x} cy={area.y} r="2.2" className="area-map-marker-core" />
-              <text x={area.x + 4} y={area.y - 4} className="area-map-label">
-                {area.name}
-              </text>
-            </g>
+            <button
+              key={area.id}
+              type="button"
+              role="tab"
+              aria-selected={area.id === activeArea.id}
+              className={`area-map-switcher__button ${area.id === activeArea.id ? "is-active" : ""}`}
+              onClick={() => setActiveAreaId(area.id)}
+            >
+              <span className="area-map-switcher__index">{index + 1}</span>
+              <span className="area-map-switcher__name">{area.name}</span>
+            </button>
           ))}
-        </svg>
+        </div>
+
+        <div className="area-map-frame">
+          <iframe
+            title={`${activeArea.name} på karta`}
+            src={activeEmbedUrl}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+
+        <div className="area-map-route-list" aria-label="Dagens områden i ordning">
+          {areas.map((area, index) => (
+            <span
+              key={area.id}
+              className={`area-map-route-list__item ${index === activeIndex ? "is-active" : ""}`}
+            >
+              {index + 1}. {area.name}
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className="area-map area-map--native">
@@ -59,14 +104,23 @@ export function AreaMapPanel({ dayId }: { dayId: string }) {
                 </span>
               ))}
             </div>
-            <a
-              className="area-card__link"
-              href={area.mapQuery}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Öppna i karta
-            </a>
+            <div className="area-card__actions">
+              <button
+                type="button"
+                className={`button button--surface ${area.id === activeArea.id ? "is-active" : ""}`}
+                onClick={() => setActiveAreaId(area.id)}
+              >
+                Visa på kartan
+              </button>
+              <a
+                className="area-card__link"
+                href={area.mapQuery}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Öppna i karta
+              </a>
+            </div>
           </article>
         ))}
       </div>
