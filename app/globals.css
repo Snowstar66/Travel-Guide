@@ -4261,11 +4261,36 @@ textarea {
   }
 
   .app-home-card--selected .saved-list--wide {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
   .trip-day-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  .trip-day-card {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .trip-day-card__top {
+    gap: 6px;
+  }
+
+  .trip-day-card__badge {
+    min-height: 18px;
+    padding: 0 6px;
+    font-size: 0.62rem;
+  }
+
+  .trip-day-card h3 {
+    font-size: 0.92rem;
+  }
+
+  .trip-day-card p {
+    font-size: 0.76rem;
+    line-height: 1.42;
   }
 
   .saved-grid,
@@ -4276,6 +4301,10 @@ textarea {
   .weather-metrics,
   .area-map--native {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .saved-grid--single {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   .city-gallery-grid .hero-card:first-child,
@@ -4566,6 +4595,10 @@ textarea {
   }
 
   .app-home-card--selected .saved-list--wide {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .trip-day-grid {
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
   }
 }
