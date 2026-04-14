@@ -45,6 +45,22 @@ function formatClock(totalMinutes: number) {
   return `${hours}.${minutes}`;
 }
 
+type ScheduleItem = ReturnType<typeof useTripCompanionState>["selectedStopItems"][number];
+
+type TimedScheduleItem = ScheduleItem & {
+  startTime: string;
+  endTime: string;
+  boardRowStart: number;
+  boardRowSpan: number;
+  travelBufferMinutes: number;
+  overflowsPeriod: boolean;
+};
+
+type SuggestionSlot = {
+  dayId: string;
+  period: SchedulePeriod;
+};
+
 function getBoardTone(item: ScheduleItem) {
   const source = `${item.sectionTitle} ${item.displayName} ${item.displayWhy ?? item.why}`.toLowerCase();
 
@@ -68,19 +84,6 @@ function getBoardTone(item: ScheduleItem) {
 
   return { key: "city", label: "Stad" } as const;
 }
-
-type ScheduleItem = ReturnType<typeof useTripCompanionState>["selectedStopItems"][number];
-
-type TimedScheduleItem = ScheduleItem & {
-  startTime: string;
-  endTime: string;
-  startMinutesValue: number;
-  endMinutesValue: number;
-  boardRowStart: number;
-  boardRowSpan: number;
-  travelBufferMinutes: number;
-  overflowsPeriod: boolean;
-};
 
 function getTransitionBuffer(previous: ScheduleItem | null, current: ScheduleItem) {
   if (!previous) return 0;
@@ -107,7 +110,7 @@ function buildTimedPeriodItems(
       const endMinutesValue = startMinutesValue + durationMinutes;
       const clampedEndMinutes = Math.min(endMinutesValue, endMinutes);
       const boardRowStart = Math.max(1, Math.floor((startMinutesValue - startMinutes) / 15) + 1);
-      const boardRowSpan = Math.max(2, Math.ceil((clampedEndMinutes - startMinutesValue) / 15));
+      const boardRowSpan = Math.max(4, Math.ceil((clampedEndMinutes - startMinutesValue) / 15));
 
       cursor = endMinutesValue;
       previousItem = item;
@@ -116,8 +119,6 @@ function buildTimedPeriodItems(
         ...item,
         startTime: formatClock(startMinutesValue),
         endTime: formatClock(endMinutesValue),
-        startMinutesValue,
-        endMinutesValue,
         boardRowStart,
         boardRowSpan,
         travelBufferMinutes,
@@ -127,16 +128,35 @@ function buildTimedPeriodItems(
 }
 
 export function ScheduleRoute() {
-  const { profile, tripBlocks, selectedStopItems, recommendedStopCount, updateProfile, toggleSelected } =
-    useTripCompanionState();
+  const {
+    profile,
+    tripBlocks,
+    selectedStopItems,
+    recommendedStopCount,
+    updateProfile,
+    toggleSelected,
+    allStops,
+  } = useTripCompanionState();
   const guide = getCityGuide(profile.cityId);
   const [expandedStopId, setExpandedStopId] = useState<string | null>(null);
+  const [openSuggestionSlot, setOpenSuggestionSlot] = useState<SuggestionSlot | null>(null);
 
   function removeStop(stopId: string, assignedDayId: string) {
     if (expandedStopId === stopId) {
       setExpandedStopId(null);
     }
     toggleSelected(stopId, assignedDayId);
+  }
+
+  function openSuggestions(dayId: string, period: SchedulePeriod) {
+    setExpandedStopId(null);
+    setOpenSuggestionSlot({ dayId, period });
+  }
+
+  function addSuggestedStop(stopId: string, assignedDayId: string) {
+    toggleSelected(stopId, assignedDayId);
+    setOpenSuggestionSlot(null);
+    setExpandedStopId(stopId);
   }
 
   const scheduleBlocks = useMemo(
@@ -177,10 +197,41 @@ export function ScheduleRoute() {
         .find((item) => item.id === expandedStopId) ?? null,
     [expandedStopId, scheduleBlocks]
   );
+
   const expandedStopTone = expandedStop ? getBoardTone(expandedStop) : null;
   const expandedStopPeriod = expandedStop
     ? periodMeta.find((period) => period.key === expandedStop.schedulePeriod)
     : null;
+
+  const suggestionContext = useMemo(() => {
+    if (!openSuggestionSlot) return null;
+
+    const day = guide.tripDays.find((item) => item.id === openSuggestionSlot.dayId) ?? guide.tripDays[0];
+    const selectedIds = new Set(selectedStopItems.map((item) => item.id));
+    const sameDayAvailable = allStops.filter(
+      (stop) => stop.dayId === openSuggestionSlot.dayId && !selectedIds.has(stop.id)
+    );
+    const prioritized = [
+      ...sameDayAvailable.filter((stop) => stop.schedulePeriod === openSuggestionSlot.period),
+      ...sameDayAvailable.filter((stop) => stop.schedulePeriod !== openSuggestionSlot.period),
+    ];
+
+    const groups = prioritized.reduce<Array<{ title: string; items: typeof prioritized }>>((acc, stop) => {
+      const existing = acc.find((group) => group.title === stop.sectionTitle);
+      if (existing) {
+        existing.items.push(stop);
+      } else {
+        acc.push({ title: stop.sectionTitle, items: [stop] });
+      }
+      return acc;
+    }, []);
+
+    return {
+      day,
+      period: periodMeta.find((item) => item.key === openSuggestionSlot.period) ?? periodMeta[0],
+      groups,
+    };
+  }, [allStops, guide.tripDays, openSuggestionSlot, selectedStopItems]);
 
   return (
     <main className="page-shell page-shell--route page-shell--schedule">
@@ -230,18 +281,26 @@ export function ScheduleRoute() {
               {scheduleBlocks.map(({ block, timedPeriods }) => {
                 const periodItems = timedPeriods[period.key];
                 return (
-                  <div className="schedule-board__cell" key={`${block.dayId}-${period.key}`}>
+                  <div
+                    className="schedule-board__cell"
+                    key={`${block.dayId}-${period.key}`}
+                    style={
+                      {
+                        "--timeline-slots": String((period.endMinutes - period.startMinutes) / 15),
+                      } as CSSProperties
+                    }
+                  >
                     {periodItems.length === 0 ? (
-                      <p className="schedule-board__empty">Plats för fler upplevelser</p>
-                    ) : (
-                      <div
-                        className="schedule-board__stack"
-                        style={
-                          {
-                            "--timeline-slots": String((period.endMinutes - period.startMinutes) / 15),
-                          } as CSSProperties
-                        }
+                      <button
+                        type="button"
+                        className="schedule-board-empty-button"
+                        onClick={() => openSuggestions(block.dayId, period.key)}
                       >
+                        <span>Plats för fler upplevelser</span>
+                        <strong>Visa förslag</strong>
+                      </button>
+                    ) : (
+                      <div className="schedule-board__stack">
                         {periodItems.map((item) => {
                           const preview = getStopInsightPreview(item.id);
                           const active = expandedStopId === item.id;
@@ -271,10 +330,7 @@ export function ScheduleRoute() {
                                   {item.startTime}–{item.endTime}
                                 </span>
                                 <strong>{item.displayName}</strong>
-                                <small>
-                                  {preview?.eyebrow ?? item.sectionTitle}
-                                  {item.travelBufferMinutes > 0 ? ` · +${item.travelBufferMinutes} min byte` : ""}
-                                </small>
+                                <small>{preview?.eyebrow ?? item.sectionTitle}</small>
                               </button>
                               <button
                                 type="button"
@@ -406,146 +462,203 @@ export function ScheduleRoute() {
         ) : null}
       </section>
 
+      {suggestionContext ? (
+        <section className="panel schedule-suggestion-panel">
+          <div className="schedule-suggestion-panel__header">
+            <div>
+              <p className="eyebrow eyebrow--dark">Förslag att lägga till</p>
+              <h2>
+                {suggestionContext.day.title} · {suggestionContext.period.label}
+              </h2>
+            </div>
+            <button
+              type="button"
+              className="button button--surface"
+              onClick={() => setOpenSuggestionSlot(null)}
+            >
+              Stäng
+            </button>
+          </div>
+          <p className="schedule-suggestion-panel__copy">
+            Först ser du stopp som passar just den här delen av dagen, sedan fler idéer från samma dagspår.
+          </p>
+          {suggestionContext.groups.length === 0 ? (
+            <p className="schedule-empty">
+              Allt i det här dagspåret är redan inlagt. Öppna plan om du vill flytta eller byta fokus.
+            </p>
+          ) : (
+            <div className="schedule-suggestion-groups">
+              {suggestionContext.groups.map((group) => (
+                <section className="schedule-suggestion-group" key={group.title}>
+                  <div className="schedule-suggestion-group__header">
+                    <p className="schedule-period__label">{group.title}</p>
+                    <span className="schedule-period__count">{group.items.length} förslag</span>
+                  </div>
+                  <div className="schedule-suggestion-list">
+                    {group.items.map((stop) => {
+                      const preview = getStopInsightPreview(stop.id);
+                      return (
+                        <button
+                          key={stop.id}
+                          type="button"
+                          className="schedule-suggestion-item"
+                          onClick={() => addSuggestedStop(stop.id, suggestionContext.day.id)}
+                        >
+                          <div className="schedule-suggestion-item__copy">
+                            <span className="schedule-card__eyebrow">
+                              {preview?.eyebrow ?? stop.sectionLabel}
+                            </span>
+                            <strong>{stop.name}</strong>
+                            <p>{stop.why}</p>
+                          </div>
+                          <div className="schedule-suggestion-item__meta">
+                            <span>{stop.duration}</span>
+                            <span>Lägg till</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              ))}
+            </div>
+          )}
+        </section>
+      ) : null}
+
       <section className="schedule-stack">
-        {scheduleBlocks.map(({ block, day, items, overloaded, timedPeriods }) => {
-          return (
-            <section className="ios-group schedule-block" key={block.dayId}>
-              <div className="ios-group__header">
-                <div>
-                  <p className="ios-group__eyebrow">{block.rangeLabel}</p>
-                  <h2>{day.title}</h2>
-                </div>
-                <span className="ios-group__badge">{items.length} stopp</span>
+        {scheduleBlocks.map(({ block, day, items, overloaded, timedPeriods }) => (
+          <section className="ios-group schedule-block" key={block.dayId}>
+            <div className="ios-group__header">
+              <div>
+                <p className="ios-group__eyebrow">{block.rangeLabel}</p>
+                <h2>{day.title}</h2>
               </div>
-              <p className="ios-group__copy">{day.theme}</p>
-              {overloaded ? (
-                <p className="ios-group__hint ios-group__hint--warning">
-                  Det här dagspåret är tätare än rekommenderat. Du kan behålla det så, eller öppna plan och flytta något.
-                </p>
-              ) : null}
-              <div className="schedule-block__actions">
-                <Link
-                  className="button button--surface"
-                  href="/plan"
-                  onClick={() => updateProfile("currentDayId", block.dayId)}
-                >
-                  Justera dagspår
-                </Link>
-              </div>
+              <span className="ios-group__badge">{items.length} stopp</span>
+            </div>
+            <p className="ios-group__copy">{day.theme}</p>
+            {overloaded ? (
+              <p className="ios-group__hint ios-group__hint--warning">
+                Det här dagspåret är tätare än rekommenderat. Du kan behålla det så, eller öppna plan och flytta något.
+              </p>
+            ) : null}
+            <div className="schedule-block__actions">
+              <Link
+                className="button button--surface"
+                href="/plan"
+                onClick={() => updateProfile("currentDayId", block.dayId)}
+              >
+                Justera dagspår
+              </Link>
+            </div>
 
-              {items.length === 0 ? (
-                <p className="schedule-empty">Inget valt ännu. Lägg till stopp i planvyn för att bygga det här dagspåret.</p>
-              ) : (
-                <div className="schedule-day-table">
-                  {periodMeta.map((period) => {
-                    const periodItems = timedPeriods[period.key];
+            {items.length === 0 ? (
+              <p className="schedule-empty">Inget valt ännu. Lägg till stopp i planvyn för att bygga det här dagspåret.</p>
+            ) : (
+              <div className="schedule-day-table">
+                {periodMeta.map((period) => {
+                  const periodItems = timedPeriods[period.key];
 
-                    return (
-                      <section className="schedule-period" key={period.key}>
-                        <div className="schedule-period__header">
-                          <p className="schedule-period__label">{period.label}</p>
-                          <span className="schedule-period__count">{periodItems.length} stopp</span>
-                        </div>
+                  return (
+                    <section className="schedule-period" key={period.key}>
+                      <div className="schedule-period__header">
+                        <p className="schedule-period__label">{period.label}</p>
+                        <span className="schedule-period__count">{periodItems.length} stopp</span>
+                      </div>
 
-                        {periodItems.length === 0 ? (
-                          <p className="schedule-period__empty">Inget planerat här ännu.</p>
-                        ) : (
-                          <div className="schedule-card-list">
-                            {periodItems.map((stop) => {
-                              const preview = getStopInsightPreview(stop.id);
-                              const insight = getStopInsight(stop.id);
+                      {periodItems.length === 0 ? (
+                        <button
+                          type="button"
+                          className="schedule-period__empty schedule-period__empty-button"
+                          onClick={() => openSuggestions(block.dayId, period.key)}
+                        >
+                          <span>Plats för fler upplevelser</span>
+                          <strong>Visa förslag</strong>
+                        </button>
+                      ) : (
+                        <div className="schedule-card-list">
+                          {periodItems.map((stop) => {
+                            const preview = getStopInsightPreview(stop.id);
+                            const insight = getStopInsight(stop.id);
 
-                              return (
-                                <article className="schedule-card" key={stop.id}>
-                                  <button
-                                    type="button"
-                                    className="schedule-remove-button schedule-remove-button--card"
-                                    aria-label={`Ta bort ${stop.displayName} från schemat`}
-                                    onClick={() => removeStop(stop.id, stop.assignedDayId)}
-                                  >
-                                    <TrashIcon />
-                                  </button>
-                                  {preview?.imageUrl ? (
-                                    <img
-                                      className="schedule-card__image"
-                                      src={preview.imageUrl}
-                                      alt={preview.imageAlt ?? stop.name}
-                                    />
-                                  ) : null}
-                                  <div className="schedule-card__body">
-                                    <div className="schedule-card__top">
-                                      <div>
-                                        <p className="schedule-card__eyebrow">
-                                          {preview?.eyebrow ?? "Valt stopp"}
-                                        </p>
-                                        <h3>{stop.displayName}</h3>
-                                      </div>
-                                      <div className="schedule-card__time">
-                                        <span>
-                                          {stop.startTime}–{stop.endTime}
-                                        </span>
-                                        <strong>{stop.duration}</strong>
-                                      </div>
+                            return (
+                              <article className="schedule-card" key={stop.id}>
+                                <button
+                                  type="button"
+                                  className="schedule-remove-button schedule-remove-button--card"
+                                  aria-label={`Ta bort ${stop.displayName} från schemat`}
+                                  onClick={() => removeStop(stop.id, stop.assignedDayId)}
+                                >
+                                  <TrashIcon />
+                                </button>
+                                {preview?.imageUrl ? (
+                                  <img
+                                    className="schedule-card__image"
+                                    src={preview.imageUrl}
+                                    alt={preview.imageAlt ?? stop.name}
+                                  />
+                                ) : null}
+                                <div className="schedule-card__body">
+                                  <div className="schedule-card__top">
+                                    <div>
+                                      <p className="schedule-card__eyebrow">
+                                        {preview?.eyebrow ?? "Valt stopp"}
+                                      </p>
+                                      <h3>{stop.displayName}</h3>
                                     </div>
-                                    <p>{stop.displayWhy ?? preview?.copy ?? stop.why}</p>
-                                    <p className="schedule-card__slot">{stop.sectionTitle}</p>
-                                    {stop.dayId !== block.dayId ? (
-                                      <p className="schedule-card__meta">
-                                        Ursprungligen föreslaget i {stop.dayTitle}.
-                                      </p>
-                                    ) : null}
-                                    {stop.choiceOption ? (
-                                      <p className="schedule-card__meta">
-                                        Populärt val från {stop.choiceOption.sourceLabel}.
-                                      </p>
-                                    ) : null}
-                                    {stop.travelBufferMinutes > 0 ? (
-                                      <p className="schedule-card__meta">
-                                        Byte före stoppet: cirka {stop.travelBufferMinutes} min.
-                                      </p>
-                                    ) : null}
-                                    {stop.overflowsPeriod ? (
-                                      <p className="schedule-card__meta">
-                                        Det här stoppet pressar dagspåret lite utanför sin tänkta rytm.
-                                      </p>
-                                    ) : null}
-                                    {stop.choiceOption?.url || insight?.links.length ? (
-                                      <div className="schedule-card__links">
-                                        {stop.choiceOption?.url ? (
-                                          <a
-                                            className="stop-insight-panel__link"
-                                            href={stop.choiceOption.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                          >
-                                            Öppna {stop.displayName}
-                                          </a>
-                                        ) : null}
-                                        {insight.links.slice(0, 2).map((link) => (
-                                          <a
-                                            key={link.url}
-                                            className="stop-insight-panel__link"
-                                            href={link.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                          >
-                                            {link.label}
-                                          </a>
-                                        ))}
-                                        {stop.customLink ? (
-                                          <a
-                                            className="stop-insight-panel__link"
-                                            href={stop.customLink}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                          >
-                                            Egen länk
-                                          </a>
-                                        ) : null}
-                                      </div>
-                                    ) : null}
-                                    {!insight?.links.length && stop.customLink ? (
-                                      <div className="schedule-card__links">
+                                    <div className="schedule-card__time">
+                                      <span>
+                                        {stop.startTime}–{stop.endTime}
+                                      </span>
+                                      <strong>{stop.duration}</strong>
+                                    </div>
+                                  </div>
+                                  <p>{stop.displayWhy ?? preview?.copy ?? stop.why}</p>
+                                  <p className="schedule-card__slot">{stop.sectionTitle}</p>
+                                  {stop.dayId !== block.dayId ? (
+                                    <p className="schedule-card__meta">
+                                      Ursprungligen föreslaget i {stop.dayTitle}.
+                                    </p>
+                                  ) : null}
+                                  {stop.choiceOption ? (
+                                    <p className="schedule-card__meta">
+                                      Populärt val från {stop.choiceOption.sourceLabel}.
+                                    </p>
+                                  ) : null}
+                                  {stop.travelBufferMinutes > 0 ? (
+                                    <p className="schedule-card__meta">
+                                      Byte före stoppet: cirka {stop.travelBufferMinutes} min.
+                                    </p>
+                                  ) : null}
+                                  {stop.overflowsPeriod ? (
+                                    <p className="schedule-card__meta">
+                                      Det här stoppet pressar dagspåret lite utanför sin tänkta rytm.
+                                    </p>
+                                  ) : null}
+                                  {stop.choiceOption?.url || insight?.links.length ? (
+                                    <div className="schedule-card__links">
+                                      {stop.choiceOption?.url ? (
+                                        <a
+                                          className="stop-insight-panel__link"
+                                          href={stop.choiceOption.url}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                        >
+                                          Öppna {stop.displayName}
+                                        </a>
+                                      ) : null}
+                                      {insight.links.slice(0, 2).map((link) => (
+                                        <a
+                                          key={link.url}
+                                          className="stop-insight-panel__link"
+                                          href={link.url}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                        >
+                                          {link.label}
+                                        </a>
+                                      ))}
+                                      {stop.customLink ? (
                                         <a
                                           className="stop-insight-panel__link"
                                           href={stop.customLink}
@@ -554,22 +667,34 @@ export function ScheduleRoute() {
                                         >
                                           Egen länk
                                         </a>
-                                      </div>
-                                    ) : null}
-                                  </div>
-                                </article>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </section>
-                    );
-                  })}
-                </div>
-              )}
-            </section>
-          );
-        })}
+                                      ) : null}
+                                    </div>
+                                  ) : null}
+                                  {!insight?.links.length && stop.customLink ? (
+                                    <div className="schedule-card__links">
+                                      <a
+                                        className="stop-insight-panel__link"
+                                        href={stop.customLink}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                      >
+                                        Egen länk
+                                      </a>
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </article>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </section>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        ))}
       </section>
     </main>
   );
