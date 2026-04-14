@@ -15,14 +15,12 @@ export function DayRoute({ dayId }: { dayId: string }) {
   const {
     selectedStops,
     stopChoices,
-    notes,
     profile,
     tripBlocks,
     recommendedStopCount,
     toggleSelected,
     moveSelectedStop,
     updateStopChoice,
-    saveNote,
     setPremiumAccess,
   } = useTripCompanionState();
   const [activeView, setActiveView] = useState<DayView>("plan");
@@ -129,11 +127,9 @@ export function DayRoute({ dayId }: { dayId: string }) {
               stopChoices={stopChoices}
               tripBlocks={tripBlocks}
               recommendedStopCount={recommendedStopCount}
-              notes={notes}
               onToggleSelected={toggleSelected}
               onMoveSelected={moveSelectedStop}
               onUpdateStopChoice={updateStopChoice}
-              onSaveNote={saveNote}
             />
           </div>
           <aside className="day-route-tablet-aside" aria-label="Dagspårsöversikt">

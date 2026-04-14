@@ -10,11 +10,7 @@ import {
   getStopChoiceOptions,
   getStopInsight,
 } from "@/lib/stop-insights";
-import {
-  NotesState,
-  SelectionState,
-  StopChoiceState,
-} from "@/lib/use-trip-companion-state";
+import { SelectionState, StopChoiceState } from "@/lib/use-trip-companion-state";
 
 export function DayDetailPanel({
   dayId,
@@ -22,26 +18,20 @@ export function DayDetailPanel({
   stopChoices,
   tripBlocks,
   recommendedStopCount,
-  notes,
   onToggleSelected,
   onMoveSelected,
   onUpdateStopChoice,
-  onSaveNote,
 }: {
   dayId: string;
   selectedStops: SelectionState;
   stopChoices: StopChoiceState;
   tripBlocks: TripBlock[];
   recommendedStopCount: number;
-  notes: NotesState;
   onToggleSelected: (stopId: string, assignedDayId: string) => void;
   onMoveSelected: (stopId: string, assignedDayId: string) => void;
   onUpdateStopChoice: (stopId: string, choice: StopChoiceState[string] | null) => void;
-  onSaveNote: (dayId: string, noteValue: string) => void;
 }) {
   const day = useMemo(() => findTripDayById(dayId), [dayId]);
-  const [noteDraft, setNoteDraft] = useState("");
-  const [saveMessage, setSaveMessage] = useState("Inte sparat än");
   const [expandedInsightId, setExpandedInsightId] = useState<string | null>(null);
   const [customChoiceOpenId, setCustomChoiceOpenId] = useState<string | null>(null);
   const [customNameDrafts, setCustomNameDrafts] = useState<Record<string, string>>({});
@@ -50,11 +40,9 @@ export function DayDetailPanel({
 
   useEffect(() => {
     if (!day) return;
-    setNoteDraft(notes[day.id] ?? "");
-    setSaveMessage("Inte sparat än");
     setExpandedInsightId(null);
     setCustomChoiceOpenId(null);
-  }, [day, notes]);
+  }, [day]);
 
   useEffect(() => {
     if (!expandedInsightId) return;
@@ -102,7 +90,9 @@ export function DayDetailPanel({
             <strong>{day.energy}</strong>
           </article>
         </div>
-        {blockLoadMessage ? <p className="ios-group__hint ios-group__hint--warning">{blockLoadMessage}</p> : null}
+        {blockLoadMessage ? (
+          <p className="ios-group__hint ios-group__hint--warning">{blockLoadMessage}</p>
+        ) : null}
       </section>
 
       <section className="ios-group ios-group--list">
@@ -120,7 +110,9 @@ export function DayDetailPanel({
           <div className="ios-list">
             {selectedDayStops.map((stop) => {
               const choice = stopChoices[stop.id];
-              const option = choice?.optionId ? getStopChoiceOption(stop.id, choice.optionId) : undefined;
+              const option = choice?.optionId
+                ? getStopChoiceOption(stop.id, choice.optionId)
+                : undefined;
               const label = choice?.customName?.trim() || option?.title || stop.name;
 
               return (
@@ -135,7 +127,10 @@ export function DayDetailPanel({
         {blockLoadMessage ? (
           <div className="ios-inline-callout">
             <strong>Tätt dagspår</strong>
-            <span>Du kan fortfarande ha kvar allt, men det kan bli stressigt. Flytta gärna något till ett annat dagspår.</span>
+            <span>
+              Du kan fortfarande ha kvar allt, men det kan bli stressigt. Flytta gärna något till
+              ett annat dagspår.
+            </span>
           </div>
         ) : null}
       </section>
@@ -180,7 +175,11 @@ export function DayDetailPanel({
                         type="button"
                         onClick={() => onToggleSelected(stop.id, day.id)}
                       >
-                        {selectedHere ? "Tillagd" : selected ? `I ${assignedBlock?.shortLabel ?? "plan"}` : "Lägg till"}
+                        {selectedHere
+                          ? "Tillagd"
+                          : selected
+                            ? `I ${assignedBlock?.shortLabel ?? "plan"}`
+                            : "Lägg till"}
                       </button>
                       {selected ? (
                         <>
@@ -219,7 +218,10 @@ export function DayDetailPanel({
                     <div className="stop-choice-panel">
                       <div className="stop-choice-panel__header">
                         <strong>Populära val just nu</strong>
-                        <span>Bygger på populära tips från starka referenser, men du kan också lägga in ett eget tips.</span>
+                        <span>
+                          Bygger på populära tips från starka referenser, men du kan också lägga in
+                          ett eget tips.
+                        </span>
                       </div>
                       <div className="stop-choice-grid">
                         {choiceOptions.map((option) => {
@@ -298,8 +300,16 @@ export function DayDetailPanel({
                               className="button button--solid"
                               type="button"
                               onClick={() => {
-                                const customName = (customNameDrafts[stop.id] ?? choice?.customName ?? "").trim();
-                                const customLink = (customLinkDrafts[stop.id] ?? choice?.customLink ?? "").trim();
+                                const customName = (
+                                  customNameDrafts[stop.id] ??
+                                  choice?.customName ??
+                                  ""
+                                ).trim();
+                                const customLink = (
+                                  customLinkDrafts[stop.id] ??
+                                  choice?.customLink ??
+                                  ""
+                                ).trim();
                                 if (!customName) return;
                                 onUpdateStopChoice(stop.id, {
                                   customName,
@@ -339,35 +349,6 @@ export function DayDetailPanel({
           </div>
         </section>
       ))}
-
-      <section className="ios-group">
-        <div className="ios-group__header">
-          <div>
-            <p className="ios-group__eyebrow">Anteckningar</p>
-            <h2>För senare</h2>
-          </div>
-        </div>
-        <textarea
-          id="day-notes"
-          value={noteDraft}
-          onChange={(event) => setNoteDraft(event.target.value)}
-          placeholder="Skriv det du vill minnas från dagspåret."
-          rows={5}
-        />
-        <div className="ios-group__actions">
-          <button
-            className="button button--solid"
-            type="button"
-            onClick={() => {
-              onSaveNote(day.id, noteDraft);
-              setSaveMessage("Anteckning sparad");
-            }}
-          >
-            Spara
-          </button>
-          <span className="ios-inline-status">{saveMessage}</span>
-        </div>
-      </section>
     </section>
   );
 }

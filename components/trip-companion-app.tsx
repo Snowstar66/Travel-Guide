@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { AppHeader } from "@/components/app-header";
 import { CityFlag } from "@/components/city-flag";
-import { NotesActions } from "@/components/notes-actions";
+import { ScheduleExportActions } from "@/components/schedule-export-actions";
 import { getCityGuide } from "@/lib/guide-config";
 import { getStopInsight, getStopInsightPreview } from "@/lib/stop-insights";
 import {
@@ -17,15 +17,8 @@ import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
 export function TripCompanionApp() {
   const [expandedSavedStopId, setExpandedSavedStopId] = useState<string | null>(null);
-  const {
-    notes,
-    profile,
-    tripBlocks,
-    selectedStopItems,
-    notedDays,
-    setPremiumAccess,
-    updateProfile,
-  } = useTripCompanionState();
+  const { profile, tripBlocks, selectedStopItems, setPremiumAccess, updateProfile } =
+    useTripCompanionState();
 
   const guide = getCityGuide(profile.cityId);
   const basics = guide.basics;
@@ -142,7 +135,6 @@ export function TripCompanionApp() {
                   selectedHighlights.map((stop) => {
                     const preview = getStopInsightPreview(stop.id);
                     const insight = getStopInsight(stop.id);
-                    const assignedBlock = getTripBlockByDayId(profile, stop.assignedDayId);
                     const source = getSavedStopSource(stop);
                     const isExpanded = expandedSavedStopId === stop.id;
 
@@ -182,9 +174,7 @@ export function TripCompanionApp() {
                               <span className="pill pill--soft">{stop.sectionTitle}</span>
                             </div>
                             <div className="saved-item__meta">
-                              <span className="saved-item__track">
-                                {`Dag ${stop.assignedDayNumber}`}
-                              </span>
+                              <span className="saved-item__track">{`Dag ${stop.assignedDayNumber}`}</span>
                               <span className="pill pill--soft">{stop.assignedDayTitle}</span>
                             </div>
                             <p>{preview?.copy ?? stop.displayWhy}</p>
@@ -325,31 +315,17 @@ export function TripCompanionApp() {
 
         <section className="app-home-card app-home-card--notes">
           <div className="panel__header">
-            <p className="eyebrow eyebrow--dark">Anteckningar</p>
-            <h2>Det du vill minnas</h2>
+            <p className="eyebrow eyebrow--dark">Export</p>
+            <h2>Ta med hela schemat</h2>
           </div>
           <div className="saved-grid saved-grid--single">
             <div>
-              <h3>Dagspår med anteckningar</h3>
-              <div className="saved-list">
-                {notedDays.length === 0 ? (
-                  <p className="saved-empty">Inga anteckningar än.</p>
-                ) : (
-                  notedDays.map((day) => (
-                    <article className="saved-item" key={day.id}>
-                      <div className="saved-item__top">
-                        <h4>{day.title}</h4>
-                        <span className="pill pill--soft">
-                          {getTripBlockByDayId(profile, day.id)?.rangeLabel ??
-                            `Dag ${day.dayNumber}`}
-                        </span>
-                      </div>
-                      <p>{notes[day.id]}</p>
-                    </article>
-                  ))
-                )}
-              </div>
-              <NotesActions notes={notes} profile={profile} />
+              <h3>Läsbar export av resan</h3>
+              <ScheduleExportActions
+                profile={profile}
+                tripBlocks={tripBlocks}
+                selectedStopItems={selectedStopItems}
+              />
             </div>
           </div>
         </section>

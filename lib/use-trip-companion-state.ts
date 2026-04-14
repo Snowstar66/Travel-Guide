@@ -19,7 +19,6 @@ import {
 import { getStopChoiceOption } from "@/lib/stop-insights";
 
 export type SelectionState = Record<string, string>;
-export type NotesState = Record<string, string>;
 export type StopChoiceState = Record<
   string,
   {
@@ -76,15 +75,14 @@ function normalizeSelectedStops(raw: Record<string, string | boolean>) {
 
 export function useTripCompanionState() {
   const [selectedStops, setSelectedStops] = useState<SelectionState>({});
-  const [notes, setNotes] = useState<NotesState>({});
   const [stopChoices, setStopChoices] = useState<StopChoiceState>({});
   const [profile, setProfile] = useState<TravelerProfile>(defaultProfile);
 
   useEffect(() => {
     setSelectedStops(normalizeSelectedStops(loadSelectedStops()));
-    setNotes(loadLocalJson<NotesState>("trip-companion-notes", {}));
     setStopChoices(loadLocalJson<StopChoiceState>("trip-companion-stop-choices", {}));
     setProfile(readStoredProfile());
+    window.localStorage.removeItem("trip-companion-notes");
   }, []);
 
   useEffect(() => {
@@ -145,19 +143,10 @@ export function useTripCompanionState() {
       };
     });
   const selectedCount = selectedStopItems.length;
-  const notedDays = tripBlocks
-    .map((block) => guide.tripDays.find((day) => day.id === block.dayId))
-    .filter((day): day is NonNullable<typeof day> => Boolean(day))
-    .filter((day) => (notes[day.id] ?? "").trim().length > 0);
 
   function persistSelected(next: SelectionState) {
     setSelectedStops(next);
     window.localStorage.setItem("trip-companion-selected", JSON.stringify(next));
-  }
-
-  function persistNotes(next: NotesState) {
-    setNotes(next);
-    window.localStorage.setItem("trip-companion-notes", JSON.stringify(next));
   }
 
   function persistStopChoices(next: StopChoiceState) {
@@ -202,15 +191,6 @@ export function useTripCompanionState() {
     triggerHaptic(10);
   }
 
-  function saveNote(dayId: string, noteValue: string) {
-    const trimmed = noteValue.trim();
-    const next = { ...notes };
-    if (trimmed) next[dayId] = trimmed;
-    else delete next[dayId];
-    persistNotes(next);
-    triggerHaptic([14, 22, 14]);
-  }
-
   function updateProfile<K extends keyof TravelerProfile>(
     key: K,
     value: TravelerProfile[K]
@@ -226,7 +206,6 @@ export function useTripCompanionState() {
 
   return {
     selectedStops,
-    notes,
     stopChoices,
     profile,
     tripBlocks,
@@ -234,11 +213,9 @@ export function useTripCompanionState() {
     selectedCount,
     selectedStopItems,
     recommendedStopCount,
-    notedDays,
     toggleSelected,
     moveSelectedStop,
     updateStopChoice,
-    saveNote,
     updateProfile,
     setPremiumAccess,
   };

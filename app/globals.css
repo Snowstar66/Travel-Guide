@@ -3886,7 +3886,7 @@ textarea {
   gap: 10px;
 }
 
-.notes-actions {
+.export-actions {
   display: grid;
   gap: 10px;
   margin-top: 6px;
@@ -3896,33 +3896,27 @@ textarea {
   background: rgba(17, 33, 47, 0.03);
 }
 
-.notes-actions__copy h3 {
+.export-actions__copy h3 {
   margin: 0 0 4px;
   font-size: var(--type-title-md);
   line-height: 1.28;
   font-weight: 560;
 }
 
-.notes-actions__copy p {
+.export-actions__copy p {
   font-size: var(--type-body);
   line-height: 1.52;
   color: var(--muted);
 }
 
-.notes-actions__buttons {
+.export-actions__buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 0;
 }
 
-.button--notes-share {
-  background: rgba(23, 119, 242, 0.1);
-  border-color: rgba(23, 119, 242, 0.18);
-  color: var(--accent-2);
-}
-
-.notes-actions__status {
+.export-actions__status {
   margin-top: 0 !important;
   font-size: var(--type-body);
   color: var(--muted);

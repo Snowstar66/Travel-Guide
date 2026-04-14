@@ -1,11 +1,12 @@
 "use client";
 
-import { NotesActions } from "@/components/notes-actions";
 import { OnboardingPanel } from "@/components/onboarding-panel";
+import { ScheduleExportActions } from "@/components/schedule-export-actions";
 import { useTripCompanionState } from "@/lib/use-trip-companion-state";
 
 export function SettingsRoute() {
-  const { profile, notes, updateProfile, setPremiumAccess } = useTripCompanionState();
+  const { profile, tripBlocks, selectedStopItems, updateProfile, setPremiumAccess } =
+    useTripCompanionState();
 
   return (
     <main className="page-shell page-shell--route">
@@ -24,7 +25,11 @@ export function SettingsRoute() {
       />
 
       <section className="panel settings-notes-panel">
-        <NotesActions notes={notes} profile={profile} />
+        <ScheduleExportActions
+          profile={profile}
+          tripBlocks={tripBlocks}
+          selectedStopItems={selectedStopItems}
+        />
       </section>
     </main>
   );
