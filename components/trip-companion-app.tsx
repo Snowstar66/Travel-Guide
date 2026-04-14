@@ -101,29 +101,6 @@ export function TripCompanionApp() {
         </div>
       </section>
 
-      <section className="overview-block-strip" aria-label="Dagspår">
-        {tripBlocks.map((block) => {
-          const isActive = block.dayId === currentBlock.dayId;
-          const unlocked = hasAccessToDay(profile, block.dayId);
-
-          return (
-            <Link
-              key={block.dayId}
-              href={unlocked ? "/plan" : "/settings"}
-              className={`overview-block-pill ${isActive ? "is-active" : ""} ${!unlocked ? "is-locked" : ""}`}
-              onClick={() => {
-                if (unlocked) {
-                  updateProfile("currentDayId", block.dayId);
-                }
-              }}
-            >
-              <span>{block.rangeLabel}</span>
-              <strong>{block.label}</strong>
-            </Link>
-          );
-        })}
-      </section>
-
       <section className="app-home-stack">
         <section className="app-home-card app-home-card--selected">
           <div className="panel__header">
