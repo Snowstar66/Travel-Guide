@@ -96,11 +96,11 @@ export const areaCardsByDay: Record<string, AreaCard[]> = {
   "day-4": [
     {
       id: "soho-village",
-      name: "SoHo / Village",
+      name: "SoHo / Village / West Side",
       vibe: "Personlig stadskänsla",
-      whyItWorks: "Arkitektur, små butiker och promenadtempo som gör att resan börjar kännas din.",
-      routeNote: "Perfekt dag att gå lite långsammare och låta ett område få vara nog.",
-      anchorStops: ["SoHo", "NoHo", "Village-gator"],
+      whyItWorks: "Arkitektur, små butiker, High Line och promenadtempo som gör att resan börjar kännas din.",
+      routeNote: "Perfekt dag att gå lite långsammare och låta västsidan eller kvarteren få vara nog.",
+      anchorStops: ["SoHo", "High Line", "Village-gator"],
       x: 38,
       y: 64,
       mapQuery: mapLink("SoHo New York"),

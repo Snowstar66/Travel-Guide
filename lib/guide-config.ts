@@ -122,6 +122,8 @@ export const cityOptions = [
   cityGuides.berlin,
   cityGuides.palma,
   cityGuides.malaga,
+  cityGuides.estepona,
+  cityGuides.marbella,
 ] as const;
 
 export const defaultCityId: CityId = "nyc";

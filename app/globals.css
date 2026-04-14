@@ -2050,7 +2050,9 @@ h1 {
 }
 
 .city-flag--palma,
-.city-flag--malaga {
+.city-flag--malaga,
+.city-flag--estepona,
+.city-flag--marbella {
   background: linear-gradient(180deg, #c83b3b 0 25%, #f4d35d 25% 75%, #c83b3b 75%);
 }
 

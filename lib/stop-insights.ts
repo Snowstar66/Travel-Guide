@@ -1,4 +1,14 @@
 import {
+  esteponaStopChoiceOptions,
+  esteponaStopInsights,
+  esteponaStopPreviews,
+} from "@/lib/estepona-stop-insights";
+import {
+  marbellaStopChoiceOptions,
+  marbellaStopInsights,
+  marbellaStopPreviews,
+} from "@/lib/marbella-stop-insights";
+import {
   palmaStopChoiceOptions,
   palmaStopInsights,
   palmaStopPreviews,
@@ -249,6 +259,103 @@ const nycStopInsights: Record<string, StopInsight> = {
       { label: "AMNH", url: "https://www.amnh.org/plan-your-visit" },
     ],
   },
+  "nyc-library-lions": {
+    facts: [
+      "NYPL:s officiella visitor guide gör Stephen A. Schwarzman Building till ett tydligt besöksmål även för vanliga besökare, inte bara forskare.",
+      "Biblioteket fungerar extra bra i New York-flödet eftersom det ligger exakt där Bryant Park och Fifth Avenue redan gör dagen stark.",
+    ],
+    ideas: [
+      "Ta trappan, entrén och det stora rummet som en kort Midtown-paus med klassisk tyngd.",
+      "Perfekt när du vill ge dag två en till stor interiör utan att öppna en ny del av stan.",
+    ],
+    links: [
+      { label: "NYPL visitor guide", url: "https://www.nypl.org/about/locations/schwarzman/visitor-guide" },
+      { label: "Plan your research visit", url: "https://www.nypl.org/research/visit/plan" },
+    ],
+  },
+  "nyc-slice-night": {
+    facts: [
+      "Pizza, bagels och deli-mat återkommer i nästan varje New York-guide eftersom de faktiskt fungerar bäst när dag ett ska vara enkelt.",
+      "En klassisk första middag i NYC behöver inte vara avancerad för att kännas rätt.",
+    ],
+    ideas: [
+      "Välj hellre ett säkert klassiskt namn än att lägga massa energi på bokningsstress första kvällen.",
+      "Om ni är trötta: ta maten nära där ni redan befinner er och låt det räcka.",
+    ],
+    links: [],
+  },
+  "nyc-seaport-walk": {
+    facts: [
+      "South Street Seaport Museum beskriver området som platsen där New Yorks hamnberättelse och stadens början blir tydliga tillsammans.",
+      "Det gör Seaport till en bra motvikt till både memorialkänslan och finansdistriktets hårdare ton.",
+    ],
+    ideas: [
+      "Låt vattnet, gamla gatunamnen och Pier 17 bli en förlängning av downtowns historia snarare än ett separat projekt.",
+      "Bra stopp när ni vill ge dag tre mer luft utan att offra riktning.",
+    ],
+    links: [
+      { label: "The Seaport", url: "https://theseaport.nyc/" },
+      { label: "South Street Seaport Museum", url: "https://southstreetseaportmuseum.org/" },
+    ],
+  },
+  "nyc-slow-dinner": {
+    facts: [
+      "Efter downtown och färjelogistik känns kvällen ofta bäst när beslutströttheten hålls låg.",
+      "Det är just här som ett varmt, enkelt mål mat ofta gör mer för resan än ännu ett utsiktsstopp.",
+    ],
+    ideas: [
+      "Välj ett lugnare område eller ett namn ni redan litar på i stället för ännu ett trendställe.",
+      "Bra kväll att gå hem lite tidigare och låta skylinekänslan få stanna kvar i kroppen.",
+    ],
+    links: [],
+  },
+  "nyc-soho-walk": {
+    facts: [
+      "SoHo fungerar som motbild till Midtown: mer gjutjärnsfasader, mindre ikonpress och mer kvarterskänsla.",
+      "Det är ofta här som förstaresan börjar kännas personlig i stället för bara imponerande.",
+    ],
+    ideas: [
+      "Titta mer upp än in i varje skyltfönster så får området mer arkitektur än shoppingkänsla.",
+      "Bra spår för långfrukost, bokhandel och ett lugnare New York.",
+    ],
+    links: [],
+  },
+  "nyc-high-line": {
+    facts: [
+      "High Lines officiella faktablad beskriver parken som en 1.45 mile lång offentlig park byggd på en upphöjd gammal godsjärnväg på Manhattans västsida.",
+      "Samma faktablad lyfter att över en tredjedel av de gamla spåren fortfarande syns i designen.",
+    ],
+    ideas: [
+      "Ta det här som ett lugnt västsidestopp, inte som ännu en måstelista av Hudson Yards, Chelsea och Little Island på en gång.",
+      "Bra när ni vill att New York ska kännas samtida och luftig efter flera mer klassiska dagar.",
+    ],
+    links: [
+      { label: "High Line fact sheet", url: "https://files.thehighline.org/pdf/high_line_fact_sheet.pdf" },
+      { label: "High Line map", url: "https://assets.thehighline.org/pdf/high-line-map.pdf" },
+    ],
+  },
+  "nyc-food-shopping": {
+    facts: [
+      "Sista dagen blir ofta bättre när ni gör mat och småköp till huvudinnehåll i stället för att tvinga in en sista stor attraktion.",
+      "New York har tillräckligt många klassiska matstopp för att den här planen ska kännas som en upplevelse, inte som kompromiss.",
+    ],
+    ideas: [
+      "Kombinera helst ett tydligt matval med ett enda shoppingområde eller marknad.",
+      "Bra om ni vill ta med er något hem utan att sista dagen tappar riktning.",
+    ],
+    links: [],
+  },
+  "nyc-soft-exit": {
+    facts: [
+      "En lugn sista dag fungerar extra bra i New York eftersom små misstag i tid, trafik eller energi känns större här än i mindre städer.",
+      "Det räcker långt med ett fint kvarter, ett café och en tydlig återgång till hotellet.",
+    ],
+    ideas: [
+      "Roosevelt Island Tram, Bryant Park eller ett favoritkvarter fungerar bra när ni vill ha ett sista minne utan full logistik.",
+      "Lämna mer buffert än ni tror att ni behöver om avresan går via flygplats.",
+    ],
+    links: [],
+  },
 };
 
 const nycStopPreviews: Record<string, StopInsightPreview> = {
@@ -290,6 +397,11 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Grand_Central_Terminal_Main_Concourse_2019-10-03_20-02.jpg",
     imageAlt: "Main Concourse i Grand Central Terminal.",
   },
+  "nyc-library-lions": {
+    eyebrow: "Interiörbonus",
+    title: "Biblioteket ger Midtown tyngd",
+    copy: "Lejonen, trappan och läsesalen ger dag två en extra klassiker utan att spräcka rytmen.",
+  },
   "nyc-observation-deck": {
     eyebrow: "Wow-stopp",
     title: "Ett deck räcker långt",
@@ -316,6 +428,11 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     title: "Mer än bara finans",
     copy: "Federal Hall gör området mer begripligt och mindre som en snabb selfiepunkt.",
   },
+  "nyc-seaport-walk": {
+    eyebrow: "Hamnkant",
+    title: "Downtown får mer luft här",
+    copy: "Seaport ger dag tre vatten, historia och lite mindre tyngd än de största ikonerna.",
+  },
   "nyc-ferry-view": {
     eyebrow: "Skyline",
     title: "Stor utsikt, låg friktion",
@@ -335,6 +452,28 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/USA-NYC-Brooklyn_Bridge_Park.jpg",
     imageAlt: "Promenadmiljö i Brooklyn Bridge Park.",
   },
+  "nyc-soho-walk": {
+    eyebrow: "Kvartersdag",
+    title: "Låt New York bli mer personligt",
+    copy: "SoHo och NoHo ger en lugnare sorts wow än Midtown.",
+  },
+  "nyc-high-line": {
+    eyebrow: "Västsidan",
+    title: "Samtida New York i luften",
+    copy: "High Line ger dag fyra en lättare, mer nutida stadsrytm.",
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/High_Line_(2009-10-29).jpg",
+    imageAlt: "High Line i New York.",
+  },
+  "nyc-slice-night": {
+    eyebrow: "Första middag",
+    title: "Gör det klassiskt och enkelt",
+    copy: "En slice eller bagelmiddag är ofta exakt rätt nivå första kvällen.",
+  },
+  "nyc-slow-dinner": {
+    eyebrow: "Kvällslandning",
+    title: "Mjukt efter downtown",
+    copy: "Efter memorial, färja och vatten känns det bra att stänga dagen utan fler stora intryck.",
+  },
   "nyc-museum-flex": {
     eyebrow: "Populära val",
     title: "Ett museum, rätt museum",
@@ -344,6 +483,16 @@ const nycStopPreviews: Record<string, StopInsightPreview> = {
     eyebrow: "Avslut",
     title: "Ge sista dagen form",
     copy: "En tydlig kulturfinal känns mer premium än att jaga sista-minuten-listor.",
+  },
+  "nyc-food-shopping": {
+    eyebrow: "Sista dag",
+    title: "Mat och småköp kan räcka långt",
+    copy: "En sista klassiker plus lite shopping blir ofta bättre än ett stressat appendix.",
+  },
+  "nyc-soft-exit": {
+    eyebrow: "Mjuk exit",
+    title: "Lämna staden med bra ton",
+    copy: "Ett sista lugnt kvarter eller en liten utflykt slår lätt sista-minuten-jakt.",
   },
 };
 
@@ -522,28 +671,91 @@ const nycNeighborhoodChoiceOptions: StopChoiceOption[] = [
   },
 ];
 
+const nycWestSideChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "high-line",
+    title: "High Line",
+    summary: "Bäst om ni vill ha samtida New York, lugn promenad och västsideskänsla i samma stopp.",
+    url: "https://files.thehighline.org/pdf/high_line_fact_sheet.pdf",
+    sourceLabel: "High Line",
+    sourceUrl: "https://files.thehighline.org/pdf/high_line_fact_sheet.pdf",
+  },
+  {
+    id: "little-island",
+    title: "Little Island",
+    summary: "Bra om ni vill göra västsidan ännu mer lekfull och offentlig parkmässig utan att dagen blir tung.",
+    url: "https://littleisland.org/",
+    sourceLabel: "Little Island",
+    sourceUrl: "https://littleisland.org/",
+  },
+  {
+    id: "chelsea-market",
+    title: "Chelsea Market",
+    summary: "Perfekt om ni vill koppla promenaden till enkel mat och lite mer inomhusenergi.",
+    url: "https://www.chelseamarket.com/",
+    sourceLabel: "Chelsea Market",
+    sourceUrl: "https://www.chelseamarket.com/",
+  },
+];
+
+const nycSoftExitChoiceOptions: StopChoiceOption[] = [
+  {
+    id: "roosevelt-island",
+    title: "Roosevelt Island",
+    summary: "Starkast om ni vill ha ett sista sidosteg med spårvagnskänsla och ny vinkel på Manhattan.",
+    url: "https://rioc.ny.gov/300/Ferry",
+    sourceLabel: "RIOC",
+    sourceUrl: "https://rioc.ny.gov/300/Ferry",
+  },
+  {
+    id: "bryant-park-soft",
+    title: "Bryant Park igen",
+    summary: "Bra om ni vill hålla sista timmarna centrala, snygga och helt utan tung logistik.",
+    url: "https://bryantpark.org/",
+    sourceLabel: "Bryant Park",
+    sourceUrl: "https://bryantpark.org/",
+  },
+  {
+    id: "brooklyn-heights",
+    title: "Brooklyn Heights Promenade",
+    summary: "Rätt om ni vill avsluta med stillare skylinekänsla än DUMBO och Midtown.",
+    url: "https://www.google.com/maps/search/?api=1&query=Brooklyn+Heights+Promenade",
+    sourceLabel: "Trip Companion-spår",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=Brooklyn+Heights+Promenade",
+  },
+];
+
 const nycStopChoiceOptions: Record<string, StopChoiceOption[]> = {
   "nyc-observation-deck": nycObservationChoiceOptions,
+  "nyc-high-line": nycWestSideChoiceOptions,
   "nyc-slice-night": nycQuickDinnerChoiceOptions,
   "nyc-midtown-dinner": nycQuickDinnerChoiceOptions,
+  "nyc-slow-dinner": nycQuickDinnerChoiceOptions,
   "nyc-museum-flex": nycMuseumChoiceOptions,
   "nyc-culture-finale": nycMuseumChoiceOptions,
   "nyc-food-shopping": nycFoodChoiceOptions,
+  "nyc-soft-exit": nycSoftExitChoiceOptions,
   "nyc-favorite-return": nycNeighborhoodChoiceOptions,
 };
 
 const stopInsights: Record<string, StopInsight> = {
   ...nycStopInsights,
+  ...esteponaStopInsights,
+  ...marbellaStopInsights,
   ...palmaStopInsights,
 };
 
 const stopPreviews: Record<string, StopInsightPreview> = {
   ...nycStopPreviews,
+  ...esteponaStopPreviews,
+  ...marbellaStopPreviews,
   ...palmaStopPreviews,
 };
 
 const stopChoiceOptions: Record<string, StopChoiceOption[]> = {
   ...nycStopChoiceOptions,
+  ...esteponaStopChoiceOptions,
+  ...marbellaStopChoiceOptions,
   ...palmaStopChoiceOptions,
 };
 

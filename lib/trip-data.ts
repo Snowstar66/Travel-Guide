@@ -81,6 +81,39 @@ export const gallery: GalleryItem[] = [
       "https://commons.wikimedia.org/wiki/File:Brownstone_(1854)_with_front_garden_and_iron_gate,_West_9th_Street,_Greenwich_Village,_New_York_City_(22614777044).jpg",
     credit: "Photo from Wikimedia Commons",
   },
+  {
+    title: "Grand Central och de stora rummen",
+    description:
+      "Vissa New York-ögonblick handlar inte om höjd utan om interiörer. Grand Central ger precis den sortens filmiska tyngd som håller över tid.",
+    imageUrl:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Grand_Central_Terminal_Main_Concourse_2019-10-03_20-02.jpg",
+    sourceLabel: "Wikimedia Commons",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Grand_Central_Terminal_Main_Concourse_2019-10-03_20-02.jpg",
+    credit: "Photo from Wikimedia Commons",
+  },
+  {
+    title: "High Line och västra Manhattan",
+    description:
+      "När du vill att New York ska kännas samtida, luftig och lite mindre uppläst är västsidan ett perfekt motdrag.",
+    imageUrl:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/High_Line_(2009-10-29).jpg",
+    sourceLabel: "Wikimedia Commons",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:High_Line_(2009-10-29).jpg",
+    credit: "Photo from Wikimedia Commons",
+  },
+  {
+    title: "Roosevelt Island som sidosteg",
+    description:
+      "Ett litet hopp ut från Manhattan kan ge exakt den nya vinkel som gör sista dagarna skarpare, särskilt om ni redan gjort de stora klassikerna.",
+    imageUrl:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Roosevelt_Island_Tramway_tower.jpg",
+    sourceLabel: "Wikimedia Commons",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Roosevelt_Island_Tramway_tower.jpg",
+    credit: "Photo from Wikimedia Commons",
+  },
 ];
 
 export const basics: GuideCard[] = [
@@ -107,6 +140,12 @@ export const basics: GuideCard[] = [
     title: "För många stora attraktioner samma dag förstör ofta rytmen",
     body:
       "Den klassiska turistfällan i NYC är att varje dag blir en kamp mellan köer, bokningstider och trötta fötter. Tre till fem starka ankare räcker gott.",
+  },
+  {
+    tag: "Västsidan",
+    title: "Låt minst en dag bli mer Chelsea, Village eller Upper West",
+    body:
+      "Många förstaresor blir bättre när de stora klassikerna får sällskap av ett mer nutida eller kvartersnära spår som High Line, bokgator, mindre museum eller en längre lunch.",
   },
   {
     tag: "Trygghet",
@@ -178,7 +217,7 @@ export const tripDays: TripDay[] = [
             name: "Ta en kort paus i en liten park eller på ett café",
             duration: "30 min",
             why: "Pauser är det som gör att dag två fortfarande känns kul.",
-            tip: "Skriv en anteckning om första intrycket av staden direkt i appen.",
+            tip: "Markera vilken del av staden som först känns mest er.",
             food: "Lätt fika eller lemonade räcker.",
           },
         ],
@@ -219,7 +258,7 @@ export const tripDays: TripDay[] = [
     title: "Klassiska Manhattan",
     theme: "Nu får du vykorts-New York, men i rätt dos",
     energy: "Medel",
-    neighborhood: "Midtown + Bryant Park + Grand Central",
+    neighborhood: "Midtown + Bryant Park + biblioteket + Grand Central",
     intro:
       "Dag två är rätt tillfälle för skyline-känslan. Du har redan landat i staden lite grann och kan nu ta in de stora symbolerna utan att de känns som ett överfall.",
     story:
@@ -238,6 +277,14 @@ export const tripDays: TripDay[] = [
             why: "Du får omedelbart den eleganta, urbana New York-känslan.",
             tip: "Bra första stopp om du vill börja snyggt och lugnt.",
             food: "Kaffe och frukost här fungerar fint.",
+          },
+          {
+            id: "library-lions",
+            name: "New York Public Library och lejonen vid Fifth Avenue",
+            duration: "30-45 min",
+            why: "Ger dagen en klassisk New York-interiör till utan att spräcka tempot.",
+            tip: "Titta både på trappan, hallen och hur Midtown öppnar sig runt byggnaden.",
+            food: "Bra läge för kaffe före eller efter.",
           },
           {
             id: "grand-central",
@@ -337,6 +384,14 @@ export const tripDays: TripDay[] = [
             tip: "Det räcker oftast med en snabb runda här.",
             food: "Kaffe eller snack på väg vidare.",
           },
+          {
+            id: "seaport-walk",
+            name: "South Street Seaport eller vattnet runt Pier 17",
+            duration: "45 min",
+            why: "Ger downtown ett öppnare, mer maritimt lager än bara minnesplatser och finans.",
+            tip: "Bra när ni vill låta vattnet och de gamla hamnspåren förlänga berättelsen.",
+            food: "Sen frukost eller tidig lunch fungerar bra här.",
+          },
         ],
       },
       {
@@ -399,7 +454,7 @@ export const tripDays: TripDay[] = [
     title: "Kvarters-New York",
     theme: "Nu börjar staden kännas personlig",
     energy: "Medel",
-    neighborhood: "SoHo, Village, Brooklyn-val",
+    neighborhood: "Chelsea, SoHo, Village, Brooklyn-val",
     intro:
       "Det här är dagen då du lämnar ren ikonjakt och börjar förstå varför människor återvänder till New York. Mindre måste, mer stadskänsla.",
     story:
@@ -420,11 +475,19 @@ export const tripDays: TripDay[] = [
             food: "Brunch eller långfrukost passar perfekt här.",
           },
           {
+            id: "high-line",
+            name: "High Line eller ett västsidestopp med lite mer luft",
+            duration: "45-60 min",
+            why: "Det här ger New York en samtida sida och bryter fint mot de mer klassiska dagarna.",
+            tip: "Bra att göra i lugn fart och utan att försöka täcka hela västsidan.",
+            food: "Kaffe, marknad eller lätt lunch nära Chelsea fungerar fint.",
+          },
+          {
             id: "village-streets",
             name: "Villagestopp nummer två, nu när du är mer hemma",
             duration: "45 min",
             why: "Samma kvarter känns annorlunda när du inte längre orienterar dig i panik.",
-            tip: "Markera en favoritgata i anteckningar.",
+            tip: "Markera en favoritgata eller ett kvarter ni gärna återvänder till.",
             food: "Kaffe eller dessertstopp.",
           },
         ],

@@ -9,7 +9,9 @@ export type CityId =
   | "amsterdam"
   | "berlin"
   | "palma"
-  | "malaga";
+  | "malaga"
+  | "estepona"
+  | "marbella";
 export type HotelAreaValue = "central" | "historic" | "local" | "unknown";
 
 export type HotelAreaOption = {

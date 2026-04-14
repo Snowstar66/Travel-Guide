@@ -8,9 +8,10 @@ import {
 import { europeanGuideSeedsA } from "@/lib/guide-seeds-a";
 import { europeanGuideSeedsB } from "@/lib/guide-seeds-b";
 import { europeanGuideSeedsC } from "@/lib/guide-seeds-c";
+import { europeanGuideSeedsD } from "@/lib/guide-seeds-d";
 
 export function getGuideSeeds() {
-  return [...europeanGuideSeedsA, ...europeanGuideSeedsB, ...europeanGuideSeedsC];
+  return [...europeanGuideSeedsA, ...europeanGuideSeedsB, ...europeanGuideSeedsC, ...europeanGuideSeedsD];
 }
 
 export type { CityGuide, CityGuideSeed, CityId, HotelAreaOption, HotelAreaValue };
